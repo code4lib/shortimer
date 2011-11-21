@@ -1,6 +1,7 @@
 import os
 import re
 import urllib
+import logging
 import mailbox
 
 from django.conf import settings
@@ -10,15 +11,16 @@ from jobs.models import JobEmail
 
 mbox_dir = os.path.join(settings.PROJECT_DIR, "mboxes")
 
+log = logging.getLogger(__name__)
+
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for mbox in mboxes():
             for msg in mailbox.mbox(mbox):
-                print msg['content-type']
                 email = JobEmail.new_from_msg(msg)
                 if email:
-                    print "loaded %s" % email
+                    log.info("loaded %s", email)
 
 def mboxes():
     if not os.path.isdir(mbox_dir):

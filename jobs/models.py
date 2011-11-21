@@ -2,6 +2,7 @@ import re
 import time
 import codecs
 import rfc822
+import logging
 import datetime
 import StringIO
 
@@ -52,6 +53,8 @@ class JobEmail(models.Model):
         if JobEmail.objects.filter(message_id=msg['message-id']).count() == 1:
             return None
 
+        logging.info("parsing email %s", msg['message-id'])
+
         e = JobEmail()
         e.from_name, e.from_address = rfc822.parseaddr(msg['from'])
         e.from_name = normalize_name(e.from_name)
@@ -65,6 +68,7 @@ class JobEmail(models.Model):
         e.sent_time = datetime.datetime.fromtimestamp(t)
 
         if not e.body:
+            logging.warn("missing body")
             return None
 
         e.save()
@@ -108,11 +112,13 @@ def get_body(msg):
     charset = msg.get_content_charset()
 
     if not charset: 
+        logging.warn("no charset for")
         return None
 
     try:
         codec = codecs.getreader(charset)
     except LookupError: 
+        logging.warn("no codec for %s", charset)
         return None
 
     payload = StringIO.StringIO(msg.get_payload())
