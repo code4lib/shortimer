@@ -1,2 +1,4 @@
 mboxes/*
 *.pyc
+settings.py
+*.db

@@ -9,7 +9,13 @@ import nltk
 
 from django.db import models
 
+class EmailKeyword(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=255)
+    emails = models.ManyToManyField('JobEmail', related_name='keywords')
+
 class JobEmail(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
     from_name = models.CharField(max_length=255)
     from_address = models.CharField(max_length=255)
     from_domain = models.CharField(max_length=255)
@@ -38,7 +44,6 @@ class JobEmail(models.Model):
         words = nltk.word_tokenize(self.body)
         return nltk.pos_tag(words)
 
-
     @classmethod
     def new_from_msg(klass, msg):
         if not is_job(msg):
@@ -63,6 +68,19 @@ class JobEmail(models.Model):
             return None
 
         e.save()
+
+        # add keywords
+        for n in e.proper_nouns():
+            n = n.lower()
+            try:
+                kw = EmailKeyword.objects.get(name=n)
+                kw.emails.add(e)
+                kw.save()
+            except EmailKeyword.DoesNotExist:
+                kw = EmailKeyword.objects.create(name=n)
+                kw.emails.add(e)
+                kw.save()
+
         return e
 
 def normalize_name(name):
