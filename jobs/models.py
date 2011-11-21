@@ -1,0 +1,103 @@
+import re
+import time
+import codecs
+import rfc822
+import datetime
+import StringIO
+
+import nltk
+
+from django.db import models
+
+class JobEmail(models.Model):
+    from_name = models.CharField(max_length=255)
+    from_address = models.CharField(max_length=255)
+    from_domain = models.CharField(max_length=255)
+    subject = models.TextField()
+    body = models.TextField()
+    sent_time = models.DateTimeField()
+    message_id = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return "%s -%s" % (self.from_address, self.subject)
+
+    def proper_nouns(self):
+        nouns = []
+        for tag in self.tags():
+            word = tag[0]
+            is_proper_noun = tag[1] == "NNP"
+            is_word = re.match("^[a-z]+$", tag[0], re.IGNORECASE)
+
+            if is_proper_noun and is_word:
+                nouns.append(tag[0])
+            elif len(nouns) > 0:
+                yield " ".join(nouns)
+                nouns = []
+
+    def tags(self):
+        words = nltk.word_tokenize(self.body)
+        return nltk.pos_tag(words)
+
+
+    @classmethod
+    def new_from_msg(klass, msg):
+        if not is_job(msg):
+            return None
+
+        if JobEmail.objects.filter(message_id=msg['message-id']).count() == 1:
+            return None
+
+        e = JobEmail()
+        e.from_name, e.from_address = rfc822.parseaddr(msg['from'])
+        e.from_name = normalize_name(e.from_name)
+        e.from_address = e.from_address.lower()
+        e.from_domain = e.from_address.split('@')[1]
+        e.subject = msg['subject']
+        e.message_id = msg['message-id']
+        e.body = get_body(msg)
+
+        t = time.mktime(rfc822.parsedate(msg['date']))
+        e.sent_time = datetime.datetime.fromtimestamp(t)
+
+        if not e.body:
+            return None
+
+        e.save()
+        return e
+
+def normalize_name(name):
+    if ',' in name:
+        parts = name.split(',')
+        parts = [p.strip() for p in parts]
+        first_name = parts.pop()
+        parts.insert(0, first_name)
+        name = ' '.join(parts)
+    return name
+
+def is_job(msg):
+    if not msg['subject']:
+        return False
+    subject = msg['subject'].lower()
+    if re.search('^re:', subject):
+        return False
+    if re.search('job', subject):
+        return True
+    if re.search('position', subject):
+        return True
+    return False
+
+def get_body(msg):
+    charset = msg.get_content_charset()
+
+    if not charset: 
+        return None
+
+    try:
+        codec = codecs.getreader(charset)
+    except LookupError: 
+        return None
+
+    payload = StringIO.StringIO(msg.get_payload())
+    reader = codec(payload)
+    body = "\n".join(reader.readlines())
+    return body

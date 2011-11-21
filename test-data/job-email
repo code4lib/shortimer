@@ -1,0 +1,219 @@
+From owner-code4lib@LISTSERV.ND.EDU  Mon Jan  3 09:56:21 2011
+Return-Path: <owner-code4lib@LISTSERV.ND.EDU>
+X-Spam-Checker-Version: SpamAssassin 3.2.4 (2008-01-01) on
+	wilson.infomotions.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.5 required=5.0 tests=AWL,BAYES_00,
+	DNS_FROM_OPENWHOIS,FH_DATE_PAST_20XX,RCVD_IN_DNSWL_LOW autolearn=no
+	version=3.2.4
+Received: from mail-msa2-prod-v.cc.nd.edu (mail-msa2-prod-v.cc.nd.edu [129.74.13.11])
+	by wilson.infomotions.com (8.14.1/8.14.1) with ESMTP id p03EuKsA028105
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <serials@INFOMOTIONS.COM>; Mon, 3 Jan 2011 09:56:21 -0500
+Received: from lists1-prod-v.cc.nd.edu (lists1-prod-v.cc.nd.edu [129.74.250.38])
+	by mail-msa2-prod-v.cc.nd.edu (Switch-3.4.3/Switch-3.4.3) with ESMTP id p03E8gME004623;
+	Mon, 3 Jan 2011 09:54:19 -0500
+Received: by LISTSERV.ND.EDU (LISTSERV-TCP/IP release 15.5) with spool id
+          2037686 for CODE4LIB@LISTSERV.ND.EDU; Mon, 3 Jan 2011 09:54:15 -0500
+Received: from mail-mx2-prod-v.cc.nd.edu (mail-mx2-prod-v.cc.nd.edu
+          [129.74.250.244]) by lists1-prod-v.cc.nd.edu (8.13.1/8.13.1) with
+          ESMTP id p03EsFEb022824 for <CODE4LIB@listserv.nd.edu>; Mon, 3 Jan
+          2011 09:54:15 -0500
+Received: from esa-gab.cgcent.miami.edu (esa-gab.cgcent.miami.edu
+          [129.171.32.91]) by mail-mx2-prod-v.cc.nd.edu
+          (Switch-3.4.3/Switch-3.4.3) with ESMTP id p03EsDGr021988
+          (version=TLSv1/SSLv3 cipher=RC4-SHA bits=128 verify=FAIL) for
+          <CODE4LIB@listserv.nd.edu>; Mon, 3 Jan 2011 09:54:14 -0500
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result:
+                         AnUFANZxIU2Bq/qV/2dsb2JhbACCKaEtXnOuZoVAhnaCboJcBIRlgTGEIkyLMg
+Received: from htcas-tel.cgcent.miami.edu ([129.171.250.149]) by
+          esa-gab.cgcent.miami.edu with ESMTP/TLS/RC4-MD5; 03 Jan 2011 09:54:12
+          -0500
+Received: from MBX03.cgcent.miami.edu ([129.171.250.45]) by
+          HTCAS-TEL.cgcent.miami.edu ([129.171.250.149]) with mapi; Mon, 3 Jan
+          2011 09:54:12 -0500
+Thread-Topic: Job Posting: Head of Web &  Emerging Technologies,
+              University of Miami - revised
+Thread-Index: AQHKNTCx83n+18wG7U+2JcX9Ml7WgZOmTdRQ
+References: <7933CD19EEFCC94392323A994F6F1EDF0172C19484@MBX03.cgcent.miami.edu>
+Accept-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+acceptlanguage: en-US
+MIME-Version: 1.0
+X-Source-IP: 129.171.32.91
+X-ND-MTA-Date: Mon, 03 Jan 2011 09:54:25 EST
+X-ND-CM-Score: 0.00%
+X-ND-CT-Class: Not-spam
+X-Spamscore-Cloudmark: 0.00%
+X-Spamclassification-Commtouch: not spam
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Message-ID:  <7933CD19EEFCC94392323A994F6F1EDF01DBB52AE8@MBX03.cgcent.miami.edu>
+Date:         Mon, 3 Jan 2011 09:56:53 -0500
+Reply-To:     Code for Libraries <CODE4LIB@LISTSERV.ND.EDU>
+Sender:       Code for Libraries <CODE4LIB@LISTSERV.ND.EDU>
+From:         "Gowing, Cheryl A." <cgowing@MIAMI.EDU>
+Subject: [CODE4LIB] Job Posting: Head of Web &  Emerging Technologies, University of Miami - revised
+Comments: To: "syslib-l@listserv.indiana.edu" <syslib-l@listserv.indiana.edu>,
+          "lita-l@ala.org" <lita-l@ala.org>,
+          "innopac@innopacusers.org" <innopac@innopacusers.org>
+To:           CODE4LIB@LISTSERV.ND.EDU
+In-Reply-To:  <7933CD19EEFCC94392323A994F6F1EDF0172C19484@MBX03.cgcent.miami.edu>
+Precedence: list
+List-Help: <http://listserv.nd.edu/cgi-bin/wa?LIST=CODE4LIB>,
+           <mailto:LISTSERV@LISTSERV.ND.EDU?body=INFO%20CODE4LIB>
+List-Unsubscribe: <mailto:CODE4LIB-unsubscribe-request@LISTSERV.ND.EDU>
+List-Subscribe: <mailto:CODE4LIB-subscribe-request@LISTSERV.ND.EDU>
+List-Owner: <mailto:CODE4LIB-request@LISTSERV.ND.EDU>
+List-Archive: <http://listserv.nd.edu/cgi-bin/wa?LIST=CODE4LIB>
+X-Source-IP: 129.74.250.38
+
+Please excuse the cross-posting.  This Department Head position is a rework=
+ing of a previously posted vacancy.
+-----------
+
+The University of Miami Libraries seeks a creative, innovative individual t=
+o provide leadership, direction, and technical expertise in the design, dev=
+elopment, and implementation of the Libraries' web presence and promote use=
+r-centered interfaces, technologies, resources, and services designed to en=
+hance the user experience.
+
+POSITION: Reporting to the Director for Information Management & Systems, t=
+he Head of Web & Emerging Technologies provides leadership, direction, and =
+technical expertise in the design, development, and implementation of the L=
+ibraries' web presence and promotes user-centered interfaces, technologies,=
+ resources, and services designed to enhance the user experience.   The Web=
+ & Emerging Technologies Department works in close collaboration with Syste=
+ms and Digital Programs and Scholarship staff, stake-holders and unit-level=
+ managers.
+
+ESSENTIAL DUTIES & RESPONSIBILITIES include the following. Other duties may=
+ be assigned.
+
+Performance:
+
+ *   Provides leadership, direction and technical expertise to design, deve=
+lop, maintain, and evaluate the Libraries' web and mobile presence for all =
+services, content, and interfaces
+ *   Conceptualizes and determines technologies and design in the delivery =
+of user-centered library services, integrating third party and open source =
+web applications and products as appropriate.
+ *   Administers Drupal content management system and develops, evaluates, =
+and implements modules, themes, and templates and other tools to manage web=
+ services and facilitate web authoring by non-technical staff.
+ *   Develops and recommends policies, standards, and guidelines for web co=
+ntent development, implementation, and management in collaboration with Lib=
+rary and University stakeholders.
+ *   Monitors and evaluates web services usage statistics; Oversees usabili=
+ty of all user interfaces and web design and develops assessment strategies=
+ to provide a superior experience for all users.
+ *   Supervises and mentors of Web & Emerging Technologies staff, which cur=
+rently includes the Web Administrator, Digital Technologies Programmer, Web=
+ Applications Programmer, and student assistants.
+Service
+
+ *   Networks, collaborates and actively participates in local, regional, n=
+ational, or international organizations regarding related issues.
+ *   Represents and promotes the University of Miami Libraries in local, st=
+ate-wide, regional, national, or international organizations as appropriate=
+.
+ *   Serves as the Library representative on University web committees and =
+task forces and is an ex-officio member of the Libraries' Student Advisory;=
+ participates in other Library and University committees, etc. as appropria=
+te.
+
+QUALIFICATIONS
+
+Required:
+*         Master of Library Science degree from an ALA accredited program o=
+r foreign equivalent.
+*         Three to five years demonstrated experience with web and database=
+ development & design in an academic environment using standards-based, use=
+r-centered information architecture.
+*          Experience creating/maintaining web sites with relevant standard=
+s and technologies, including demonstrated proficiency in PHP programming, =
+CSS, SQL, and Javascript.
+*         Demonstrated experience with current trends and issues in public =
+computing, web technologies, digital media, and quantitative and qualitativ=
+e usability assessment.
+*         Strong leadership skills and ability to work independently, colla=
+boratively, and in teams within the Library and University Web communities.
+*         Demonstrated project management, organizational, analytical, and =
+problem solving skills.
+*         Demonstrated effective oral, written, and interpersonal communica=
+tion skills.
+*         Demonstrated commitment to user-centered library service and the =
+ability to work flexibly and creatively in a changing and fast-paced enviro=
+nment with a culturally diverse population.
+*         Evidence of continued professional development, involvement, and =
+contribution.
+
+Desired:
+
+*         Supervisory experience
+
+*         Working knowledge of web content management systems [Drupal prefe=
+rred] and relational databases.
+*         Familiarity with digital media technology and providing access to=
+ digitized audio, video and images.
+
+*         Experience with the implementation of APIs/Web services, and/or m=
+obile interface design
+*         Understanding of information seeking behaviors in an academic res=
+earch environment
+
+SALARY AND BENEFITS: Compensation will be competitive and commensurate with=
+ experience and qualifications. This is a non-tenure track faculty appointm=
+ent at the Librarian Assistant/Associate Professor rank. The position offer=
+s a comprehensive benefits package including: TIAA-CREF; medical and dental=
+ insurance; life, disability, and long-term care insurance available; tuiti=
+on remission; 13 paid holidays; and 22 days annual vacation. Additional emp=
+loyment benefits available include credit union; Employee Assistance Progra=
+m; bookstore, and sporting event discounts; optional fee-based membership i=
+n a state-of-the-art wellness center, and no state or local income taxes. M=
+ore information on benefits can be found at:  http://www.miami.edu/benefits=
+/pdf/bensum-faculty06.pdf.
+
+APPLICATIONS AND NOMINATIONS: Review of applications will begin immediately=
+ and continue until the position is filled. Applications and nominations wi=
+ll be accepted until a suitable candidate is selected. Applications should =
+be submitted electronically and must include a letter of interest, curricul=
+um vitae and the names of three references. The references will not be cont=
+acted before the appropriate time. Send nominations and applications to:
+
+Marylen Exposito, Human Resources Manager
+Otto G. Richter Library
+University of Miami
+P.O. Box 248214
+Coral Gables, FL 33124-0320
+e-mail: richter.recruiting@miami.edu<mailto:richter.recruiting@miami.edu>
+
+UNIVERSITY: The University of Miami is one of the nation's leading research=
+ universities in a community of extraordinary diversity and international v=
+itality. The University is privately supported, non-sectarian institution, =
+located in Coral Gables, Florida, on a 260-acre subtropical campus. The Uni=
+versity comprises 11 degree granting schools and colleges, including Archit=
+ecture, Arts and Sciences, Business Administration, Communication, Educatio=
+n, Engineering, Law, Medicine, Music, Nursing, and Marine and Atmospheric S=
+cience (www.miami.edu<http://www.miami.edu>).
+
+THE LIBRARY: The University of Miami Libraries (www.library.miami.edu<http:=
+//www.library.miami.edu>) rank among the top 50 research libraries in North=
+ America with a collection of over 3.3 million volumes and 80,830 current s=
+erials titles, including 76,840 electronic journals. The Otto G. Richter Li=
+brary lies in the heart of the Coral Gables campus and serves as the centra=
+l library for the University. Other University of Miami libraries include t=
+he Paul Buisson Architecture Library, the Judi Prokop Newman Business Infor=
+mation Resource Center, the Marta & Austin Weeks Music Library, and the Mar=
+ine and Atmospheric Science Library. The University also has independent me=
+dical and law libraries. The Libraries provide support and services for app=
+roximately 10,368 undergraduates, 5,289 graduate students, and 13,464 full =
+and part time faculty and staff. Excluding the independent libraries, the U=
+niversity Libraries employ 56 professional and 90 support staff and are a m=
+ember of ARL, ASERL, CLIR, NERL, RLG, and Lyrasis.
+
+The University of Miami is an Equal Opportunity Affirmative Action Employer=
+. The University has a strong commitment to diversity and encourages applic=
+ations from candidates of diverse cultural backgrounds.
