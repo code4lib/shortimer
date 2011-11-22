@@ -19,3 +19,11 @@ class JobsTests(unittest.TestCase):
         self.assertTrue(e.message_id, '<7933CD19EEFCC94392323A994F6F1EDF01DBB52AE8@MBX03.cgcent.miami.edu>')
         keywords = [kw.name for kw in e.keywords.all()]
         self.assertTrue('drupal' in keywords)
+
+class MinerTest(unittest.TestCase):
+
+    def test_proper_nouns(self):
+        pass
+
+    def test_tags(self):
+        pass

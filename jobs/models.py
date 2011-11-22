@@ -6,9 +6,9 @@ import logging
 import datetime
 import StringIO
 
-import nltk
-
 from django.db import models
+
+import miner
 
 class EmailKeyword(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -28,26 +28,9 @@ class JobEmail(models.Model):
     def __str__(self):
         return "%s -%s" % (self.from_address, self.subject)
 
-    def proper_nouns(self):
-        nouns = []
-        for tag in self.tags():
-            word = tag[0]
-            is_proper_noun = tag[1] == "NNP"
-            is_word = re.match("^[a-z]+$", tag[0], re.IGNORECASE)
-
-            if is_proper_noun and is_word:
-                nouns.append(tag[0])
-            elif len(nouns) > 0:
-                yield " ".join(nouns)
-                nouns = []
-
-    def tags(self):
-        words = nltk.word_tokenize(self.body)
-        return nltk.pos_tag(words)
-
     @classmethod
     def new_from_msg(klass, msg):
-        if not is_job(msg):
+        if not miner.is_job(msg):
             return None
 
         if JobEmail.objects.filter(message_id=msg['message-id']).count() == 1:
@@ -74,7 +57,7 @@ class JobEmail(models.Model):
         e.save()
 
         # add keywords
-        for n in e.proper_nouns():
+        for n in miner.proper_nouns(e.body):
             n = n.lower()
             try:
                 kw = EmailKeyword.objects.get(name=n)
@@ -95,18 +78,6 @@ def normalize_name(name):
         parts.insert(0, first_name)
         name = ' '.join(parts)
     return name
-
-def is_job(msg):
-    if not msg['subject']:
-        return False
-    subject = msg['subject'].lower()
-    if re.search('^re:', subject):
-        return False
-    if re.search('job', subject):
-        return True
-    if re.search('position', subject):
-        return True
-    return False
 
 def get_body(msg):
     charset = msg.get_content_charset()
