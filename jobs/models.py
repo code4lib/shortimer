@@ -44,7 +44,7 @@ class JobEmail(models.Model):
         e.from_name = normalize_name(e.from_name)
         e.from_address = e.from_address.lower()
         e.from_domain = e.from_address.split('@')[1]
-        e.subject = msg['subject']
+        e.subject = re.sub("^\[CODE4LIB\] ", "", msg['subject'])
         e.message_id = msg['message-id']
         e.body = get_body(msg)
 
@@ -58,7 +58,7 @@ class JobEmail(models.Model):
         e.save()
 
         # add keywords
-        for n in miner.proper_nouns(e.body):
+        for n in miner.nouns(e.body):
             n = n.lower()
             try:
                 kw = EmailKeyword.objects.get(name=n)
@@ -81,10 +81,22 @@ def normalize_name(name):
     return name
 
 def get_body(msg):
-    charset = msg.get_content_charset()
+    # pull out first text part to a multipart message
+    # not going to get in the business of extracting text from word, pdf, etc
+    if msg.is_multipart():
+        text_part = None
+        for m in msg.get_payload():
+            if m['content-type'].startswith('text'):
+                text_part = m
+                break
+        if not text_part:
+            return None
+        else:
+            msg = text_part
 
+    charset = msg.get_content_charset()
     if not charset: 
-        logging.warn("no charset for")
+        logging.warn("no charset")
         return None
 
     try:
@@ -93,7 +105,7 @@ def get_body(msg):
         logging.warn("no codec for %s", charset)
         return None
 
-    payload = StringIO.StringIO(msg.get_payload())
+    payload = StringIO.StringIO(msg.get_payload(decode=True))
     reader = codec(payload)
-    body = "\n".join(reader.readlines())
+    body = ''.join(reader.readlines())
     return body
