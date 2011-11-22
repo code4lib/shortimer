@@ -14,6 +14,7 @@ class EmailKeyword(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=255)
     emails = models.ManyToManyField('JobEmail', related_name='keywords')
+    on_wikipedia = models.BooleanField()
 
 class JobEmail(models.Model):
     created = models.DateTimeField(auto_now_add=True)
