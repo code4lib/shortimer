@@ -65,8 +65,9 @@ def wikipedia_categories(term):
     url = "http://en.wikipedia.org/w/api.php?action=query&prop=categories&titles=%s&format=json" % term
     results = _get_json(url)
     page_id = results['query']['pages'].keys()[0]
+
     categories = []
-    for c in results['query']['pages'][page_id]['categories']:
+    for c in results['query']['pages'][page_id].get('categories', []):
         categories.append(re.sub('^Category:', '', c['title']))
     return categories
 
