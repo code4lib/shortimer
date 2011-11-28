@@ -1,111 +1,51 @@
-import re
-import time
-import codecs
-import rfc822
-import logging
-import datetime
-import StringIO
-
 from django.db import models
+from django.contrib.auth.models import User
 
-import miner
+JOB_TYPES = (
+    ('ft', 'full-time'), 
+    ('pt', 'part-time'), 
+    ('co', 'contract'),
+    ('tm', 'temporary'), 
+    ('in', 'internship'),
+)
 
-class EmailKeyword(models.Model):
+class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=255)
-    emails = models.ManyToManyField('JobEmail', related_name='keywords')
-    on_wikipedia = models.BooleanField()
-
-class JobEmail(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    from_name = models.CharField(max_length=255)
-    from_address = models.CharField(max_length=255)
-    from_domain = models.CharField(max_length=255)
-    subject = models.TextField()
-    body = models.TextField()
-    sent_time = models.DateTimeField()
-    message_id = models.CharField(max_length=1024)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    url = models.CharField(max_length=1024)
+    post_date = models.DateTimeField()
+    close_date = models.DateTimeField(null=True)
+    contact_name = models.CharField(max_length=255)
+    contact_email = models.CharField(max_length=255)
+    telecommute = models.BooleanField(default=False)
+    salary_start = models.IntegerField(null=True)
+    salary_end = models.IntegerField(null=True)
+    email_message_id = models.CharField(max_length=1024, null=True)
+    job_type = models.CharField(max_length=2, choices=JOB_TYPES, default='ft')
+    employer = models.ForeignKey('Employer', related_name='jobs', null=True)
+    creator = models.ForeignKey(User, related_name='jobs', null=True)
 
     def __str__(self):
-        return "%s -%s" % (self.from_address, self.subject)
+        return self.title
 
-    @classmethod
-    def new_from_msg(klass, msg):
-        if not miner.is_job(msg):
-            return None
+class Employer(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=2)
+    domain = models.CharField(max_length=50)
 
-        if JobEmail.objects.filter(message_id=msg['message-id']).count() == 1:
-            return None
+class Keyword(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=255)
+    jobs = models.ManyToManyField('Job', related_name='keywords')
+    ignore = models.BooleanField(default=False)
+    #topic = models.ForeignKey('Subject', related_name='keywords', null=True)
 
-        logging.info("parsing email %s", msg['message-id'])
-
-        e = JobEmail()
-        e.from_name, e.from_address = rfc822.parseaddr(msg['from'])
-        e.from_name = normalize_name(e.from_name)
-        e.from_address = e.from_address.lower()
-        e.from_domain = e.from_address.split('@')[1]
-        e.subject = re.sub("^\[CODE4LIB\] ", "", msg['subject'])
-        e.message_id = msg['message-id']
-        e.body = get_body(msg)
-
-        t = time.mktime(rfc822.parsedate(msg['date']))
-        e.sent_time = datetime.datetime.fromtimestamp(t)
-
-        if not e.body:
-            logging.warn("missing body")
-            return None
-
-        e.save()
-
-        # add keywords
-        for n in miner.nouns(e.body):
-            n = n.lower()
-            try:
-                kw = EmailKeyword.objects.get(name=n)
-                kw.emails.add(e)
-                kw.save()
-            except EmailKeyword.DoesNotExist:
-                kw = EmailKeyword.objects.create(name=n)
-                kw.emails.add(e)
-                kw.save()
-
-        return e
-
-def normalize_name(name):
-    if ',' in name:
-        parts = name.split(',')
-        parts = [p.strip() for p in parts]
-        first_name = parts.pop()
-        parts.insert(0, first_name)
-        name = ' '.join(parts)
-    return name
-
-def get_body(msg):
-    # pull out first text part to a multipart message
-    # not going to get in the business of extracting text from word, pdf, etc
-    if msg.is_multipart():
-        text_part = None
-        for m in msg.get_payload():
-            if m['content-type'].startswith('text'):
-                text_part = m
-                break
-        if not text_part:
-            return None
-        else:
-            msg = text_part
-
-    charset = msg.get_content_charset()
-    if not charset: 
-        logging.warn("no charset")
-        return None
-
-    try:
-        codec = codecs.getreader(charset)
-    except LookupError: 
-        logging.warn("no codec for %s", charset)
-        return None
-
-    payload = StringIO.StringIO(msg.get_payload(decode=True))
-    reader = codec(payload)
-    body = ''.join(reader.readlines())
-    return body
+class Subject(models.Model):
+    name = models.CharField(max_length=500)
+    subject_type = models.CharField(max_length=100)
+    freebase_id = models.CharField(max_length=100)
+    freebase_category_id = models.CharField(max_length=100)

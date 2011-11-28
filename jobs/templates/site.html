@@ -1,0 +1,17 @@
+{% load pagination_tags %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/csrf.js"></script>
+        {% block extra_head %}{% endblock %}
+    </head>
+    <body>
+        <div id="content">
+        {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
+
+

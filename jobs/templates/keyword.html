@@ -1,0 +1,10 @@
+{% extends "site.html" %}
+
+{% block content %}
+<h1>{{ keyword.name }}</h1>
+<ul>
+{% for email in keyword.jobs.all %}
+<li>{{ email.title }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

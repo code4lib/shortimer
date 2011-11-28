@@ -4,7 +4,7 @@ from django.conf.urls.defaults import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns('jobs4lib.jobs.views',
     # Examples:
     # url(r'^$', 'jobs4lib.views.home', name='home'),
     # url(r'^jobs4lib/', include('jobs4lib.foo.urls')),
@@ -14,4 +14,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    url(r'^keywords/$', 'keywords', name='keywords'),
+    url(r'^keywords/table/$', 'keywords_table', name='keywords_table'),
+    url(r'^keyword/(?P<id>\d+)/$', 'keyword', name='keyword'),
+    url(r'^tags/$', 'tags', name='tags')
 )

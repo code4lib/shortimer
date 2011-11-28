@@ -1,0 +1,28 @@
+body {
+    font-size: 18pt;
+}
+
+input {
+    font-size: 18pt;
+}
+
+img.ignore-keyword {
+    height: 32px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tr.odd {
+    background-color: white;
+}
+
+tr.even {
+    background-color: #eeeeee;
+}
+
+td {
+    padding: 5px;
+}
+

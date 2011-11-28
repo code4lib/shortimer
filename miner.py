@@ -1,9 +1,16 @@
 import re
 import json
+import time
+import codecs
+import rfc822
 import urllib
 import logging
+import datetime
+import StringIO
 
 import nltk
+
+from jobs4lib.jobs.models import Job, Keyword
 
 """
 Functions for doing text munging on job text.
@@ -11,7 +18,90 @@ Functions for doing text munging on job text.
 
 NOUN_CODES = ["NNP", "NN", "NNS"]
 
-def is_job(msg):
+def email_to_job(msg):
+    if not is_job_email(msg):
+        return None
+
+    if Job.objects.filter(email_message_id=msg['message-id']).count() == 1:
+        return None
+
+    logging.info("parsing email %s", msg['message-id'])
+
+    j = Job()
+    j.contact_name, j.contact_email = rfc822.parseaddr(msg['from'])
+    j.contact_name = normalize_name(j.contact_name)
+    j.contact_email = j.contact_email.lower()
+
+    # get the employer
+    #j.from_domain = j.from_address.split('@')[1]
+
+    j.title = re.sub("^\[CODE4LIB\] ", "", msg['subject'])
+    j.email_message_id = msg['message-id']
+    j.description = get_body(msg)
+
+    t = time.mktime(rfc822.parsedate(msg['date']))
+    j.post_date = datetime.datetime.fromtimestamp(t)
+
+    if not j.description:
+        logging.warn("missing body")
+        return None
+
+    j.save()
+
+    # add keywords
+    for n in nouns(j.description):
+        n = n.lower()
+        try:
+            kw = Keyword.objects.get(name=n)
+            kw.jobs.add(j)
+            kw.save()
+        except Keyword.DoesNotExist:
+            kw = Keyword.objects.create(name=n)
+            kw.jobs.add(j)
+            kw.save()
+
+    return j
+
+def normalize_name(name):
+    if ',' in name:
+        parts = name.split(',')
+        parts = [p.strip() for p in parts]
+        first_name = parts.pop()
+        parts.insert(0, first_name)
+        name = ' '.join(parts)
+    return name
+
+def get_body(msg):
+    # pull out first text part to a multipart message
+    # not going to get in the business of extracting text from word, pdf, etc
+    if msg.is_multipart():
+        text_part = None
+        for m in msg.get_payload():
+            if m['content-type'].startswith('text'):
+                text_part = m
+                break
+        if not text_part:
+            return None
+        else:
+            msg = text_part
+
+    charset = msg.get_content_charset()
+    if not charset: 
+        logging.warn("no charset")
+        return None
+
+    try:
+        codec = codecs.getreader(charset)
+    except LookupError: 
+        logging.warn("no codec for %s", charset)
+        return None
+
+    payload = StringIO.StringIO(msg.get_payload(decode=True))
+    reader = codec(payload)
+    body = ''.join(reader.readlines())
+    return body
+
+def is_job_email(msg):
     """takes an email message and returns a boolean indicating whether the 
     message looks like a job ad.
     """

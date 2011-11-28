@@ -7,7 +7,7 @@ import mailbox
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from jobs.models import JobEmail
+from miner import email_to_job
 
 mbox_dir = os.path.join(settings.PROJECT_DIR, "mboxes")
 
@@ -18,9 +18,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for mbox in mboxes():
             for msg in mailbox.mbox(mbox):
-                email = JobEmail.new_from_msg(msg)
-                if email:
-                    log.info("loaded %s", email)
+                job = email_to_job(msg)
+                if job:
+                    log.info("loaded %s", job)
 
 def mboxes():
     if not os.path.isdir(mbox_dir):

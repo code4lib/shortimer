@@ -1,0 +1,19 @@
+{% load pagination_tags %}
+
+{% autopaginate keywords %}
+{% paginate %}
+<table>
+{% for keyword in keywords %}
+<tr id="keyword_{{ keyword.id }}" class={% cycle "odd" "even" %}>
+    <td class="keyword-count">{{ keyword.num_jobs }}</td>
+    <td class="keyword">{{ keyword.name }}</td>
+    <td>
+        <input class="topic" type="text" value="{{ keyword.name }}">
+    </td>
+    <td>
+        <img class="ignore-keyword" src="{{ STATIC_URL }}/images/delete.png">
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% paginate %}

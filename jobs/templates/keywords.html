@@ -1,0 +1,31 @@
+{% extends "site.html" %}
+
+{% block extra_head %}
+    <link type="text/css" rel="stylesheet" href="http://freebaselibs.com/static/suggest/1.3/suggest.min.css">
+    <script type="text/javascript" src="http://freebaselibs.com/static/suggest/1.3/suggest.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $(".topic")
+            .suggest()
+            .bind("fb-select", function(e, data) {
+                alert(data.name + ", " + data.id + ", " + data["n:type"]["id"] + ", " + data["n:type"]["name"]);
+            })
+            .click(function(e) {$(this).trigger("keyup");});
+            
+        $(".ignore-keyword").click(function() {
+            var tr = $(this).parent().parent().get(0);
+            var parts = tr.id.split("_");
+            id = parts[1];
+            $.post("/keyword/" + id + "/", data={"ignore": true}, function() {
+                $("#keywords-table").load("/keywords/table/");
+            });
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div id="keywords-table">
+    {% include "keywords_table.html" %}
+    </div>
+{% endblock %}
