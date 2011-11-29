@@ -1,0 +1,19 @@
+{% extends "site.html" %}
+{% load pagination_tags %}
+
+{% block content %}
+{% autopaginate subjects %}
+{% paginate %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+    </tr>
+{% for subject in subjects %}
+    <tr>
+        <td><a href="{{ subject.freebase_url }}">{{ subject.name }}</a></td>
+        <td><a href="{{ subject.freebase_type_url }}">{{ subject.type }}</a></td>
+{% endfor %}
+</ul>
+{% paginate %}
+{% endblock %}

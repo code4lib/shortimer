@@ -16,7 +16,7 @@ from jobs4lib.jobs.models import Job, Keyword
 Functions for doing text munging on job text.
 """
 
-NOUN_CODES = ["NNP", "NN", "NNS"]
+NOUN_CODES = ["NNP"]
 
 def email_to_job(msg):
     if not is_job_email(msg):

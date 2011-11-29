@@ -1,15 +1,16 @@
 # Create your views here.
 
 from django.db.models import Count
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.urlresolvers import reverse
 
 from jobs import models
 
-def keywords(request):
-    return render(request, "keywords.html", {"keywords": _kw()})
+def matcher(request):
+    return render(request, "matcher.html", {"keywords": _kw()})
 
-def keywords_table(request):
-    return render(request, "keywords_table.html", {"keywords": _kw()})
+def matcher_table(request):
+    return render(request, "matcher_table.html", {"keywords": _kw()})
 
 def keyword(request, id):
     k = get_object_or_404(models.Keyword, id=id)
@@ -18,19 +19,33 @@ def keyword(request, id):
         k.save()
     return render(request, "keyword.html", {"keyword": k})
 
-def tags(request):
-    if request.method == "POST":
-        pass
-    tags = models.Tag.objects.all()
-    return render(request, "tags.html", {"tags": tags})
+def subjects(request):
 
-def tag(request, id):
-    t = get_object_or_404(models.Tag, slug=slug)
-    return render(request, "tag.html", {"tag": tag})
+    # adding a new subject
+    if request.method == "POST":
+        s, created = models.Subject.objects.get_or_create(
+            name=request.POST.get('subjectName')
+        )
+        s.type=request.POST.get('subjectTypeName')
+        s.freebase_id=request.POST.get('subjectId')
+        s.freebase_type_id=request.POST.get('subjectTypeId')
+
+        kw = models.Keyword.objects.get(id=request.POST.get('keywordId'))
+        s.keywords.add(kw)
+        s.save()
+        return redirect(reverse('subject', args=[s.slug]))
+
+    subjects = models.Subject.objects.all()
+    return render(request, "subjects.html", {"subjects": subjects})
+
+def subject(request, slug):
+    s = get_object_or_404(models.Subject, slug=slug)
+    j = models.Job.objects.filter(keywords__subject=s)
+    j = j.order_by('-post_date')
+    return render(request, "subject.html", {"subject": s, "jobs": j})
 
 def _kw():
-    k = models.Keyword.objects.all()
-    k = k.annotate(num_jobs=Count("jobs"))
-    k = k.filter(num_jobs__gt=1, ignore=False)
-    return k.order_by("-num_jobs")
-
+    kw = models.Keyword.objects.all()
+    kw = kw.annotate(num_jobs=Count("jobs"))
+    kw = kw.filter(num_jobs__gt=1, ignore=False)
+    return kw.order_by("-num_jobs")

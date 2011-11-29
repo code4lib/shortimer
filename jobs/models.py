@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save
+from django.template.defaultfilters import slugify
 
 JOB_TYPES = (
     ('ft', 'full-time'), 
@@ -42,10 +44,35 @@ class Keyword(models.Model):
     name = models.CharField(max_length=255)
     jobs = models.ManyToManyField('Job', related_name='keywords')
     ignore = models.BooleanField(default=False)
-    #topic = models.ForeignKey('Subject', related_name='keywords', null=True)
+    subject = models.ForeignKey('Subject', related_name='keywords', null=True)
 
 class Subject(models.Model):
     name = models.CharField(max_length=500)
-    subject_type = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100)
+    type = models.CharField(max_length=100)
     freebase_id = models.CharField(max_length=100)
-    freebase_category_id = models.CharField(max_length=100)
+    freebase_type_id = models.CharField(max_length=100)
+
+    def freebase_image_url(self):
+        url = "https://usercontent.googleapis.com/freebase/v1/image" 
+        url += self.freebase_id
+        url += "?maxwidth=400&maxheight=200"
+        return url
+
+    def freebase_url(self):
+        base = "http://www.freebase.com/view"
+        if self.freebase_id.startswith("/en"):
+            return base + self.freebase_id
+        else:
+            return base + "/en" + self.freebase_id
+
+    def freebase_type_url(self):
+        return "http://www.freebase.com/view" + self.freebase_type_id
+
+
+
+def make_slug(sender, **kwargs):
+    i = kwargs['instance']
+    i.slug = slugify(i.name)
+
+pre_save.connect(make_slug, sender=Subject)

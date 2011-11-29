@@ -3,12 +3,22 @@
 {% autopaginate keywords %}
 {% paginate %}
 <table>
+<tr>
+    <th>Mentions</th>
+    <th>Job Keyword</th>
+    <th>Freebase Subject</th>
+    <th>Remove</th>
+</tr>
 {% for keyword in keywords %}
-<tr id="keyword_{{ keyword.id }}" class={% cycle "odd" "even" %}>
+<tr id="keyword_{{ keyword.id }}">
     <td class="keyword-count">{{ keyword.num_jobs }}</td>
     <td class="keyword">{{ keyword.name }}</td>
-    <td>
+    <td class="freebase-concept">
+        {% if keyword.subject %}
+        <a href="{% url subject keyword.subject.slug %}">{{ keyword.subject.name }} </a>
+        {% else %}
         <input class="topic" type="text" value="{{ keyword.name }}">
+        {% endif %}
     </td>
     <td>
         <img class="ignore-keyword" src="{{ STATIC_URL }}/images/delete.png">
