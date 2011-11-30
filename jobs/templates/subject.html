@@ -11,7 +11,7 @@
 
 <ul style="clear: both;">
 {% for job in jobs %}
-<li>{{ job.post_date }} - {{ job.title }}</li>
+<li><a href="{% url job job.id %}">{{ job.post_date }} - {{ job.title }}</a></li>
 {% endfor %}
 </ul>
 

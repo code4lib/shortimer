@@ -1,0 +1,23 @@
+{% extends "site.html" %}
+
+{% block extra_head %}
+<script type="text/javascript" src="{{ STATIC_URL }}ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}ckeditor/adapters/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('textarea.editor').ckeditor();
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
+    <div itemprop="title">{{ job.title }}</div>
+    <textarea class="editor" itemprop="description">
+        {{ job.description_html|safe }}
+    </textarea>
+</div>
+
+{% endblock %}

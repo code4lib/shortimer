@@ -1,5 +1,8 @@
+import re
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
 from django.template.defaultfilters import slugify
 
@@ -27,6 +30,24 @@ class Job(models.Model):
     job_type = models.CharField(max_length=2, choices=JOB_TYPES, default='ft')
     employer = models.ForeignKey('Employer', related_name='jobs', null=True)
     creator = models.ForeignKey(User, related_name='jobs', null=True)
+
+    @property 
+    def description_html(self):
+        # add paragraphs
+        html = "<p>" + self.description + "</p>"
+        html = html.replace("\n\n", "</p>\n\n<p>")
+
+        # hyperlinks known subjects
+        for keyword in self.keywords.all():
+            if keyword.subject:
+                def subject_link(m):
+                    url = reverse('subject', args=[keyword.subject.slug])
+                    return '<a href="' + url + '">' + m.group(1) + '</a>'
+
+                pattern = re.compile("(" + keyword.name +")", re.IGNORECASE)
+                html = re.sub(pattern, subject_link, html)
+
+        return html
 
     def __str__(self):
         return self.title

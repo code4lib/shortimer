@@ -8,12 +8,17 @@
     <tr>
         <th>Name</th>
         <th>Type</th>
+        <th></th>
     </tr>
 {% for subject in subjects %}
     <tr>
-        <td><a href="{{ subject.freebase_url }}">{{ subject.name }}</a></td>
+        <td>
+            <a href="{% url subject subject.slug %}">{{ subject.name }}</a>
+        </td>
         <td><a href="{{ subject.freebase_type_url }}">{{ subject.type }}</a></td>
+        <td><a href="{{ subject.freebase_url }}"><img class="freebase-icon" src="{{ STATIC_URL }}images/freebase.jpg"></a></td>
+    </tr>
 {% endfor %}
-</ul>
+</table>
 {% paginate %}
 {% endblock %}

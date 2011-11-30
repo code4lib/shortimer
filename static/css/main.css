@@ -87,3 +87,18 @@ div.pagination a.prev {
     text-align: left;
     border-bottom: thin solid #eeeeee;
 }
+
+img.freebase-icon {
+    height: 40px;
+    vertical-align: middle;
+}
+
+div[itemprop="title"] {
+    font-size: larger;
+    font-weight: bold;
+}
+
+textarea#jobeditor {
+    font-size: 12pt;
+    width: 50%;
+}

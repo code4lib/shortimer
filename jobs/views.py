@@ -6,6 +6,10 @@ from django.core.urlresolvers import reverse
 
 from jobs import models
 
+def job(request, id):
+    j = get_object_or_404(models.Job, id=id)
+    return render(request, "job.html", {"job": j})
+
 def matcher(request):
     return render(request, "matcher.html", {"keywords": _kw()})
 
