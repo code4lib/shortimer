@@ -6,6 +6,10 @@ from django.core.urlresolvers import reverse
 
 from jobs import models
 
+def jobs(request):
+    jobs = models.Job.objects.all().order_by('-post_date')
+    return render(request, 'jobs.html', {'jobs': jobs})
+
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)
     return render(request, "job.html", {"job": j})

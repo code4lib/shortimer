@@ -15,6 +15,7 @@ urlpatterns = patterns('jobs4lib.jobs.views',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^jobs/$', 'jobs', name='jobs'),
     url(r'^jobs/(?P<id>\d+)/$', 'job', name='job'),
 
     url(r'^keywords/matcher/$', 'matcher', name='matcher'),

@@ -1,0 +1,16 @@
+{% extends "site.html" %}
+{% load pagination_tags %}
+
+{% block content %}
+{% autopaginate jobs %}
+{% paginate %}
+<table>
+{% for job in jobs %}
+    <tr>
+        <td>{{ job.post_date }}</td>
+        <td><a href="{% url job job.id %}">{{ job.title }}</a></td>
+    </tr>
+{% endfor %}
+</table>
+{% paginate %}
+{% endblock %}
