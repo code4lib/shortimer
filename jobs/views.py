@@ -6,9 +6,9 @@ from django.core.urlresolvers import reverse
 
 from jobs import models
 
-def jobs(request):
+def home(request):
     jobs = models.Job.objects.all().order_by('-post_date')
-    return render(request, 'jobs.html', {'jobs': jobs})
+    return render(request, 'home.html', {'jobs': jobs})
 
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)
@@ -23,7 +23,10 @@ def matcher_table(request):
 def keyword(request, id):
     k = get_object_or_404(models.Keyword, id=id)
     if request.method == 'POST':
-        k.ignore = True
+        if request.POST.get('ignore'):
+            k.ignore = True
+        elif request.POST.get('unlink'):
+            k.subject = None
         k.save()
     return render(request, "keyword.html", {"keyword": k})
 

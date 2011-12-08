@@ -6,7 +6,7 @@ import logging
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from jobs.models import JobEmail
+from jobs4lib.miner import email_to_job
 
 log = logging.getLogger(__name__)
 
@@ -22,6 +22,6 @@ class Command(BaseCommand):
         for i in range(num_messages):
             email_txt = '\n'.join(gmail.retr(i+1)[1])
             msg = email.message_from_string(email_txt)
-            e = JobEmail.new_from_msg(msg)
-            if e:
-                log.info("found a new job email: %s", e)
+            j = email_to_job(msg)
+            if j:
+                log.info("found a new job email: %s", j)

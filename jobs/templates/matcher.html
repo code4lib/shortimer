@@ -16,10 +16,21 @@
         $(".ignore-keyword").click(function() {
             var tr = $(this).parent().parent().get(0);
             $(tr).fadeOut();
+            var id = getKeywordId(tr);
             var parts = tr.id.split("_");
             id = parts[1];
-            $.post("/keyword/" + id + "/", data={"ignore": true}, reloadTable)
+            $.post("/keywords/" + id + "/", data={"ignore": true}, reloadTable)
         });
+        $(".unlink-keyword").click(function() {
+            var tr = $(this).parent().parent().get(0);
+            var id = getKeywordId(tr);
+            $.post("/keywords/" + id + "/", data={"unlink": true}, reloadTable)
+        });
+    }
+
+    function getKeywordId(tr) {
+        var parts = tr.id.split("_");
+        return parts[1];
     }
 
     function addSubject(e, data) {

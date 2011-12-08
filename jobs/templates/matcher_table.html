@@ -7,7 +7,7 @@
     <th>Mentions</th>
     <th>Job Keyword</th>
     <th>Freebase Subject</th>
-    <th>Remove</th>
+    <th>Actions</th>
 </tr>
 {% for keyword in keywords %}
 <tr id="keyword_{{ keyword.id }}">
@@ -21,7 +21,10 @@
         {% endif %}
     </td>
     <td>
-        <img class="ignore-keyword" src="{{ STATIC_URL }}/images/delete.png">
+        {% if keyword.subject %}
+        <a class="unlink-keyword" href="#">unlink</a>
+        {% endif %}
+        <a class="ignore-keyword" href="#">ignore</a>
     </td>
 </tr>
 {% endfor %}
