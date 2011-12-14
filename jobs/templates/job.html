@@ -6,7 +6,12 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('textarea.editor').ckeditor();
+        var config = {
+            height: 400,
+            width: 600,
+            toolbar_Full: [['Bold', 'Italic', 'Underline', 'SpellChecker']]
+        };
+        $('textarea.editor').ckeditor(config);
     });
 </script>
 {% endblock %}
@@ -14,7 +19,16 @@
 {% block content %}
 
 <div itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
-    <div itemprop="title">{{ job.title }}</div>
+    Title: <input type="text" class="title" value="{{ job.title }}"><br>
+    URL:<br>
+    Post Date:<br>
+    Close Date:<br>
+    Contact Name:<br>
+    Contact Email:<br>
+    Salary Start:<br>
+    Salary End:<br>
+    Job Type:<br>
+    Employer:<br>
     <textarea class="editor" itemprop="description">
         {{ job.description_html|safe }}
     </textarea>

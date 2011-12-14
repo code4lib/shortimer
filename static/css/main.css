@@ -98,7 +98,7 @@ div[itemprop="title"] {
     font-weight: bold;
 }
 
-textarea#jobeditor {
-    font-size: 12pt;
-    width: 50%;
+input[class="title"] {
+    width: 80%;
 }
+
