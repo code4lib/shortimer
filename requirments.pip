@@ -2,3 +2,4 @@ django
 PyYAML
 numpy
 nltk
+django-pagination
