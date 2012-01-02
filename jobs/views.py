@@ -1,24 +1,46 @@
 # Create your views here.
 
 from django.db.models import Count
-from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
+from django.shortcuts import render, get_object_or_404, redirect
 
-from jobs import models
+from jobs4lib.jobs import models
+from jobs4lib.paginator import DiggPaginator
 
 def home(request):
     jobs = models.Job.objects.all().order_by('-post_date')
-    return render(request, 'home.html', {'jobs': jobs})
+    paginator = DiggPaginator(jobs, 25, body=8)
+    page = paginator.page(request.GET.get("page", 1))
+    context = {
+        'jobs': page.object_list,
+        'page': page,
+        'paginator': paginator,
+    }
+    return render(request, 'home.html', context)
 
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)
     return render(request, "job.html", {"job": j})
 
 def matcher(request):
-    return render(request, "matcher.html", {"keywords": _kw()})
+    keywords = models.Keyword.objects.all()
+    keywords = keywords.annotate(num_jobs=Count("jobs"))
+    keywords = keywords.filter(num_jobs__gt=1, ignore=False)
+    keywords = keywords.order_by("-num_jobs")
+
+    paginator = DiggPaginator(keywords, 25, body=8)
+    page = paginator.page(request.GET.get("page", 1))
+    if request.is_ajax():
+        template = "matcher_table.html"
+    else:
+        template = "matcher.html"
+    return render(request, template, {"page": page, "paginator": paginator})
 
 def matcher_table(request):
-    return render(request, "matcher_table.html", {"keywords": _kw()})
+    keywords = _kw()
+    paginator = DiggPaginator(keywords, 25, body=8)
+    page = paginator.page(request.GET.get("page", 1))
+    return render(request, "matcher_table.html", {"page": page})
 
 def keyword(request, id):
     k = get_object_or_404(models.Keyword, id=id)
@@ -31,8 +53,7 @@ def keyword(request, id):
     return render(request, "keyword.html", {"keyword": k})
 
 def subjects(request):
-
-    # adding a new subject
+    # add a new subject
     if request.method == "POST":
         s, created = models.Subject.objects.get_or_create(
             name=request.POST.get('subjectName')
@@ -51,12 +72,7 @@ def subjects(request):
 
 def subject(request, slug):
     s = get_object_or_404(models.Subject, slug=slug)
-    j = models.Job.objects.filter(keywords__subject=s)
+    j = models.Job.objects.filter(keywords__subject=s).distinct()
     j = j.order_by('-post_date')
     return render(request, "subject.html", {"subject": s, "jobs": j})
 
-def _kw():
-    kw = models.Keyword.objects.all()
-    kw = kw.annotate(num_jobs=Count("jobs"))
-    kw = kw.filter(num_jobs__gt=1, ignore=False)
-    return kw.order_by("-num_jobs")

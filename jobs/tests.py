@@ -1,9 +1,13 @@
+import sys
 import email
+import logging
 import unittest
 
 from jobs.models import Job
 
 import miner
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 class JobsTests(unittest.TestCase):
 
@@ -25,10 +29,18 @@ class JobsTests(unittest.TestCase):
         # test employer
         #self.assertEqual(j.from_domain, 'miami.edu')
 
-    def test_multipart_email(self):
+    def test_multipart(self):
         msg = email.message_from_file(open("test-data/job-multipart-email"))
         j = miner.email_to_job(msg)
         self.assertEqual(j.title, "Library System Administrator Position")
+
+    def test_missing_charset(self):
+        msg = email.message_from_file(open("test-data/job-email-missing-charset"))
+        self.assertTrue(msg)
+        self.assertTrue(miner.is_job_email(msg))
+        j = miner.email_to_job(msg)
+        self.assertTrue(j)
+        self.assertEqual(j.title, "Job Posting: Programmer/Analyst 2, The University of Chicago Library")
 
 class MinerTests(unittest.TestCase):
     text = "Experience in web application, web services development, and XM.  Experience with Flash, AJAX, or other highly interactive web user interface development, digital video, and audio formats, and technologies and/or digital repositories (e.g., Fedora). Combinations of related education and experience will be considered."

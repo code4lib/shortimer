@@ -1,5 +1,6 @@
 body {
     font-size: 12pt;
+    margin: 10%;
 }
 
 input {
@@ -31,18 +32,6 @@ a.page {
     padding: 3px;
 }
 
-div.pagination {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: thin solid #eeeeee;
-    background-color: #eeeeee;
-}
-
 div.pagination a {
     text-decoration: none;
     color: black;
@@ -59,6 +48,12 @@ div.pagination a.next {
 
 div.pagination a.prev {
     margin-right: 30px;
+}
+
+div.pagination {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
 }
 
 #matcher-table table {

@@ -1,0 +1,274 @@
+                                                                                                                                                                                                                                                               
+Delivered-To: ed.summers@gmail.com
+Received: by 10.231.182.10 with SMTP id ca10cs322432ibb;
+        Wed, 28 Dec 2011 12:22:58 -0800 (PST)
+Received: by 10.224.203.67 with SMTP id fh3mr37219956qab.13.1325103775699;
+        Wed, 28 Dec 2011 12:22:55 -0800 (PST)
+Return-Path: <SRS0=Wopz=7I=LISTSERV.ND.EDU=owner-code4lib@bounce2.pobox.com>
+Received: from sepia.pobox.com (sepia.pobox.com. [208.72.237.18])
+        by mx.google.com with ESMTP id c9si20615620qap.15.2011.12.28.12.22.55;
+        Wed, 28 Dec 2011 12:22:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of SRS0=Wopz=7I=LISTSERV.ND.EDU=owner-code4lib@bounce2.pobox.com designates 208.72.237.18 as permitted sender) client-ip=208.72.237.18;
+Authentication-Results: mx.google.com; spf=pass (google.com: domain of SRS0=Wopz=7I=LISTSERV.ND.EDU=owner-code4lib@bounce2.pobox.com designates 208.72.237.18 as permitted sender) smtp.mail=SRS0=Wopz=7I=LISTSERV.ND.EDU=owner-code4lib@bounce2.pobox.com
+Received: from sepia.pobox.com (localhost [127.0.0.1])
+	by sepia.pobox.com (Postfix) with ESMTP id F27BA40B3B9
+	for <ed.summers@gmail.com>; Wed, 28 Dec 2011 15:22:54 -0500 (EST)
+Delivered-To: ehs@POBOX.COM
+X-Pobox-Orig-Sender: <owner-code4lib@LISTSERV.ND.EDU>
+X-Pobox-Delivery-ID:
+ B94CAFA4-3191-11E1-B64D-CC7CF8CF51E4-07615111!sepia.pobox.com
+x-pobox-client-address: 129.74.13.10
+x-pobox-client-name: mail-msa1-prod-v.cc.nd.edu
+Received: from mail-msa1-prod-v.cc.nd.edu (mail-msa1-prod-v.cc.nd.edu
+ [129.74.13.10]) by sepia.pobox.com (Postfix) with ESMTP id D976A40B3AE; Wed,
+ 28 Dec 2011 15:22:52 -0500 (EST)
+Received: from lists1-prod-v.cc.nd.edu (lists1-prod-v.cc.nd.edu
+ [129.74.250.38]) by mail-msa1-prod-v.cc.nd.edu (Switch-3.4.3/Switch-3.4.3)
+ with ESMTP id pBSKO6Yq017343; Wed, 28 Dec 2011 15:24:07 -0500
+Received: from lists1-prod-v.cc.nd.edu (localhost.localdomain [127.0.0.1]) by
+ lists1-prod-v.cc.nd.edu (8.13.1/8.13.1) with ESMTP id pBSGOp75022171; Wed, 28
+ Dec 2011 15:22:38 -0500
+Received: by LISTSERV.ND.EDU (LISTSERV-TCP/IP release 15.5) with spool id
+ 10267974 for CODE4LIB@LISTSERV.ND.EDU; Wed, 28 Dec 2011 15:22:37 -0500
+Received: from lists1-prod-v.cc.nd.edu (localhost.localdomain [127.0.0.1]) by
+ lists1-prod-v.cc.nd.edu (8.13.1/8.13.1) with ESMTP id pBRLL3pQ013352; Wed, 28
+ Dec 2011 15:22:37 -0500
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="part-Q4NTEiSl-YR1xrro8m1A-PFx-1H8KVdVhz--wv0LoL-m-"
+Message-ID: <LISTSERV%201112281522372144.40AB@LISTSERV.ND.EDU>
+Date: Wed, 28 Dec 2011 15:22:37 -0500
+Reply-To: Code for Libraries <CODE4LIB@LISTSERV.ND.EDU>
+Sender: Code for Libraries <CODE4LIB@LISTSERV.ND.EDU>
+From: Charles Blair <chas@UCHICAGO.EDU>
+Subject: [CODE4LIB] Job Posting: Programmer/Analyst 2, The University of
+ Chicago Library
+To: CODE4LIB@LISTSERV.ND.EDU
+Precedence: list
+List-Help: <http://listserv.nd.edu/cgi-bin/wa?LIST=CODE4LIB>,
+ <mailto:LISTSERV@LISTSERV.ND.EDU?body=INFO%20CODE4LIB>
+List-Unsubscribe: <mailto:CODE4LIB-unsubscribe-request@LISTSERV.ND.EDU>
+List-Subscribe: <mailto:CODE4LIB-subscribe-request@LISTSERV.ND.EDU>
+List-Owner: <mailto:CODE4LIB-request@LISTSERV.ND.EDU>
+List-Archive: <http://listserv.nd.edu/cgi-bin/wa?LIST=CODE4LIB>
+X-Source-IP: 129.74.250.38
+X-ND-MTA-Date: Wed, 28 Dec 2011 15:24:10 EST
+
+--part-Q4NTEiSl-YR1xrro8m1A-PFx-1H8KVdVhz--wv0LoL-m-
+Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="part-36N4zhzQ1p6OSHbWPHZVuEnD-D8HrNWJA0NrMzza58JCB"
+
+--part-36N4zhzQ1p6OSHbWPHZVuEnD-D8HrNWJA0NrMzza58JCB
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+
+University Title: IT Programmer 2
+Departmental Title: Programmer/Analyst 2
+Department: DLDC
+Classification: IT Exempt
+Work Schedule: Full-time
+
+GENERAL SUMMARY:
+
+We envision an interoperable digital library which integrates
+information resources with instruction and research, and a digital
+archive which ensures the persistence and usability of these resources
+over time.=20
+
+The Digital Library Development Center collaborates with librarians,
+faculty, university departments and other groups, and colleagues at
+other institutions, to develop and maintain networked information
+systems for use today, and to ensure the long-term preservation of
+information resources delivered through these systems for continued
+availability in the future.=20
+Our core activities include designing, building, and maintaining web
+sites, dynamic information resources, and digital collections;
+installing and supporting vended systems that provide access to
+information resources; administering the network of information server
+computers which underlie our digital library and which support related
+initiatives on campus; researching, evaluating, and implementing new
+technologies; participating in national and international digital
+library initiatives; and documenting and sharing procedures, policies,
+and discoveries.=20
+
+Development work has included archives and manuscripts finding aids
+databases (XML, XQuery), online digital collections (XML, XSLT, PHP,
+MySQL, HTML, Javascript, CSS), and administrative databases (PHP,
+MySQL).=20
+
+See Digital Library Collections and Activities,
+http://www.lib.uchicago.edu/e/digital/ , for some examples of our
+work. A departmental description is available at
+http://dldc.lib.uchicago.edu/
+
+ESSENTIAL FUNCTIONS
+
+Develops, implements, customizes, tests and maintains technological
+solutions to support the University of Chicago Library's digital
+collections and other digital library systems for which the DLDC is
+responsible.
+
+Researches end-user requirements.
+Develops design specifications.
+Installs, evaluates and tests software.
+Programming.
+Designs and manages a workflow.
+Documents work.=20=20
+
+
+QUALIFICATIONS:
+
+Bachelor's degree required. At least three years experience with one
+or more high-level programming languages, including one scripting
+language (e.g., Python, Ruby) required. Ability to program at an
+intermediate to advanced level in at least one programming language
+required. Fluency with XML technologies (XSLT, XPath and XQuery)
+required. Ability to interface to relational and XML databases from
+within a programming language required. Demonstrable Unix/Linux
+literacy (e.g., must be able to use sed, awk, grep, etc. effectively
+from a Unix/Linux command line to accomplish small tasks)
+required. Knowledge of HTML and cgi-bin programming
+required. Familiarity with a web application framework (e.g., Django,
+Ruby on Rails) required. Ability to work with Web Developers to
+incorporate CSS and Javascript into programs required. Ability to
+install and evaluate software against requirements quickly
+required. Excellent verbal and written communication skills
+required. Excellent interpersonal skills and ability to work well with
+others required. Ability to identify and solve problems on own
+initiative and as part of a team required. Ability to manage complex
+technical details required. Ability to communicate technical concepts
+to non-technical staff required.
+
+Experience working in a library, academic or other research
+environment preferred. Experience working in a digital library setting
+preferred. Experience working in a production Unix/Linux environment
+preferred. Experience working with Semantic Web technologies (RDF
+triplestores; SPARQL queries; RDFa) preferred.
+
+PHYSICAL REQUIREMENTS:
+
+Ability to sit for 4 hours or more.  Ability to use computers
+extensively for 4 hours or more.
+
+The University of Chicago is an Affirmative Action/Equal Opportunity
+Employer.
+
+To apply for this position submit a profile along with a resume and
+cover letter to
+https://jobopportunities.uchicago.edu/applicants/jsp/shared/Welcome_css.j=
+sp
+
+
+--part-36N4zhzQ1p6OSHbWPHZVuEnD-D8HrNWJA0NrMzza58JCB--
+
+--part-Q4NTEiSl-YR1xrro8m1A-PFx-1H8KVdVhz--wv0LoL-m-
+Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN;
+ name="foo.txt"
+
+University Title: IT Programmer 2
+Departmental Title: Programmer/Analyst 2
+Department: DLDC
+Classification: IT Exempt
+Work Schedule: Full-time
+
+GENERAL SUMMARY:
+
+We envision an interoperable digital library which integrates
+information resources with instruction and research, and a digital
+archive which ensures the persistence and usability of these resources
+over time. 
+
+The Digital Library Development Center collaborates with librarians,
+faculty, university departments and other groups, and colleagues at
+other institutions, to develop and maintain networked information
+systems for use today, and to ensure the long-term preservation of
+information resources delivered through these systems for continued
+availability in the future. 
+Our core activities include designing, building, and maintaining web
+sites, dynamic information resources, and digital collections;
+installing and supporting vended systems that provide access to
+information resources; administering the network of information server
+computers which underlie our digital library and which support related
+initiatives on campus; researching, evaluating, and implementing new
+technologies; participating in national and international digital
+library initiatives; and documenting and sharing procedures, policies,
+and discoveries. 
+
+Development work has included archives and manuscripts finding aids
+databases (XML, XQuery), online digital collections (XML, XSLT, PHP,
+MySQL, HTML, Javascript, CSS), and administrative databases (PHP,
+MySQL). 
+
+See Digital Library Collections and Activities,
+http://www.lib.uchicago.edu/e/digital/ , for some examples of our
+work. A departmental description is available at
+http://dldc.lib.uchicago.edu/
+
+ESSENTIAL FUNCTIONS
+
+Develops, implements, customizes, tests and maintains technological
+solutions to support the University of Chicago Library's digital
+collections and other digital library systems for which the DLDC is
+responsible.
+
+Researches end-user requirements.
+Develops design specifications.
+Installs, evaluates and tests software.
+Programming.
+Designs and manages a workflow.
+Documents work.  
+
+
+QUALIFICATIONS:
+
+Bachelor's degree required. At least three years experience with one
+or more high-level programming languages, including one scripting
+language (e.g., Python, Ruby) required. Ability to program at an
+intermediate to advanced level in at least one programming language
+required. Fluency with XML technologies (XSLT, XPath and XQuery)
+required. Ability to interface to relational and XML databases from
+within a programming language required. Demonstrable Unix/Linux
+literacy (e.g., must be able to use sed, awk, grep, etc. effectively
+from a Unix/Linux command line to accomplish small tasks)
+required. Knowledge of HTML and cgi-bin programming
+required. Familiarity with a web application framework (e.g., Django,
+Ruby on Rails) required. Ability to work with Web Developers to
+incorporate CSS and Javascript into programs required. Ability to
+install and evaluate software against requirements quickly
+required. Excellent verbal and written communication skills
+required. Excellent interpersonal skills and ability to work well with
+others required. Ability to identify and solve problems on own
+initiative and as part of a team required. Ability to manage complex
+technical details required. Ability to communicate technical concepts
+to non-technical staff required.
+
+Experience working in a library, academic or other research
+environment preferred. Experience working in a digital library setting
+preferred. Experience working in a production Unix/Linux environment
+preferred. Experience working with Semantic Web technologies (RDF
+triplestores; SPARQL queries; RDFa) preferred.
+
+PHYSICAL REQUIREMENTS:
+
+Ability to sit for 4 hours or more.  Ability to use computers
+extensively for 4 hours or more.
+
+The University of Chicago is an Affirmative Action/Equal Opportunity
+Employer.
+
+To apply for this position submit a profile along with a resume and
+cover letter to
+https://jobopportunities.uchicago.edu/applicants/jsp/shared/Welcome_css.jsp
+
+############################
+
+To unsubscribe from the DLF-ANNOUNCE list:
+write to: mailto:DLF-ANNOUNCE-SIGNOFF-REQUEST@LISTS.CLIR.ORG
+or click the following link:
+http://lists.clir.org/SCRIPTS/WA-CLIR.exe?SUBED1=DLF-ANNOUNCE&A=1
+
+
+
+
+--part-Q4NTEiSl-YR1xrro8m1A-PFx-1H8KVdVhz--wv0LoL-m---

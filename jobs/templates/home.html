@@ -1,9 +1,6 @@
 {% extends "site.html" %}
-{% load pagination_tags %}
 
 {% block content %}
-{% autopaginate jobs %}
-{% paginate %}
 <table>
 {% for job in jobs %}
     <tr>
@@ -12,5 +9,5 @@
     </tr>
 {% endfor %}
 </table>
-{% paginate %}
+{% include "paginator.html" %}
 {% endblock %}

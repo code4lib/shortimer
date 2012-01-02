@@ -1,8 +1,8 @@
 {% extends "site.html" %}
 
 {% block extra_head %}
-    <link type="text/css" rel="stylesheet" href="http://freebaselibs.com/static/suggest/1.3/suggest.min.css">
-    <script type="text/javascript" src="http://freebaselibs.com/static/suggest/1.3/suggest.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/css/suggest.min.css">
+    <script type="text/javascript" src="/static/js/suggest.min.js"></script>
     <script type="text/javascript">
 
     $(document).ready(setupMatcher);
@@ -46,7 +46,7 @@
 
     function reloadTable() {
         var q = window.location.search;
-        $("#matcher-table").load('/keywords/matcher/table/' + q, setupMatcher);
+        $("#matcher-table").load('/keywords/matcher/' + q, setupMatcher);
     }
 
     function keywordId(e) {
@@ -60,4 +60,5 @@
     <div id="matcher-table">
     {% include "matcher_table.html" %}
     </div>
+    {% include "paginator.html" %}
 {% endblock %}

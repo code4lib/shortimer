@@ -1,7 +1,3 @@
-{% load pagination_tags %}
-
-{% autopaginate keywords %}
-{% paginate %}
 <table>
 <tr>
     <th>Mentions</th>
@@ -9,8 +5,8 @@
     <th>Freebase Subject</th>
     <th>Actions</th>
 </tr>
-{% for keyword in keywords %}
-<tr id="keyword_{{ keyword.id }}">
+{% for keyword in page.object_list %}
+<tr id="keyword_{{ keyword.id }}" name="kw_{{ forloop.counter }}">
     <td class="keyword-count">{{ keyword.num_jobs }}</td>
     <td class="keyword">{{ keyword.name }}</td>
     <td class="freebase-concept">
@@ -22,11 +18,10 @@
     </td>
     <td>
         {% if keyword.subject %}
-        <a class="unlink-keyword" href="#">unlink</a>
+        <a class="unlink-keyword" href="#kw_{{ forloop.counter }}">unlink</a>
         {% endif %}
-        <a class="ignore-keyword" href="#">ignore</a>
+        <a class="ignore-keyword" href="#kw_{{ forloop.counter }}">ignore</a>
     </td>
 </tr>
 {% endfor %}
 </table>
-{% paginate %}

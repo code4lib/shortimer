@@ -19,13 +19,15 @@ Functions for doing text munging on job text.
 NOUN_CODES = ["NNP"]
 
 def email_to_job(msg):
+    logging.info("looking at email with subject: %s", msg['subject'])
+
     if not is_job_email(msg):
         return None
 
     if Job.objects.filter(email_message_id=msg['message-id']).count() == 1:
         return None
 
-    logging.info("parsing email %s", msg['message-id'])
+    logging.info("parsing job email %s", msg['message-id'])
 
     j = Job()
     j.contact_name, j.contact_email = rfc822.parseaddr(msg['from'])
@@ -36,6 +38,7 @@ def email_to_job(msg):
     #j.from_domain = j.from_address.split('@')[1]
 
     j.title = re.sub("^\[CODE4LIB\] ", "", msg['subject'])
+    j.title = re.sub("[\n\r]", "", j.title)
     j.email_message_id = msg['message-id']
     j.description = get_body(msg)
 
@@ -77,7 +80,8 @@ def get_body(msg):
     if msg.is_multipart():
         text_part = None
         for m in msg.get_payload():
-            if m['content-type'].startswith('text'):
+            print m['content-type']
+            if m['content-type'].lower().startswith('text'):
                 text_part = m
                 break
         if not text_part:
@@ -87,8 +91,8 @@ def get_body(msg):
 
     charset = msg.get_content_charset()
     if not charset: 
-        logging.warn("no charset")
-        return None
+        logging.warn("no charset assuming utf8")
+        charset = "utf8"
 
     try:
         codec = codecs.getreader(charset)

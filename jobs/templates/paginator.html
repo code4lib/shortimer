@@ -1,0 +1,38 @@
+{% if paginator.num_pages > 1 %}
+
+<div class="pagination">
+<ul>
+
+{% if page.has_previous %}
+<li class="prev"><a href="?page={{ page.previous_page_number }}">&lsaquo;&lsaquo; Previous</a></li>
+{% else %}
+<li class="prev disabled"><a href="#">&lsaquo;&lsaquo; Previous</a></li>
+{% endif %}
+
+{% if page.leading_range %}
+{% for num in page.leading_range %}
+<li {% ifequal page.number num %} class="active" {% endifequal %}><a href="{{ request.path }}?page={{ num }}">{{ num }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if page.main_range %}
+{% for num in page.main_range %}
+<li {% ifequal page.number num %} class="active" {% endifequal %}><a href="{{ request.path }}?page={{ num }}">{{ num }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if page.trailing_range %}
+{% for num in page.trailing_range %}
+<li {% ifequal page.number num %} class="active" {% endifequal %}><a href="{{ request.path }}?page={{ num }}">{{ num }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if page.has_next %}
+<li class="next"><a href="?page={{ page.next_page_number }}">Next &rsaquo;&rsaquo;</a></li>
+{% else %}
+<li class="next disabled"><a href="?page={{ page.next_page_number }}">Next &rsaquo;&rsaquo;</a></li>
+{% endif %}
+
+</ul>
+</div>
+{% endif %}
