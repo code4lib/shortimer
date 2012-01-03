@@ -1,4 +1,4 @@
-import re
+
 import json
 import time
 import codecs
@@ -10,7 +10,7 @@ import StringIO
 
 import nltk
 
-from jobs4lib.jobs.models import Job, Keyword
+from jobs4lib.jobs.models import Job, Keyword, Subject
 
 """
 Functions for doing text munging on job text.
@@ -51,18 +51,13 @@ def email_to_job(msg):
 
     j.save()
 
-    # add keywords
+    # automatically assign subjects based on keywords in the job description
     for n in nouns(j.description):
         n = n.lower()
-        try:
-            kw = Keyword.objects.get(name=n)
-            kw.jobs.add(j)
-            kw.save()
-        except Keyword.DoesNotExist:
-            kw = Keyword.objects.create(name=n)
-            kw.jobs.add(j)
-            kw.save()
+        for subject in Subject.objects.filter(keywords__name=n):
+            j.subjects.add(subject)
 
+    j.save()
     return j
 
 def normalize_name(name):

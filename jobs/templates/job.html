@@ -20,7 +20,7 @@
 
 <div itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     Title: <input type="text" class="title" value="{{ job.title }}"><br>
-    URL:<br>
+    <span editable=true>URL:</span><br>
     Post Date:<br>
     Close Date:<br>
     Contact Name:<br>
@@ -32,6 +32,7 @@
     <textarea class="editor" itemprop="description">
         {{ job.description_html|safe }}
     </textarea>
+    Tags: {% for subject in job.subjects.all %}<a href="{% url subject subject.slug %}">{{ subject.name }}</a> {% endfor %}
 </div>
 
 {% endblock %}

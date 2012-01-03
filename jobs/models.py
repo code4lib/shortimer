@@ -36,17 +36,6 @@ class Job(models.Model):
         # add paragraphs
         html = "<p>" + self.description + "</p>"
         html = html.replace("\n\n", "</p>\n\n<p>")
-
-        # hyperlinks known subjects
-        for keyword in self.keywords.all():
-            if keyword.subject:
-                def subject_link(m):
-                    url = reverse('subject', args=[keyword.subject.slug])
-                    return '<a href="' + url + '">' + m.group(1) + '</a>'
-
-                pattern = re.compile("(" + keyword.name +")", re.IGNORECASE)
-                html = re.sub(pattern, subject_link, html)
-
         return html
 
     def __str__(self):
@@ -63,7 +52,6 @@ class Employer(models.Model):
 class Keyword(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=255)
-    jobs = models.ManyToManyField('Job', related_name='keywords')
     ignore = models.BooleanField(default=False)
     subject = models.ForeignKey('Subject', related_name='keywords', null=True)
 
@@ -73,6 +61,10 @@ class Subject(models.Model):
     type = models.CharField(max_length=100)
     freebase_id = models.CharField(max_length=100)
     freebase_type_id = models.CharField(max_length=100)
+    jobs = models.ManyToManyField('Job', related_name='subjects', null=True)
+
+    def __unicode__(self):
+        return "%s [%s]" % (self.name, self.freebase_id) 
 
     def freebase_image_url(self):
         url = "https://usercontent.googleapis.com/freebase/v1/image" 
@@ -89,8 +81,6 @@ class Subject(models.Model):
 
     def freebase_type_url(self):
         return "http://www.freebase.com/view" + self.freebase_type_id
-
-
 
 def make_slug(sender, **kwargs):
     i = kwargs['instance']

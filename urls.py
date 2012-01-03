@@ -8,7 +8,7 @@ urlpatterns = patterns('jobs4lib.jobs.views',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'home', name='home'),
-    url(r'^jobs/(?P<id>\d+)/$', 'job', name='job'),
+    url(r'^job/(?P<id>\d+)/$', 'job', name='job'),
 
     url(r'^keywords/matcher/$', 'matcher', name='matcher'),
     url(r'^keywords/matcher/table/$', 'matcher_table', name='matcher_table'),

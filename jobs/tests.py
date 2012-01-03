@@ -3,7 +3,7 @@ import email
 import logging
 import unittest
 
-from jobs.models import Job
+from jobs.models import Job, Keyword, Subject
 
 import miner
 
@@ -15,6 +15,12 @@ class JobsTests(unittest.TestCase):
         Job.objects.all().delete()
 
     def test_email_to_job(self):
+        # need a keyword/subject mapping to test auto-tagging
+        kw = Keyword.objects.create(name="drupal")
+        su = Subject.objects.create(name="Drupal")
+        su.keywords.add(kw)
+        su.save()
+
         msg = email.message_from_file(open("test-data/job-email"))
         j = miner.email_to_job(msg)
         self.assertTrue(type(j), Job)
@@ -23,8 +29,9 @@ class JobsTests(unittest.TestCase):
         self.assertEqual(j.title, 'Job Posting: Head of Web &  Emerging Technologies, University of Miami - revised')
         self.assertTrue('collaborates' in j.description)
         self.assertTrue(j.email_message_id, '<7933CD19EEFCC94392323A994F6F1EDF01DBB52AE8@MBX03.cgcent.miami.edu>')
-        keywords = [kw.name for kw in j.keywords.all()]
-        self.assertTrue('drupal' in keywords)
+
+        subjects = [s.name for s in j.subjects.all()]
+        self.assertTrue('Drupal' in subjects)
     
         # test employer
         #self.assertEqual(j.from_domain, 'miami.edu')

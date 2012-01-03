@@ -9,7 +9,7 @@ from jobs4lib.paginator import DiggPaginator
 
 def home(request):
     jobs = models.Job.objects.all().order_by('-post_date')
-    paginator = DiggPaginator(jobs, 25, body=8)
+    paginator = DiggPaginator(jobs, 20, body=8)
     page = paginator.page(request.GET.get("page", 1))
     context = {
         'jobs': page.object_list,
@@ -25,7 +25,7 @@ def job(request, id):
 def matcher(request):
     keywords = models.Keyword.objects.all()
     keywords = keywords.annotate(num_jobs=Count("jobs"))
-    keywords = keywords.filter(num_jobs__gt=1, ignore=False)
+    keywords = keywords.filter(num_jobs__gt=2, ignore=False, subject__isnull=True)
     keywords = keywords.order_by("-num_jobs")
 
     paginator = DiggPaginator(keywords, 25, body=8)
@@ -72,7 +72,7 @@ def subjects(request):
 
 def subject(request, slug):
     s = get_object_or_404(models.Subject, slug=slug)
-    j = models.Job.objects.filter(keywords__subject=s).distinct()
+    j = models.Job.objects.filter(subjects__in=[s]).distinct()
     j = j.order_by('-post_date')
     return render(request, "subject.html", {"subject": s, "jobs": j})
 
