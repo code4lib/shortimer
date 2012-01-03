@@ -3,3 +3,4 @@ PyYAML
 numpy
 nltk
 django-pagination
+south
