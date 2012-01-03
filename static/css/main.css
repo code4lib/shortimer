@@ -83,6 +83,12 @@ div.pagination {
     border-bottom: thin solid #eeeeee;
 }
 
+img.freebase-thumbnail {
+    height: 100px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+
 img.freebase-icon {
     height: 20px;
     vertical-align: middle;
@@ -100,6 +106,7 @@ input[class="title"] {
 header {
     font-size: 16pt;
     font-weight: bold;
+    margin: 10px;
 }
 
 article header {

@@ -7,7 +7,8 @@ admin.autodiscover()
 urlpatterns = patterns('jobs4lib.jobs.views',
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', 'home', name='home'),
+    url(r'^$', 'jobs', name='home'),
+    url(r'^jobs/(?P<subject_slug>.+)/$', 'jobs', name='jobs_by_subject'),
     url(r'^job/(?P<id>\d+)/$', 'job', name='job'),
 
     url(r'^keywords/matcher/$', 'matcher', name='matcher'),

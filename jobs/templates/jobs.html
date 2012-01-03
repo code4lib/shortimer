@@ -2,6 +2,12 @@
 
 {% block content %}
 <table>
+    {% if subject %}
+    <header>
+    <img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}">
+    {{ subject.name }}
+    </header>
+    {% endif %}
     <tr>
         <th>Posted</th>
         <th>Title</th>

@@ -7,16 +7,26 @@ from django.shortcuts import render, get_object_or_404, redirect
 from jobs4lib.jobs import models
 from jobs4lib.paginator import DiggPaginator
 
-def home(request):
+def jobs(request, subject_slug=None):
     jobs = models.Job.objects.all().order_by('-post_date')
+
+    # filter by subject if we were given one
+    if subject_slug:
+        subject = get_object_or_404(models.Subject, slug=subject_slug)
+        jobs = jobs.filter(subjects__in=[subject])
+    else: 
+        subject = None
+
     paginator = DiggPaginator(jobs, 20, body=8)
     page = paginator.page(request.GET.get("page", 1))
+
     context = {
         'jobs': page.object_list,
         'page': page,
         'paginator': paginator,
+        'subject': subject,
     }
-    return render(request, 'home.html', context)
+    return render(request, 'jobs.html', context)
 
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)

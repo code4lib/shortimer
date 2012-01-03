@@ -4,3 +4,4 @@ numpy
 nltk
 django-pagination
 south
+django-socialauth
