@@ -1,24 +1,27 @@
 {% extends "site.html" %}
-{% load pagination_tags %}
 
 {% block content %}
-{% autopaginate subjects %}
-{% paginate %}
 <table>
     <tr>
+        <th>Jobs</th>
         <th>Name</th>
+        <th>Icon</th>
         <th>Type</th>
         <th></th>
     </tr>
-{% for subject in subjects %}
+{% for subject in page.object_list %}
     <tr>
+        <td>{{ subject.jobs.all.count }}</td>
         <td>
             <a href="{% url subject subject.slug %}">{{ subject.name }}</a>
+        </td>
+        <td>
+            <img class="freebase-icon" src="{{ subject.freebase_image_url }}">
         </td>
         <td><a href="{{ subject.freebase_type_url }}">{{ subject.type }}</a></td>
         <td><a href="{{ subject.freebase_url }}"><img class="freebase-icon" src="{{ STATIC_URL }}images/freebase.jpg"></a></td>
     </tr>
 {% endfor %}
 </table>
-{% paginate %}
+{% include "paginator.html" %}
 {% endblock %}

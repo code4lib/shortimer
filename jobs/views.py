@@ -56,8 +56,7 @@ def subjects(request):
     # add a new subject
     if request.method == "POST":
         s, created = models.Subject.objects.get_or_create(
-            name=request.POST.get('subjectName')
-        )
+            name=request.POST.get('subjectName'))
         s.type=request.POST.get('subjectTypeName')
         s.freebase_id=request.POST.get('subjectId')
         s.freebase_type_id=request.POST.get('subjectTypeId')
@@ -68,7 +67,13 @@ def subjects(request):
         return redirect(reverse('subject', args=[s.slug]))
 
     subjects = models.Subject.objects.all()
-    return render(request, "subjects.html", {"subjects": subjects})
+    paginator = DiggPaginator(subjects, 25, body=8)
+    page = paginator.page(request.GET.get("page", 1))
+    context = {
+        "paginator": paginator,
+        "page": page
+        }
+    return render(request, "subjects.html", context)
 
 def subject(request, slug):
     s = get_object_or_404(models.Subject, slug=slug)
