@@ -97,3 +97,30 @@ input[class="title"] {
     width: 80%;
 }
 
+header {
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+article header {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+article.job {
+    margin: 10px;
+}
+
+section.job-description {
+    border: thin solid red;
+}
+
+section.job-details {
+    padding-left: 80px;
+    border: thin solid red;
+}
+
+[contenteditable] {
+    border: thin solid gray;
+    padding: 2px;
+}

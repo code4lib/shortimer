@@ -2,6 +2,10 @@
 
 {% block content %}
 <table>
+    <tr>
+        <th>Posted</th>
+        <th>Title</th>
+    </tr>
 {% for job in jobs %}
     <tr>
         <td>{{ job.post_date }}</td>
