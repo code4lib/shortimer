@@ -4,7 +4,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.template.defaultfilters import slugify
+
+from social_auth.signals import pre_update
+from social_auth.backends.facebook import FacebookBackend
+from social_auth.backends.twitter import TwitterBackend
+
 
 JOB_TYPES = (
     ('ft', 'full-time'), 
@@ -82,8 +88,30 @@ class Subject(models.Model):
     def freebase_type_url(self):
         return "http://www.freebase.com/view" + self.freebase_type_id
 
+class UserProfile(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.OneToOneField(User, related_name='profile')
+    pic_url = models.URLField(blank=True)
+    home_url = models.URLField(blank=True)
+
 def make_slug(sender, **kwargs):
     i = kwargs['instance']
     i.slug = slugify(i.name)
 
+def facebook_extra_values(sender, user, response, details, **kwargs):
+    facebook_id = response.get('id')
+    user.profile.pic_url = 'http://graph.facebook.com/' + facebook_id + '/picture'
+    user.profile.save()
+
+def twitter_extra_values(sender, user, response, details, **kwargs):
+    user.profile.pic_url = user.social_auth.get(provider='twitter').extra_data['profile_image_url']
+    user.profile.save()
+
+def create_user_profile(sender, created, instance, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
 pre_save.connect(make_slug, sender=Subject)
+pre_update.connect(facebook_extra_values, sender=FacebookBackend)
+pre_update.connect(twitter_extra_values, sender=TwitterBackend)
+post_save.connect(create_user_profile, sender=User)
