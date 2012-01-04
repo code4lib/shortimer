@@ -1,0 +1,31 @@
+{% extends "site.html" %}
+
+{% block content %}
+
+
+<article>
+<header>Member Information</header>
+<dl>
+    <dt>name:</dt>
+    <dd>{{ user.get_full_name }}</dd>
+    <dt>code4lib-jobs username:</dt>
+    <dd>{{ user.username }}</dd>
+    <dt>member since:<dt>
+    <dd><time>{{ user.date_joined }}</time></dd>
+</dl>
+</article>
+
+{% if accounts %}
+<article>
+<header>Other Accounts</header>
+<ul>
+{% for s in accounts %}
+{% ifequal s.provider "twitter" %}
+<li><a href="http://twitter.com/{{ s.user }}"><img title="{{ s.user }} on Twitter" src="{{ STATIC_URL }}/images/auth/twitter_128.png"></a></li>
+{% endifequal %}
+{% endfor %}
+</ul>
+</article>
+{% endif %}
+
+{% endblock %}

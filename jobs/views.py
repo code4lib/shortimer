@@ -1,11 +1,19 @@
 # Create your views here.
 
 from django.db.models import Count
+from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 
 from jobs4lib.jobs import models
 from jobs4lib.paginator import DiggPaginator
+
+def login(request):
+    return render(request, 'login.html')
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
 
 def jobs(request, subject_slug=None):
     jobs = models.Job.objects.all().order_by('-post_date')
@@ -31,6 +39,11 @@ def jobs(request, subject_slug=None):
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)
     return render(request, "job.html", {"job": j})
+
+def user(request, username):
+    u = get_object_or_404(auth.models.User, username=username)
+    accounts = u.social_auth.all()
+    return render(request, "user.html", {"user": u, "accounts": accounts})
 
 def matcher(request):
     keywords = models.Keyword.objects.all()

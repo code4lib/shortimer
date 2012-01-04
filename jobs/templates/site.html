@@ -17,6 +17,14 @@
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
+                    <ul class="secondary-nav">
+                        {% if request.user.is_authenticated %}
+                        <li><a style="color: yellow;" href="{% url user request.user.username %}">{{ request.user.username }}</a></li>
+                        <li><a href="{% url logout %}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url login %}">Login</a></li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </div>

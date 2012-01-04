@@ -1,0 +1,10 @@
+{% extends "site.html" %}
+
+{% block content %}
+
+<a href="{% url socialauth_begin "facebook" %}"><img src="{{ STATIC_URL }}/images/auth/facebook_128.png"></a>
+<a href="{% url socialauth_begin "twitter" %}"><img src="{{ STATIC_URL }}/images/auth/twitter_128.png"></a>
+<a href="{% url socialauth_begin "linkedin" %}"><img src="{{ STATIC_URL }}/images/auth/linkedin_128.png"></a>
+<a href="{% url socialauth_begin "github" %}"><img src="{{ STATIC_URL }}/images/auth/github_128.png"></a>
+
+{% endblock %}
