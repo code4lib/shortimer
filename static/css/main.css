@@ -144,3 +144,8 @@ img.tiny-avatar {
 .social-providers li {
     list-style: none;
 }
+
+#logininfo p {
+    font-size: 16pt;
+    line-height: 130%;
+}
