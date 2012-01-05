@@ -2,44 +2,41 @@
 
 {% block content %}
 
+<div class="row">
 
-<article>
-<header>Member Information</header>
+<section class="span9">
+
+<header>
+{% if user.profile.pic_url %}
+<img class="avatar" src="{{ user.profile.pic_url }}">
+{% endif %}
+{{ user.username }}
+</header>
+
 <dl>
     <dt>name:</dt>
     <dd>{{ user.get_full_name }}</dd>
-    <dt>code4lib-jobs username:</dt>
-    <dd>{{ user.username }}</dd>
     <dt>member since:<dt>
     <dd><time>{{ user.date_joined }}</time></dd>
+    <dt>homepage:</dt>
+    <dd><a rel="self" href="{{ user.profile.home_url }}">{{ user.profile.home_url }}</a></dd>
 </dl>
-</article>
 
-{% if accounts %}
-<article>
-<header>Other Accounts</header>
-<ul>
-{% for s in accounts %}
 
-{% ifequal s.provider "twitter" %}
-<li><a href="http://twitter.com/{{ s.user }}"><img title="{{ s.user }} on Twitter" src="{{ STATIC_URL }}/images/auth/twitter_128.png"></a></li>
-{% endifequal %}
 
-{% ifequal s.provider "linkedin" %}
-<li><a href="http://www.linkedin.com/profile/view?id={{ s.uid }}"><img title="{{ s.user }} on LinkedIn" src="{{ STATIC_URL }}/images/auth/linkedin_128.png"></a></li>
-{% endifequal %}
+<a href="{% url profile %}">
+    <button class="btn primary">Edit</button>
+</a>
 
-{% ifequal s.provider "linkedin" %}
-<li><a href="http://www.linkedin.com/profile/view?id={{ s.uid }}"><img title="{{ s.user }} on LinkedIn" src="{{ STATIC_URL }}/images/auth/linkedin_128.png"></a></li>
-{% endifequal %}
+</section>
 
-{% ifequal s.provider "github" %}
-<li><a href="http://www.github.com/{{ s.user }}"><img title="{{ s.user }} on GitHub" src="{{ STATIC_URL }}/images/auth/github_128.png"></a></li>
-{% endifequal %}
-
-{% endfor %}
-</ul>
-</article>
+<section class="social-providers">
+{% if user.profile.linked_providers %}
+<header>Other Accounts:</header>
+{% include "social.html" %}
 {% endif %}
+</section>
+
+</div>
 
 {% endblock %}

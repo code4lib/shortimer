@@ -154,8 +154,7 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/login-error/'
 
-SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
-SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+TWITTER_EXTRA_DATA = [('profile_image_url', 'profile_image_url')]
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

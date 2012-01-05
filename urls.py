@@ -22,6 +22,7 @@ urlpatterns = patterns('jobs4lib.jobs.views',
     url(r'login/$', 'login', name='login'),
     url(r'logout/$', 'logout', name='logout'),
     url(r'user/(?P<username>.+)/$', 'user', name='user'),
+    url(r'profile/', 'profile', name='profile'),
 
     url(r'', include('social_auth.urls')),
 

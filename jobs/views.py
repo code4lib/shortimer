@@ -2,6 +2,7 @@
 
 from django.db.models import Count
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -41,9 +42,24 @@ def job(request, id):
     return render(request, "job.html", {"job": j})
 
 def user(request, username):
-    u = get_object_or_404(auth.models.User, username=username)
-    accounts = u.social_auth.all()
-    return render(request, "user.html", {"user": u, "accounts": accounts})
+    user = get_object_or_404(auth.models.User, username=username)
+    return render(request, "user.html", {"user": user})
+
+@login_required
+def profile(request):
+    user = request.user
+    profile = user.profile
+
+    if request.method == "POST":
+        user.first_name = request.POST.get("first_name")
+        user.last_name = request.POST.get("last_name")
+        user.email = request.POST.get("email")
+        user.profile.home_url = request.POST.get("home_url")
+        user.save()
+        user.profile.save()
+        return redirect(reverse('profile'))
+
+    return render(request, "profile.html", {"user": user, "profile": profile})
 
 def matcher(request):
     keywords = models.Keyword.objects.all()

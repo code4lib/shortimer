@@ -1,5 +1,5 @@
-body {
-    padding-top: 40px;
+#content {
+    padding-top: 60px;
 }
 
 input {
@@ -52,7 +52,6 @@ div.pagination a.prev {
 div.pagination {
     margin-left: auto;
     margin-right: auto;
-    width: 80%;
 }
 
 #matcher-table table {
@@ -129,4 +128,19 @@ section.job-details {
 [contenteditable] {
     border: thin solid gray;
     padding: 2px;
+}
+
+img.avatar {
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+img.tiny-avatar {
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.social-providers li {
+    list-style: none;
 }

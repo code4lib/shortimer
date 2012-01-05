@@ -1,0 +1,21 @@
+<ul>
+{% for s in user.social_auth.all %}
+
+{% ifequal s.provider "twitter" %}
+<li><a href="http://twitter.com/{{ s.user }}"><img title="{{ s.user }} on Twitter" src="{{ STATIC_URL }}/images/auth/twitter_64.png"></a></li>
+{% endifequal %}
+
+{% ifequal s.provider "facebook" %}
+<li><a href="http://www.linkedin.com/profile/view?id={{ s.uid }}"><img title="{{ s.user }} on Facebook" src="{{ STATIC_URL }}/images/auth/facebook_64.png"></a></li>
+{% endifequal %}
+
+{% ifequal s.provider "linkedin" %}
+<li><a href="http://www.linkedin.com/profile/view?id={{ s.uid }}"><img title="{{ s.user }} on LinkedIn" src="{{ STATIC_URL }}/images/auth/linkedin_64.png"></a></li>
+{% endifequal %}
+
+{% ifequal s.provider "github" %}
+<li><a href="http://www.github.com/{{ s.user }}"><img title="{{ s.user }} on GitHub" src="{{ STATIC_URL }}/images/auth/github_64.png"></a></li>
+{% endifequal %}
+
+{% endfor %}
+</ul>

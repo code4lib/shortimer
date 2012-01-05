@@ -21,7 +21,10 @@ class Command(BaseCommand):
         num_messages = len(gmail.list()[1])
         for i in range(num_messages):
             email_txt = '\n'.join(gmail.retr(i+1)[1])
+            gmail.dele(i+1)
             msg = email.message_from_string(email_txt)
             j = email_to_job(msg)
             if j:
                 log.info("found a new job email: %s", j)
+
+        gmail.quit()

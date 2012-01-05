@@ -8,6 +8,9 @@
         {% block extra_head %}{% endblock %}
     </head>
     <body>
+        <div class="container">
+        <div class="row">
+
         <div class="topbar">
             <div class="fill">
                 <div class="container">
@@ -19,8 +22,15 @@
                     </ul>
                     <ul class="secondary-nav">
                         {% if request.user.is_authenticated %}
-                        <li><a style="color: yellow;" href="{% url user request.user.username %}">{{ request.user.username }}</a></li>
-                        <li><a href="{% url logout %}">Logout</a></li>
+                        <li>
+                            <a style="color: yellow;" href="{% url user request.user.username %}">
+                            <img class="tiny-avatar" src="{{ request.user.profile.pic_url }}">
+                            {{ request.user.username }}
+                        </a>
+                        </li>
+                        <li>
+                            <a href="{% url logout %}">Logout</a>
+                        </li>
                         {% else %}
                         <li><a href="{% url login %}">Login</a></li>
                         {% endif %}
@@ -29,22 +39,17 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="content">
-                <div class="page-header">
-                    <h1>Page name <small>Supporting text or tagline</small></h1>
-                </div>
-                <div class="row">
-                    <div class="span16">
-                        {% block content %}{% endblock %}
-                    </div>
-                </div>
-            </div>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
 
-            <footer>
+        <footer id="footer">
+            <div class="container">
                 <p>Footer</p>
-            </footer>
+            </div>
+        </footer>
 
+        </div>
         </div>
 
     </body>

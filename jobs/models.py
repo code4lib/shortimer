@@ -93,6 +93,18 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     pic_url = models.URLField(blank=True)
     home_url = models.URLField(blank=True)
+    twitter_username = models.CharField(max_length=100, blank=True)
+    facebook_username = models.CharField(max_length=100, blank=True)
+    linkedin_username = models.CharField(max_length=100, blank=True)
+    github_username = models.CharField(max_length=100, blank=True)
+
+    def linked_providers(self):
+        return [s.provider for s in self.user.social_auth.all()]
+    
+    def unlinked_providers(self):
+        providers = set(["twitter", "facebook", "github", "linkedin"])
+        linked = set(self.linked_providers())
+        return list(providers - linked)
 
 def make_slug(sender, **kwargs):
     i = kwargs['instance']
