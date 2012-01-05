@@ -51,6 +51,7 @@ def profile(request):
     profile = user.profile
 
     if request.method == "POST":
+        user.username = request.POST.get("username", user.username)
         user.first_name = request.POST.get("first_name")
         user.last_name = request.POST.get("last_name")
         user.email = request.POST.get("email")
