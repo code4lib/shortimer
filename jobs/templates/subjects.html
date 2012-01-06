@@ -1,7 +1,7 @@
 {% extends "site.html" %}
 
 {% block content %}
-<table>
+<table class="zebra-striped bordered-table">
     <tr>
         <th>Jobs</th>
         <th>Name</th>
@@ -13,7 +13,7 @@
     <tr>
         <td>{{ subject.jobs.all.count }}</td>
         <td>
-            <a href="{% url subject subject.slug %}">{{ subject.name }}</a>
+            <a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a>
         </td>
         <td>
             <img class="freebase-icon" src="{{ subject.freebase_image_url }}">

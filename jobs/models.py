@@ -93,10 +93,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     pic_url = models.URLField(blank=True)
     home_url = models.URLField(blank=True)
-    twitter_username = models.CharField(max_length=100, blank=True)
-    facebook_username = models.CharField(max_length=100, blank=True)
-    linkedin_username = models.CharField(max_length=100, blank=True)
-    github_username = models.CharField(max_length=100, blank=True)
+    twitter_id = models.CharField(max_length=100, blank=True)
+    facebook_id = models.CharField(max_length=100, blank=True)
+    linkedin_id= models.CharField(max_length=100, blank=True)
+    github_id = models.CharField(max_length=100, blank=True)
 
     def linked_providers(self):
         return [s.provider for s in self.user.social_auth.all()]
@@ -112,10 +112,13 @@ def make_slug(sender, **kwargs):
 
 def facebook_extra_values(sender, user, response, details, **kwargs):
     facebook_id = response.get('id')
+    user.profile.facebook_id = facebook_id
     user.profile.pic_url = 'http://graph.facebook.com/' + facebook_id + '/picture'
     user.profile.save()
 
 def twitter_extra_values(sender, user, response, details, **kwargs):
+    twitter_id = response.get('screen_name')
+    user.profile.twitter_id = twitter_id
     user.profile.pic_url = user.social_auth.get(provider='twitter').extra_data['profile_image_url']
     user.profile.save()
 

@@ -69,14 +69,18 @@
 
 <section class="social-providers">
 
-<h4>Linked Accounts</h4>
-{% include "social.html" %}
+<h4>Linked Accounts (click to unlink)</h4>
+<ul>
+{% for provider in user.profile.linked_providers %}
+    <li><a href="{% url socialauth_disconnect provider %}?next=/profile/"><img src="{{ STATIC_URL }}/images/auth/{{ provider }}_64.png"></a></li>
+{% endfor %}
+</ul>
 
 {% if user.profile.unlinked_providers %}
 <h4>Unlinked Accounts</h4>
 <ul>
     {% for provider in user.profile.unlinked_providers %}
-    <li><a href="{% url socialauth_associate_begin provider %}"><img src="{{ STATIC_URL }}/images/auth/{{ provider }}_64.png"></a></li>
+    <li><a href="{% url socialauth_associate_begin provider %}?next=/profile/"><img src="{{ STATIC_URL }}/images/auth/{{ provider }}_64.png"></a></li>
 {% endfor %}
 </ul>
 {% endif %}
