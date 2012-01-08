@@ -156,4 +156,9 @@ ul.tags {
 
 ul.tags li {
     display: inline;
+    margin-left: 0px;
+}
+
+li.label {
+    background-color: lightgreen;
 }
