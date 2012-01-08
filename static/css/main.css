@@ -149,3 +149,11 @@ img.tiny-avatar {
     font-size: 16pt;
     line-height: 130%;
 }
+
+ul.tags {
+    list-style: none;
+}
+
+ul.tags li {
+    display: inline;
+}

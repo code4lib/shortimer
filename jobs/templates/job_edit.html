@@ -1,0 +1,48 @@
+{% extends "site.html" %}
+
+{% block extra_head %}
+<script type="text/javascript" src="{{ STATIC_URL }}ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}ckeditor/adapters/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var config = {
+            height: 600,
+            toolbar_Full: [['Bold', 'Italic', 'Underline', 'SpellChecker', 'Link', "BulletedList", "NumberedList"]]
+        };
+        $('textarea.editor').ckeditor(config);
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+
+<article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
+    <header>{{ job.title }}</header>
+    <div class="row">
+    <section class="span10">
+        <textarea name="description" class="editor" itemprop="description">
+            {{ job.description_html|safe }}
+        </textarea>
+    </section>
+    <section class="span6">
+        Job Type: <span contenteditable>{{ job.type }}</span><br>
+        <span editable=true>URL:</span><br>
+        Post Date: <time contenteditable>{{ job.post_date }}</time><br>
+        Close Date:<br>
+        Contact Name:<br>
+        Contact Email:<br>
+        Salary Start:<br>
+        Salary End:<br>
+        Employer:<br>
+        Tags: 
+        <ul>
+            {% for subject in job.subjects.all %}
+            <li><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    </div>
+</article>
+
+{% endblock %}

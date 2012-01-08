@@ -69,6 +69,9 @@ class Subject(models.Model):
     freebase_type_id = models.CharField(max_length=100)
     jobs = models.ManyToManyField('Job', related_name='subjects', null=True)
 
+    class Meta: 
+        ordering = ['name']
+
     def __unicode__(self):
         return "%s [%s]" % (self.name, self.freebase_id) 
 
