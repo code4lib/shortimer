@@ -11,7 +11,7 @@
     </tr>
 {% for subject in page.object_list %}
     <tr>
-        <td>{{ subject.jobs.all.count }}</td>
+        <td>{{ subject.num_jobs }}</td>
         <td>
             <a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a>
         </td>

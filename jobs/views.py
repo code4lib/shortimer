@@ -107,6 +107,8 @@ def subjects(request):
         return redirect(reverse('subject', args=[s.slug]))
 
     subjects = models.Subject.objects.all()
+    subjects = subjects.annotate(num_jobs=Count("jobs"))
+    subjects = subjects.order_by("-num_jobs")
     paginator = DiggPaginator(subjects, 25, body=8)
     page = paginator.page(request.GET.get("page", 1))
     context = {
