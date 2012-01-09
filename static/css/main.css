@@ -165,5 +165,14 @@ li.label {
     background-color: lightgreen;
 }
 
-.subject-description {
+td.social-small {
+    text-align: center;
+}
+
+td.social-small li {
+    display: inline;
+}
+
+td.social-small img {
+    height: 32px;
 }

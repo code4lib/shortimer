@@ -45,6 +45,13 @@ def user(request, username):
     user = get_object_or_404(auth.models.User, username=username)
     return render(request, "user.html", {"user": user})
 
+def users(request):
+    users = auth.models.User.objects.all()
+    paginator = DiggPaginator(users, 25, body=8)
+    page = paginator.page(request.GET.get("page", 1))
+    return render(request, "users.html", 
+            {"paginator": paginator, "page": page})
+
 @login_required
 def profile(request):
     user = request.user

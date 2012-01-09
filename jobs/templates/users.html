@@ -1,0 +1,24 @@
+{% extends "site.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="span3">&nbsp;</div>
+    <div class="span10 users">
+        <table class="zebra-striped bordered-table">
+            {% for user in page.object_list %}
+            <tr>
+                <td><img src="{{ user.profile.pic_url }}"></td>
+                <td><a href="{% url user user.username %}">{{ user.get_full_name }}</a></td>
+                <td class="social-small">
+                    {% include "social.html" %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+</div>
+
+{% include "paginator.html" %}
+{% endblock %}
+
