@@ -1,11 +1,33 @@
 {% extends "site.html" %}
 
+{% block extra_head %}
+<script>
+
+    function lookupSubject() {
+        var subject = $(".subject")[0];
+        if (! subject) return;
+        var freebaseId = $(subject).data("freebase-id");
+        var freebaseUrl = "http://www.freebase.com/experimental/topic/standard" + freebaseId + "?callback=?";
+        $.getJSON(freebaseUrl, function(response) {
+            var desc = 
+                response.result.description + 
+                '<a href="' + response.result.url + '">' + 
+                '<img class="freebase-icon" src="/static/images/freebase.jpg"></a>';
+            $(".subject-description").html(desc);
+        });
+    }
+
+    $(document).ready(lookupSubject);
+</script>
+{% endblock %}
+
 {% block content %}
 <table class="zebra-striped bordered-table">
     {% if subject %}
-    <header>
+    <header data-freebase-id="{{ subject.freebase_id }}" class="subject">
     <img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}">
-    {{ subject.name }}
+    <span class="subject-name">{{ subject.name }}</span><br>
+    <p class="subject-description"></p>
     </header>
     {% endif %}
     <tr>

@@ -199,3 +199,5 @@ POP_SERVER = "pop.gmail.com"
 POP_PORT = 995
 POP_USER = ""
 POP_PASSWORD = ""
+
+USE_THOUSAND_SEPARATOR = True

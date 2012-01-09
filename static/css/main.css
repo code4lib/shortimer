@@ -82,9 +82,11 @@ div.pagination {
 }
 
 img.freebase-thumbnail {
-    height: 100px;
-    margin-right: 20px;
+    height: 50px;
+    padding: 5px;
+    margin-right: 10px;
     vertical-align: middle;
+    border: thin solid #eeeeee;
 }
 
 img.freebase-icon {
@@ -161,4 +163,7 @@ ul.tags li {
 
 li.label {
     background-color: lightgreen;
+}
+
+.subject-description {
 }
