@@ -3,35 +3,33 @@
 {% block content %}
 
 <div class="row">
+    <div class="span3">&nbsp;</div>
     <div id="logininfo" class="span10">
+        <br>
+        <br>
         <p>
         If you would like to be able to post a job you'll need to log in.
-        We could use your help curating job advertisements that arrive 
-        via email, so that they appear nice and pretty. 
+        You probably don't want to create <em>another</em> username and 
+        password; and you probably already have an account on Github, Twitter, 
+        Facebook or LinkedIn right?
+        </p>
+
+        <p>
+        So go ahead and log in with one of those by clicking on one of the 
+        icons below:
         </p>
     
-        <p>
-        We don't really want you to have to create another username and 
-        password.  You probably already have an account on Github, Twitter, 
-        Facebook or LinkedIn, so please use one of those. The plus side 
-        for you is you just need to be logged in there to use code4lib-jobs.
-        The plus side for us, and other users of code4lib-jobs is that we
-        can see who you are in the larger world of the Web. It's what they
-        call a win-win...or something.
-        </p>
+        <br>
 
-        <p>
-        So uhh, to login click on one of the icons to the right.
-        </p>
+        <a href="{% url socialauth_begin "twitter" %}"><img src="{{ STATIC_URL }}/images/auth/twitter_128.png"></a>
+        <a href="{% url socialauth_begin "facebook" %}"><img src="{{ STATIC_URL }}/images/auth/facebook_128.png"></a>
+        <a href="{% url socialauth_begin "linkedin" %}"><img src="{{ STATIC_URL }}/images/auth/linkedin_128.png"></a>
+        <a href="{% url socialauth_begin "github" %}"><img src="{{ STATIC_URL }}/images/auth/github_128.png"></a>
+
+        <br>
+        <br>
+
     </div>
-
-    <div class="span6">
-        <a href="{% url socialauth_begin "facebook" %}"><img src="{{ STATIC_URL }}/images/auth/facebook_128.png"></a><br>
-        <a href="{% url socialauth_begin "twitter" %}"><img src="{{ STATIC_URL }}/images/auth/twitter_128.png"></a><br>
-        <a href="{% url socialauth_begin "linkedin" %}"><img src="{{ STATIC_URL }}/images/auth/linkedin_128.png"></a><br>
-        <a href="{% url socialauth_begin "github" %}"><img src="{{ STATIC_URL }}/images/auth/github_128.png"></a><br>
-    </div>
-
 </div>
 
 {% endblock %}
