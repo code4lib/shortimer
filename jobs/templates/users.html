@@ -7,16 +7,16 @@
     <div class="span10 users">
         <p>
         Here is a list of users who have created accounts here on 
-        jobs.code4lib.org. You need to be registered user to post
-        jobs here. Registered users can also set up a profile
+        jobs.code4lib.org. You need to be a registered user to post
+        jobs on jobs.code4lib.org. Registered users can also set up a profile
         to advertise skills and interests that might be of interest
         to employers.
         </p>
         <table class="zebra-striped bordered-table">
             {% for user in page.object_list %}
             <tr>
-                <td><img src="{{ user.profile.pic_url }}"></td>
-                <td><a href="{% url user user.username %}">{{ user.get_full_name }}</a></td>
+                <td><img class="tiny-avatar" src="{{ user.profile.pic_url }}"></td>
+                <td><a href="{% url user user.username %}">{{ user.get_full_name }} ({{ user.username }})</a></td>
                 <td class="social-small">
                     {% include "social.html" %}
                 </td>
