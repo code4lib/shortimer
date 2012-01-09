@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 
 from django.db import models
@@ -20,6 +22,9 @@ JOB_TYPES = (
     ('in', 'internship'),
 )
 
+# http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+url_pattern = re.compile(r'''(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''')
+
 class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255)
@@ -39,9 +44,9 @@ class Job(models.Model):
 
     @property 
     def description_html(self):
-        # add paragraphs
         html = "<p>" + self.description + "</p>"
         html = html.replace("\n\n", "</p>\n\n<p>")
+        html = re.sub(url_pattern, r'<a href="\1">\1</a>', html)
         return html
 
     def __str__(self):
@@ -82,6 +87,7 @@ class Subject(models.Model):
         return url
 
     def freebase_url(self):
+        return "http://www.freebase.com/view" + self.freebase_id
         base = "http://www.freebase.com/view"
         if self.freebase_id.startswith("/en"):
             return base + self.freebase_id

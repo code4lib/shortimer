@@ -9,6 +9,7 @@
         var freebaseId = $(subject).data("freebase-id");
         var freebaseUrl = "http://www.freebase.com/experimental/topic/standard" + freebaseId + "?callback=?";
         $.getJSON(freebaseUrl, function(response) {
+            if (! response.result.description) return
             var desc = 
                 response.result.description + 
                 '<a href="' + response.result.url + '">' + 
@@ -25,7 +26,7 @@
 <table class="zebra-striped bordered-table">
     {% if subject %}
     <header data-freebase-id="{{ subject.freebase_id }}" class="subject">
-    <img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}">
+    <a href="{{ subject.freebase_url }}"><img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}"></a>
     <span class="subject-name">{{ subject.name }} Jobs</span><br>
     <p class="subject-description"></p>
     </header>
