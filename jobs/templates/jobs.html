@@ -31,13 +31,13 @@
     </header>
     {% endif %}
     <tr>
-        <th>Posted</th>
+        <th style="width: 85px;">Posted</th>
         <th>Title</th>
         <th style="width: 45%">Tags</th>
     </tr>
 {% for job in jobs %}
     <tr>
-        <td>{{ job.post_date }}</td>
+        <td>{{ job.post_date.date }}</td>
         <td><a href="{% url job job.id %}">{{ job.title }}</a></td>
         <td>
             <ul class="tags">
