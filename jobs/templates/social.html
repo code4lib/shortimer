@@ -10,7 +10,7 @@
 {% endifequal %}
 
 {% ifequal s.provider "linkedin" %}
-<li><a href="http://www.linkedin.com/profile/view?id={{ s.uid }}"><img title="{{ user.profile.get_full_name}} on LinkedIn" src="{{ STATIC_URL }}/images/auth/linkedin_64.png"></a></li>
+<li><a href="http://www.linkedin.com/profile/view?id={{ s.uid }}"><img title="{{ user.get_full_name}} on LinkedIn" src="{{ STATIC_URL }}/images/auth/linkedin_64.png"></a></li>
 {% endifequal %}
 
 {% ifequal s.provider "github" %}

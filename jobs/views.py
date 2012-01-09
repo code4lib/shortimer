@@ -43,7 +43,8 @@ def job(request, id):
 
 def user(request, username):
     user = get_object_or_404(auth.models.User, username=username)
-    return render(request, "user.html", {"user": user})
+    can_edit = request.user.is_authenticated() and user == request.user
+    return render(request, "user.html", {"user": user, "can_edit": can_edit})
 
 def users(request):
     users = auth.models.User.objects.all()

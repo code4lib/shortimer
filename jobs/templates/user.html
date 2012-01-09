@@ -23,10 +23,11 @@
 </dl>
 
 
-
+{% if can_edit %}
 <a href="{% url profile %}">
     <button class="btn primary">Edit</button>
 </a>
+{% endif %}
 
 </section>
 
