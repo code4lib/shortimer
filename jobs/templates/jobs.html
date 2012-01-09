@@ -26,18 +26,26 @@
     {% if subject %}
     <header data-freebase-id="{{ subject.freebase_id }}" class="subject">
     <img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}">
-    <span class="subject-name">{{ subject.name }}</span><br>
+    <span class="subject-name">{{ subject.name }} Jobs</span><br>
     <p class="subject-description"></p>
     </header>
     {% endif %}
     <tr>
         <th>Posted</th>
         <th>Title</th>
+        <th style="width: 45%">Tags</th>
     </tr>
 {% for job in jobs %}
     <tr>
         <td>{{ job.post_date }}</td>
         <td><a href="{% url job job.id %}">{{ job.title }}</a></td>
+        <td>
+            <ul class="tags">
+                {% for subject in job.subjects.all %}
+                <li class="label"><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </td>
     </tr>
 {% endfor %}
 </table>
