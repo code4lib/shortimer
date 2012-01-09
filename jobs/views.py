@@ -47,7 +47,7 @@ def user(request, username):
     return render(request, "user.html", {"user": user, "can_edit": can_edit})
 
 def users(request):
-    users = auth.models.User.objects.all()
+    users = auth.models.User.objects.filter(first_name__isnull=False)
     paginator = DiggPaginator(users, 25, body=8)
     page = paginator.page(request.GET.get("page", 1))
     return render(request, "users.html", 
