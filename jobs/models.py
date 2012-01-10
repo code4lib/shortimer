@@ -54,6 +54,7 @@ class Job(models.Model):
 
 class Employer(models.Model):
     name = models.CharField(max_length=255)
+    freebase_id = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)

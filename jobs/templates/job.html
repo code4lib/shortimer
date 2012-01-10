@@ -43,6 +43,10 @@
                 </ul>
             </dd>
         </dl>
+        {% if request.user.is_staff %}
+        <a href="{% url job_edit job.id %}">
+            <button class="btn primary">Edit</button>
+        {% endif %}
     </section>
     </div>
 </article>

@@ -10,6 +10,7 @@ urlpatterns = patterns('jobs4lib.jobs.views',
     url(r'^$', 'jobs', name='home'),
     url(r'^jobs/(?P<subject_slug>.+)/$', 'jobs', name='jobs_by_subject'),
     url(r'^job/(?P<id>\d+)/$', 'job', name='job'),
+    url(r'^job/(?P<id>\d+)/edit/$', 'job_edit', name='job_edit'),
 
     url(r'^keywords/matcher/$', 'matcher', name='matcher'),
     url(r'^keywords/matcher/table/$', 'matcher_table', name='matcher_table'),

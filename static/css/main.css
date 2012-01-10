@@ -2,10 +2,6 @@
     padding-top: 60px;
 }
 
-input {
-    font-size: 12pt;
-}
-
 img.ignore-keyword {
     height: 32px;
     cursor: pointer;
@@ -176,3 +172,4 @@ td.social-small li {
 td.social-small img {
     height: 20px;
 }
+

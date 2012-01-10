@@ -41,6 +41,18 @@ def job(request, id):
     j = get_object_or_404(models.Job, id=id)
     return render(request, "job.html", {"job": j})
 
+@login_required
+def job_edit(request, id):
+    j = get_object_or_404(models.Job, id=id)
+    if request.method == "POST":
+        form = request.POST
+        if form.get("action") == "view":
+            return redirect(reverse('job', args=[j.id]))
+        j.title = form.get("title")
+        j.url = form.get("url")
+        j.save()
+    return render(request, "job_edit.html", {"job": j})
+
 def user(request, username):
     user = get_object_or_404(auth.models.User, username=username)
     can_edit = request.user.is_authenticated() and user == request.user
