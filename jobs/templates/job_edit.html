@@ -12,13 +12,29 @@
     }
 
     function addSubject(e, data) {
-        $("#subject_new").value(data.name);
-        $("#subject_freebase_id_new").value(data.id);
-        //$.post("{% url job_edit job.id %}", $("#job").serialize());
+        var i = $(".subject").length;
+
+        var name = $('<input class="subject" type="text">');
+        name.attr("name", "subject_" + i);
+        name.attr("value", data.name);
+
+        var freebaseId = $('<input type="hidden">');
+        freebaseId.attr("name", "subject_freebase_id_" + i);
+        freebaseId.attr("value", data.id);
+
+        $(".subject-new").before(name).after(freebaseId);
+        $('[name="subject_new"]').val(null);
+    }
+
+    function updateSubject(e, data) {
+        var name = $(this).attr("name");
+        var freebaseId = name.replace(/subject_/, "subject_freebase_id_");
+        $('[name="' + name +'"]').attr("value", data.name);
+        $('[name="' + freebaseId + '"]').attr("value", data.id);
     }
 
     $(document).ready(function() {
-        // set up edit panel
+        // set up ckeditor panel for job description
         var config = {
             height: 800,
             toolbar_Full: [['Bold', 'Italic', 'Underline', 'SpellChecker', 'Link', "BulletedList", "NumberedList"]]
@@ -34,10 +50,16 @@
             })
             .bind("fb-select", addEmployer)
             .click(function(e) {$(this).trigger("keyup");});
-    
-        $("input.subject")
-            .suggest()
+
+        // wire up new subject box
+        $("input.subject-new")
+            .suggest({"required": "always"})
             .bind("fb-select", addSubject);
+
+        // wire up existing subject boxes so they can be updated
+        $("input.subject")
+            .suggest({"required": "always"})
+            .bind("fb-select", updateSubject);
             
     });
 </script>
@@ -86,8 +108,7 @@
                     <input type="hidden" type="text" name="subject_freebase_id_{{ forloop.counter0 }}" value="{{ subject.freebase_id }}"</input>
                     </li>
                     {% endfor %}
-                    <input class="subject" type="text" name="subject_new" placeholder="Add a new tag!"></input>
-                    <input type="hidden" name="subject_freebase_id_new"></input>
+                    <input class="subject-new" type="text" name="subject_new" placeholder="Add a new tag!"></input>
                 </ul>
             </dd>
         </dl>
