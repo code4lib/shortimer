@@ -44,7 +44,7 @@
     $(document).ready(function() {
         // set up ckeditor panel for job description
         var config = {
-            height: 800,
+            height: 1800,
             toolbar_Full: [['Bold', 'Italic', 'Underline', 'SpellChecker', 'Link', "BulletedList", "NumberedList"]]
         };
         $("textarea.editor").ckeditor(config);
@@ -127,6 +127,21 @@
         <button name="action" value="save" class="btn primary">Save</button>
         <button name="action" value="view" class="btn">View</button>
         <button name="action" value="delete" class="btn danger">Delete</button>
+
+        <br>
+        <br>
+
+        <dl>
+            <dt>Edit History:</dt>
+            <dd>
+            <ul>
+                {% for edit in job.edits.all %}
+                <li>{{ edit.user.username }} on {{ edit.created }}</li>
+                {% endfor %}
+            </ul>
+            </dd>
+        </dl>
+
     </section>
     </div>
 </article>

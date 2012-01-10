@@ -60,6 +60,9 @@ class JobEdit(models.Model):
     job = models.ForeignKey(Job, related_name="edits")
     created = models.DateTimeField(auto_now_add=True)
 
+    class Meta: 
+        ordering = ['-created']
+
 class Employer(models.Model):
     name = models.CharField(max_length=255)
     freebase_id = models.CharField(max_length=100, null=True)

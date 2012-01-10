@@ -28,11 +28,11 @@
         <div class="topbar">
             <div class="fill">
                 <div class="container">
-                    <a class="brand" href="/">code4lib-jobs</a>
+                    <a class="brand" href="/">code4lib jobs</a>
                     <ul class="nav">
-                        <li class="active"><a href="/">Home</a></li>
-                        <li><a href="{% url subjects %}">Subjects</a></li>
-                        <li><a href="{% url users %}">Users</a></li>
+                        <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
+                        <li {% ifequal request.path "/subjects/" %} class="active" {% endifequal %}><a href="{% url subjects %}">Subjects</a></li>
+                        <li {% ifequal request.path "/users/" %} class="active" {% endifequal %}><a href="{% url users %}">Users</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>

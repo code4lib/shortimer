@@ -158,7 +158,7 @@ ul.tags li {
 }
 
 li.label {
-    background-color: lightgreen;
+    background-color: #ffffcc;
 }
 
 td.social-small {
@@ -182,4 +182,8 @@ img.delete {
 
 li {
     border: thin solid black;
+}
+
+.brand {
+    font-weight: bold;
 }
