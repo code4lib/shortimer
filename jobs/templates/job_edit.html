@@ -33,6 +33,14 @@
         $('[name="' + freebaseId + '"]').attr("value", data.id);
     }
 
+    function removeSubject() {
+        var i = $(this).val();
+        $('[name="subject_' + i + '"]').remove();
+        $('[name="subject_freebase_id_' + i + '"]').remove();
+        $(this).remove();
+        return false;
+    }
+
     $(document).ready(function() {
         // set up ckeditor panel for job description
         var config = {
@@ -60,6 +68,8 @@
         $("input.subject")
             .suggest({"required": "always"})
             .bind("fb-select", updateSubject);
+
+        $(".remove-subject").click(removeSubject);
             
     });
 </script>
@@ -73,12 +83,12 @@
     <input type="text" size="200" name="title" class="span10" value="{{ job.title }}">
     </header>
     <div class="row">
-    <section class="span12">
+    <section class="span11">
         <textarea name="description" class="editor" itemprop="description">
             {{ job.description_html|safe }}
         </textarea>
     </section>
-    <section class="span4">
+    <section class="span5">
         <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType">{{ job.get_job_type_display }}</dd>
@@ -105,16 +115,18 @@
                     {% for subject in job.subjects.all %}
                     <li>
                     <input class="subject" type="text" name="subject_{{ forloop.counter0 }}" value="{{ subject.name }}"></input>
+                    <button class="remove-subject" value="{{ forloop.counter0 }}"><img class="delete" src="{{ STATIC_URL }}/images/delete.png"></button>
                     <input type="hidden" type="text" name="subject_freebase_id_{{ forloop.counter0 }}" value="{{ subject.freebase_id }}"</input>
-                    </li>
+                     </li>
                     {% endfor %}
                     <input class="subject-new" type="text" name="subject_new" placeholder="Add a new tag!"></input>
                 </ul>
             </dd>
         </dl>
+        <br>
         <button name="action" value="save" class="btn primary">Save</button>
         <button name="action" value="view" class="btn">View</button>
-        <button name="action" value="delete" class="btn">Delete</button>
+        <button name="action" value="delete" class="btn danger">Delete</button>
     </section>
     </div>
 </article>

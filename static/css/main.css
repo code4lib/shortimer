@@ -173,3 +173,13 @@ td.social-small img {
     height: 20px;
 }
 
+img.delete {
+    height: 20px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+li {
+    border: thin solid black;
+}

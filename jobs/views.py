@@ -1,4 +1,4 @@
-# Create your views here.
+import re
 
 from django.db.models import Count
 from django.contrib import auth
@@ -68,14 +68,14 @@ def job_edit(request, id):
     j.save()
 
     # update subjects
-    #j.subjects.clear()
-#    for k in form.keys():
-#        m = re.match('^subject_(\d+)$', k)
-#        if not m: continue
-#        name = form.get(k)
-#        fb_id = form.get("subject_freebase_id_" + m.group(1))
-#        s, created = models.Subject.get_or_create(name=name, freebase_id=fb_id)
-#        j.subjects.add(s)
+    j.subjects.clear()
+    for k in form.keys():
+        m = re.match('^subject_(\d+)$', k)
+        if not m: continue
+        name = form.get(k)
+        fb_id = form.get("subject_freebase_id_" + m.group(1))
+        s, created = models.Subject.objects.get_or_create(name=name, freebase_id=fb_id)
+        j.subjects.add(s)
 
     models.JobEdit.objects.create(job=j, user=request.user)
 
