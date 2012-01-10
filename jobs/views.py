@@ -44,14 +44,33 @@ def job(request, id):
 @login_required
 def job_edit(request, id):
     j = get_object_or_404(models.Job, id=id)
-    if request.method == "POST":
-        form = request.POST
-        if form.get("action") == "view":
-            return redirect(reverse('job', args=[j.id]))
-        j.title = form.get("title")
-        j.url = form.get("url")
-        j.save()
-    return render(request, "job_edit.html", {"job": j})
+    if request.method == "GET":
+        return render(request, "job_edit.html", {"job": j})
+
+    form = request.POST
+
+    if form.get("action") == "view":
+        return redirect(reverse('job', args=[j.id]))
+
+    j.title = form.get("title")
+    j.url = form.get("url")
+    j.contact_name = form.get("contact_name")
+    j.contact_email = form.get("contact_email")
+
+    # set employer
+    if form.get("employer", None):
+        e, created = models.Employer.objects.get_or_create(
+                name=form.get("employer"),
+                freebase_id=form.get("employer_freebase_id"))
+        j.employer = e
+
+    j.description = form.get('description')
+    j.save()
+
+    models.JobEdit.objects.create(job=j, user=request.user)
+
+    return redirect(reverse('job_edit', args=[j.id]))
+
 
 def user(request, username):
     user = get_object_or_404(auth.models.User, username=username)

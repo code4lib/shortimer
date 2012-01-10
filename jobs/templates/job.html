@@ -17,8 +17,8 @@
             <dd itemprop="hiringOrganization"><a href="">{{ job.employer.name }}</a></dd>
             {% endif %}
             {% if job.url %}
-            <dt itempropr="url">URL:</dt>
-            <dd>{{ job.url }}</dd>
+            <dt itempropr="url">Job URL:</dt>
+            <dd><a href="{{ job.url }}">{{ job.url }}</a></dd>
             {% endif %}
             <dt>Posted:</dt>
             <dd itempmropr="datePosted"><time>{{ job.post_date }}</time></dd>
@@ -26,9 +26,9 @@
             <dt>Closes:</dt>
             <dd><time>{{ job.close_date }}</dd>
             {% endif %}
-            {% if job.contact_name and job.contact_email %}
+            {% if job.contact_name or job.contact_email %}
             <dt>Contact:</dt>
-            <dd><a href="mailto:{{ job.contact_email }}">{{ job.contact_name }}</a></dd>
+            <dd><a href="mailto:{{ job.contact_email }}">{% if job.contact_name %}{{ job.contact_name }}{% else %}{{ job.contact_email }}{% endif %}</a></dd>
             {% endif %}
             {% if job.salary_start and job.salary_end %}
             <dt>Salary:</dt>

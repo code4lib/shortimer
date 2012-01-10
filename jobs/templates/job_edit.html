@@ -10,38 +10,53 @@
     function addEmployer(e, data) {
         $("#employer_freebase_id").val(data.id);
     }
+
+    function addSubject(e, data) {
+        $("#subject_new").value(data.name);
+        $("#subject_freebase_id_new").value(data.id);
+        //$.post("{% url job_edit job.id %}", $("#job").serialize());
+    }
+
     $(document).ready(function() {
+        // set up edit panel
         var config = {
             height: 800,
             toolbar_Full: [['Bold', 'Italic', 'Underline', 'SpellChecker', 'Link', "BulletedList", "NumberedList"]]
         };
-        $('textarea.editor').ckeditor(config);
-        $('#employer')
+        $("textarea.editor").ckeditor(config);
+
+        // set up employer freebase suggest lookup
+        $("#employer")
             .suggest({
-                "type": ["/business/company", "/education/university"],
+                "type": ["/business/employer", "/business/company", "/education/university", "/organization", "/venture_capital"],
                 "type_strict": "any",
                 "suggest_new": "Click here if you don't see anything in list."
             })
             .bind("fb-select", addEmployer)
             .click(function(e) {$(this).trigger("keyup");});
+    
+        $("input.subject")
+            .suggest()
+            .bind("fb-select", addSubject);
+            
     });
 </script>
 {% endblock %}
 
 {% block content %}
 
-<form method="post">
+<form id="job" method="post">
 <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <header>
     <input type="text" size="200" name="title" class="span10" value="{{ job.title }}">
     </header>
     <div class="row">
-    <section class="span10">
+    <section class="span12">
         <textarea name="description" class="editor" itemprop="description">
             {{ job.description_html|safe }}
         </textarea>
     </section>
-    <section class="span6">
+    <section class="span4">
         <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType">{{ job.get_job_type_display }}</dd>
@@ -50,22 +65,29 @@
             <input type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
             <input type="hidden" name="employer_freebase_id" value="{{ job.employer.freebase_id }}" id="employer_freebase_id"></input>
             </dd>
-            <dt itempropr="url">URL:</dt>
-            <dd><input type="url" name="url" value="{{ job.url }}"></input></dd>
             <dt>Posted:</dt>
             <dd itempmropr="datePosted"><time>{{ job.post_date }}</time></dd>
             <dt>Closes:</dt>
             <dd><time>{{ job.close_date }}</dd>
-            <dt>Contact:</dt>
-            <dd><a href="mailto:{{ job.contact_email }}">{{ job.contact_name }}</a></dd>
-            <dt>Salary:</dt>
+            <dt>Contact Name:</dt>
+            <dd><input type="text" name="contact_name" value="{{ job.contact_name }}"></input></dd>
+            <dt>Contact Email:</dt>
+            <dd><input type="text" name="contact_email" value="{{ job.contact_email }}"></input></dd>
+            <dt>Salary:</dt> 
             <dd>{{ job.salary_start }} - {{ job.salary_end }}</dd>
+            <dt itempropr="url">Job URL:</dt>
+            <dd><input type="url" name="url" value="{{ job.url }}"></input></dd>
             <dt>Tags:</dt>
             <dd>
                 <ul class="tags" itemprop="skills">
                     {% for subject in job.subjects.all %}
-                    <li class="label"><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></li>
+                    <li>
+                    <input class="subject" type="text" name="subject_{{ forloop.counter0 }}" value="{{ subject.name }}"></input>
+                    <input type="hidden" type="text" name="subject_freebase_id_{{ forloop.counter0 }}" value="{{ subject.freebase_id }}"</input>
+                    </li>
                     {% endfor %}
+                    <input class="subject" type="text" name="subject_new" placeholder="Add a new tag!"></input>
+                    <input type="hidden" name="subject_freebase_id_new"></input>
                 </ul>
             </dd>
         </dl>

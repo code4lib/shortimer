@@ -44,6 +44,9 @@ class Job(models.Model):
 
     @property 
     def description_html(self):
+        if self.edits.all().count() > 0:
+            return self.description
+
         html = "<p>" + self.description + "</p>"
         html = html.replace("\n\n", "</p>\n\n<p>")
         html = re.sub(url_pattern, r'<a href="\1">\1</a>', html)
@@ -51,6 +54,11 @@ class Job(models.Model):
 
     def __str__(self):
         return self.title
+
+class JobEdit(models.Model):
+    user = models.ForeignKey(User, related_name="edits")
+    job = models.ForeignKey(Job, related_name="edits")
+    created = models.DateTimeField(auto_now_add=True)
 
 class Employer(models.Model):
     name = models.CharField(max_length=255)
