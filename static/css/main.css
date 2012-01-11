@@ -147,10 +147,11 @@ img.tiny-avatar {
     list-style: none;
 }
 
-#logininfo p {
+.bigtext p {
     font-size: 16pt;
     line-height: 130%;
 }
+
 
 ul.tags {
     list-style: none;

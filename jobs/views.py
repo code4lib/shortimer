@@ -9,6 +9,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from shortimer.jobs import models
 from shortimer.paginator import DiggPaginator
 
+def about(request):
+    return render(request, 'about.html')
+
 def login(request):
     return render(request, 'login.html')
 

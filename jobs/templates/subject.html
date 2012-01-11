@@ -1,5 +1,7 @@
 {% extends "site.html" %}
 
+{% block title %}{{ subject.name }}{% endblock %}
+
 {% block content %}
 
 <img style="float: left; padding: 5px;" src="{{ subject.freebase_image_url }}">

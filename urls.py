@@ -5,9 +5,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('shortimer.jobs.views',
-    url(r'^admin/', include(admin.site.urls)),
+    #url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'jobs', name='home'),
+    url(r'^about/$', 'about', name='about'),
     url(r'^jobs/(?P<subject_slug>.+)/$', 'jobs', name='jobs_by_subject'),
     url(r'^job/(?P<id>\d+)/$', 'job', name='job'),
     url(r'^job/(?P<id>\d+)/edit/$', 'job_edit', name='job_edit'),
