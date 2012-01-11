@@ -114,8 +114,12 @@ article.job {
     margin: 10px;
 }
 
-section.job-description {
-    border: thin solid red;
+section[itemtype="description"] {
+    color: black;
+}
+
+section[itemtype="description"] * {
+    color: black;
 }
 
 section.job-details {
