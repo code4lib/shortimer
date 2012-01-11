@@ -6,7 +6,7 @@ import logging
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from miner import email_to_job
+from shortimer.miner import email_to_job
 
 log = logging.getLogger(__name__)
 

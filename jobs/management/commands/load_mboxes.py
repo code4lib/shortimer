@@ -7,7 +7,7 @@ import mailbox
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from miner import email_to_job
+from shortimer.miner import email_to_job
 
 mbox_dir = os.path.join(settings.PROJECT_DIR, "mboxes")
 

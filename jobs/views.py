@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from jobs import models
-from paginator import DiggPaginator
+from shortimer.jobs import models
+from shortimer.paginator import DiggPaginator
 
 def login(request):
     return render(request, 'login.html')

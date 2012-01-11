@@ -10,7 +10,7 @@ import StringIO
 
 import nltk
 
-from jobs.models import Job, Keyword, Subject
+from shortimer.jobs.models import Job, Keyword, Subject
 
 """
 Functions for doing text munging on job text.

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from jobs import models
+from shortimer.jobs import models
 
 class Command(BaseCommand):
 
