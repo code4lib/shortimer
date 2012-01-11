@@ -1,4 +1,4 @@
-# Django settings for jobs4lib project.
+# Django settings for shortimer project.
 
 import os
 
@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = (
     'pagination.middleware.PaginationMiddleware',
 )
 
-ROOT_URLCONF = 'jobs4lib.urls'
+ROOT_URLCONF = 'shortimer.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -129,7 +129,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'jobs4lib.jobs',
+    'shortimer.jobs',
     'django.contrib.admin',
     'south',
 )
@@ -187,7 +187,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'jobs4lib.jobs.management.commands.pop': {
+        'shortimer.jobs.management.commands.pop': {
             'handlers': ['pop'],
             'level': 'DEBUG',
             'propagate': True,

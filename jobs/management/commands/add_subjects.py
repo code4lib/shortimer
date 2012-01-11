@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from jobs4lib.jobs import models
+from jobs import models
 
 class Command(BaseCommand):
 

@@ -4,7 +4,7 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns('jobs4lib.jobs.views',
+urlpatterns = patterns('shortimer.jobs.views',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'jobs', name='home'),

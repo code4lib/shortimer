@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /home/ed/.virtualenvs/jobs4lib/bin/activate
+source /home/ed/.virtualenvs/shortimer/bin/activate
 
-cd /home/ed/Projects/jobs4lib
+cd /home/ed/Projects/shortimer
 ./manage.py pop
