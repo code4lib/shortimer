@@ -80,15 +80,21 @@
 {% block content %}
 
 <form id="job" method="post">
-<article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
+    <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <header>
     <input type="text" size="200" name="title" class="span10" value="{{ job.title }}">
     </header>
     <div class="row">
     <section class="span11">
+        {% if user.is_staff %}
         <textarea name="description" class="editor" itemprop="description">
             {{ job.description_html|safe }}
         </textarea>
+        {% else %}
+        <div name="description" itemprop="description">
+            {{ job.description_html|safe }}
+        </div>
+        {% endif %}
     </section>
     <section class="span5">
         <dl>

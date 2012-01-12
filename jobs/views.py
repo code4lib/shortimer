@@ -14,7 +14,7 @@ def about(request):
     return render(request, 'about.html')
 
 def login(request):
-    next = request.GET.get('next')
+    next = request.GET.get('next', '')
     return render(request, 'login.html', {'next': next})
 
 def logout(request):
