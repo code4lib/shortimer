@@ -18,14 +18,16 @@ urlpatterns = patterns('shortimer.jobs.views',
 
     url(r'^keywords/(?P<id>\d+)/$', 'keyword', name='keyword'),
 
-    url(r'^subjects/$', 'subjects', name='subjects'),
-    url(r'^subjects/(?P<slug>.+)/$', 'subject', name='subject'),
+    url(r'^tags/$', 'tags', name='tags'),
 
-    url(r'login/$', 'login', name='login'),
-    url(r'logout/$', 'logout', name='logout'),
-    url(r'user/(?P<username>.+)/$', 'user', name='user'),
-    url(r'profile/', 'profile', name='profile'),
-    url(r'^users/', 'users', name='users'),
+    url(r'^login/$', 'login', name='login'),
+    url(r'^logout/$', 'logout', name='logout'),
+    url(r'^user/(?P<username>.+)/$', 'user', name='user'),
+    url(r'^profile/$', 'profile', name='profile'),
+    url(r'^users/$', 'users', name='users'),
+    url(r'^reports/$', 'reports', name='reports'),
+    url(r'^curate/$', 'curate', name='curate'),
+    url(r'^curate/employers/$', 'curate_employers', name='curate_employers'),
 
     url(r'', include('social_auth.urls')),
 

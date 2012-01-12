@@ -1,0 +1,28 @@
+{% extends "site.html" %}
+
+{% block title %}Tags{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="span4">&nbsp;</div>
+<div class="span10">
+<table class="zebra-striped bordered-table">
+    <tr>
+        <th>Tag Name</th>
+        <th>Jobs</th>
+    </tr>
+{% for subject in page.object_list %}
+    <tr>
+        <td>
+            <a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a>
+        </td>
+        <td>{{ subject.num_jobs }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% include "paginator.html" %}
+</div>
+</div>
+
+
+{% endblock %}

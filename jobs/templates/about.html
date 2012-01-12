@@ -1,0 +1,48 @@
+{% extends "site.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+
+<article class="row" style="margin-top: 30px;">
+<div class="span2">&nbsp;</div>
+<div class="span6">
+<img width="340" src="{{ STATIC_URL }}/images/books.jpg">
+<figcaption style="text-align: center;">
+<a href="http://www.flickr.com/photos/adulau/3086751588/in/photostream/">The Practice of Programming</a> by Alexandre Dulaunoy
+</figcaption>
+</div>
+<div class="span6 bigtext" style="margin-left: 20px;">
+    <p>
+    So you might be wondering...given the many places there are on the Web
+    already to look for and advertise jobs, why should you care about 
+    <a href="http://jobs.code4lib.org">jobs.code4lib.org</a>? 
+    Well, it's different for a few reasons.
+    </p>
+    <p>
+    <a href="http://code4lib.org">code4lib</a> is a niche within a niche: 
+    a community of software developers, designers and architects who happen
+    to work in the cultural heritage sector (libraries, archives, museums). 
+    There's a lot of esoteric tools, projects and people to know. The idea 
+    is that 
+    <a href="http://jobs.code4lib.org">jobs.code4lib.org</a> can help 
+    people who are new to the field to get an idea of what kinds of skills
+    and experience are useful to acquire.
+    </p>
+    <p>
+    Arguably <a href="http://jobs.code4lib.org">jobs.code4lib.org</a>
+    is even more of an oddity because it doesn't use one of the many
+    opensource job software packages, but is itself a piece of custom software 
+    called <a href="http://github.com/code4lib/shortimer">shortimer</a>. 
+    For several years the 
+    <a href="http://dewey.library.nd.edu/mailing-lists/code4lib/">code4lib discussion list</a> 
+    has been heavily used as a place to advertise (and find) jobs. 
+    <a href="http://github.com/code4lib/shortimer">shortimer</a> basically
+    subscribes to the discussion list and looks for job postings to publish
+    here. Think of it as a Web amplifier for the jobs on the discussion list.
+    </p>
+
+</div>
+</article>
+
+{% endblock %}

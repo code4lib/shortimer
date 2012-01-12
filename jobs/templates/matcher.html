@@ -43,7 +43,7 @@
             subjectTypeName: data["n:type"]["name"],
             keywordId: keywordId($(this).parent().parent().get(0))
         };
-        $.post("/subjects/", data=s, reloadTable);
+        $.post("/tags/", data=s, reloadTable);
     }
 
     function reloadTable() {

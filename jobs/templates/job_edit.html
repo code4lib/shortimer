@@ -126,10 +126,12 @@
             </dd>
         </dl>
         <br>
+        {% if curate_employers %}
+        <button name="action" value="next" class="btn primary">Curate Next</button>
+        {% else %}
         <button name="action" value="save" class="btn primary">Save</button>
         <button name="action" value="view" class="btn">View</button>
-        <button name="action" value="delete" class="btn danger">Delete</button>
-
+        {% endif %}
         <br>
         <br>
 
@@ -147,6 +149,7 @@
     </section>
     </div>
 </article>
+<input type="hidden" name="job_id" value="{{ job.id }}"></input>
 {% csrf_token %}
 </form>
 

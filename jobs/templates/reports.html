@@ -1,0 +1,77 @@
+{% extends "site.html" %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+    <article class="span8">
+    <header>Top Tags of the Month</header>
+    <table class="zebra-striped bordered-table">
+        <tr>
+            <th>Tag</th>
+            <th>Job Postings</th>
+        </tr>
+        {% for subject in subjects_m.all %}
+        <tr>
+            <td><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></td>
+            <td>{{ subject.num_jobs }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </article>
+
+    <article class="span8">
+    <header>Top Tags of the Year</header>
+    <table class="zebra-striped bordered-table">
+        <tr>
+            <th>Tag</th>
+            <th>Job Postings</th>
+        </tr>
+        {% for subject in subjects_y.all %}
+        <tr>
+            <td><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></td>
+            <td>{{ subject.num_jobs }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </article>
+
+</div>
+
+<div class="row">
+
+    <article class="span8">
+    <header>Top Employers of the Month</header>
+    <table class="zebra-striped bordered-table">
+        <tr>
+            <th>Employer</th>
+            <th>Job Postings</th>
+        </tr>
+        {% for employer in employers_m.all %}
+        <tr>
+            <td>{{ employer.name }}</td>
+            <td>{{ employer.num_jobs }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </article>
+
+    <article class="span8">
+    <header>Top Employers of the Year</header>
+    <table class="zebra-striped bordered-table">
+        <tr>
+            <th>Employer</th>
+            <th>Job Postings</th>
+        </tr>
+        {% for employer in employers_y.all %}
+        <tr>
+            <td>{{ employer.name }}</td>
+            <td>{{ employer.num_jobs }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </article>
+
+{% endblock %}

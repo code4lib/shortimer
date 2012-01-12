@@ -1,4 +1,5 @@
 import re
+import datetime
 
 from django.db.models import Count
 from django.contrib import auth
@@ -13,7 +14,8 @@ def about(request):
     return render(request, 'about.html')
 
 def login(request):
-    return render(request, 'login.html')
+    next = request.GET.get('next')
+    return render(request, 'login.html', {'next': next})
 
 def logout(request):
     auth.logout(request)
@@ -51,10 +53,13 @@ def job_edit(request, id):
         return render(request, "job_edit.html", {"job": j})
 
     form = request.POST
-
     if form.get("action") == "view":
         return redirect(reverse('job', args=[j.id]))
 
+    _update_job(j, form, request.user)
+    return redirect(reverse('job_edit', args=[j.id]))
+
+def _update_job(j, form, user):
     j.title = form.get("title")
     j.url = form.get("url")
     j.contact_name = form.get("contact_name")
@@ -80,10 +85,8 @@ def job_edit(request, id):
         s, created = models.Subject.objects.get_or_create(name=name, freebase_id=fb_id)
         j.subjects.add(s)
 
-    models.JobEdit.objects.create(job=j, user=request.user)
-
-    return redirect(reverse('job_edit', args=[j.id]))
-
+    # record the edit
+    models.JobEdit.objects.create(job=j, user=user)
 
 def user(request, username):
     user = get_object_or_404(auth.models.User, username=username)
@@ -144,7 +147,7 @@ def keyword(request, id):
         k.save()
     return render(request, "keyword.html", {"keyword": k})
 
-def subjects(request):
+def tags(request):
     # add a new subject
     if request.method == "POST":
         s, created = models.Subject.objects.get_or_create(
@@ -167,11 +170,52 @@ def subjects(request):
         "paginator": paginator,
         "page": page
         }
-    return render(request, "subjects.html", context)
+    return render(request, "tags.html", context)
 
-def subject(request, slug):
-    s = get_object_or_404(models.Subject, slug=slug)
-    j = models.Job.objects.filter(subjects__in=[s]).distinct()
-    j = j.order_by('-post_date')
-    return render(request, "subject.html", {"subject": s, "jobs": j})
+def curate(request):
+    need_employer = models.Job.objects.filter(employer__isnull=True).count()
+    return render(request, "curate.html", {"need_employer": need_employer})
 
+@login_required
+def curate_employers(request):
+    if request.method == "POST":
+        form = request.POST
+        job = models.Job.objects.get(id=form.get('job_id'))
+        _update_job(job, form, request.user)
+        return redirect(reverse('curate_employers'))
+
+    jobs = models.Job.objects.filter(employer__isnull=True)
+    jobs = jobs.order_by('-post_date')
+    job = jobs[0]
+    return render(request, "job_edit.html", {"job": job,
+                                             "curate_employers": True})
+
+def reports(request):
+    now = datetime.datetime.now()
+    m = now - datetime.timedelta(days=31)
+    y = now - datetime.timedelta(days=365)
+
+    subjects_m = models.Subject.objects.filter(jobs__post_date__gte=m)
+    subjects_m = subjects_m.annotate(num_jobs=Count("jobs"))
+    subjects_m = subjects_m.order_by("-num_jobs")
+    subjects_m = subjects_m[0:25]
+
+    subjects_y = models.Subject.objects.filter(jobs__post_date__gte=y)
+    subjects_y = subjects_y.annotate(num_jobs=Count("jobs"))
+    subjects_y = subjects_y.order_by("-num_jobs")
+    subjects_y = subjects_y[0:25]
+
+    employers_m = models.Employer.objects.filter(jobs__post_date__gte=m)
+    employers_m = employers_m.annotate(num_jobs=Count("jobs"))
+    employers_m = employers_m.order_by("-num_jobs")
+    employers_m = employers_m[0:10]
+
+    employers_y = models.Employer.objects.filter(jobs__post_date__gte=y)
+    employers_y = employers_y.annotate(num_jobs=Count("jobs"))
+    employers_y = employers_y.order_by("-num_jobs")
+    employers_y = employers_y[0:10]
+
+    return render(request, 'reports.html', {"subjects_m": subjects_m,
+                                            "subjects_y": subjects_y,
+                                            "employers_m": employers_m,
+                                            "employers_y": employers_y})
