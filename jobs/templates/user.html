@@ -6,7 +6,9 @@
 
 <div class="row">
 
-<section class="span9">
+<div class="span2">&nbsp;</div>
+
+<div class="span5">
 
 <header>
 {% if user.profile.pic_url %}
@@ -31,14 +33,14 @@
 </a>
 {% endif %}
 
-</section>
+</div>
 
-<section class="social-providers span7">
+<div class="social-providers span4">
 {% if user.profile.linked_providers %}
 <header>See Also:</header>
 {% include "social.html" %}
 {% endif %}
-</section>
+</div>
 
 </div>
 

@@ -129,7 +129,8 @@ class UserProfile(models.Model):
 
 def make_slug(sender, **kwargs):
     i = kwargs['instance']
-    i.slug = slugify(i.name)
+    if not i.slug:
+        i.slug = slugify(i.name)
 
 def facebook_extra_values(sender, user, response, details, **kwargs):
     facebook_id = response.get('id')

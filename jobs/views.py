@@ -113,7 +113,7 @@ def profile(request):
         user.profile.home_url = request.POST.get("home_url")
         user.save()
         user.profile.save()
-        return redirect(reverse('profile'))
+        return redirect(reverse('user', args=[user.username]))
 
     return render(request, "profile.html", {"user": user, "profile": profile})
 
