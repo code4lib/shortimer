@@ -6,3 +6,5 @@ nltk
 django-pagination
 south
 django-social-auth
+bitlyapi
+tweepy

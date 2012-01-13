@@ -66,7 +66,7 @@ def job_edit(request, id):
         j.published = datetime.datetime.now()
         j.published_by = request.user
         j.save()
-        _tweet(job)
+        _tweet(j)
 
     return redirect(reverse('job_edit', args=[j.id]))
 
@@ -242,13 +242,14 @@ def _tweet(job):
     # construct tweet message
     msg = job.title
     if job.employer:
-        job += " at " + job.employer.name
+        msg = msg + " at " + job.employer.name
     msg += ' ' + url
 
     # tweet it
-    auth = tweepy.OAuthHandler(settings.TWITTER_OAUTH_CONSUMER_KEY,
-                               settings.TWITTER_OAUTH_CONSUMER_SECRET,
-    auth.set_access_token(settings.TWITTER_OAUTH_ACCESS_TOKEN_KEY,
-                          settings.TWITTER_OAUTH_ACCESS_TOKEN_SECRET)
-    twitter = tweepy(auth)
+    auth = tweepy.OAuthHandler(settings.CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY,
+                               settings.CODE4LIB_TWITTER_OAUTH_CONSUMER_SECRET)
+    auth.set_access_token(settings.CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_KEY,
+                          settings.CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_SECRET)
+
+    twitter = tweepy.API(auth)
     twitter.update_status(msg)
