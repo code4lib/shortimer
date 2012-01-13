@@ -106,7 +106,11 @@
             <input type="hidden" name="employer_freebase_id" value="{{ job.employer.freebase_id }}" id="employer_freebase_id"></input>
             </dd>
             <dt>Posted:</dt>
-            <dd itempmropr="datePosted"><time>{{ job.post_date }}</time></dd>
+            <dd itemprop="datePosted"><time>{{ job.post_date }}</time></dd>
+            {% if job.published %}
+            <dt>Published:</dt>
+            <dd><time>{{ job.published }}</time></dd>
+            {% endif %}
             <dt>Closes:</dt>
             <dd><time>{{ job.close_date }}</dd>
             <dt>Contact Name:</dt>
@@ -135,6 +139,9 @@
         {% if curate_employers %}
         <button name="action" value="next" class="btn primary">Curate Next</button>
         {% else %}
+        {% if not job.published %}
+        <button name="action" value="publish" class="btn success">Publish</button>
+        {% endif %}
         <button name="action" value="save" class="btn primary">Save</button>
         <button name="action" value="view" class="btn">View</button>
         {% endif %}

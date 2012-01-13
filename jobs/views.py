@@ -2,10 +2,14 @@ import re
 import datetime
 
 from django.db.models import Count
+from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, redirect
+
+import tweepy
+import bitlyapi
 
 from shortimer.jobs import models
 from shortimer.paginator import DiggPaginator
@@ -57,6 +61,13 @@ def job_edit(request, id):
         return redirect(reverse('job', args=[j.id]))
 
     _update_job(j, form, request.user)
+
+    if form.get("action") == "publish":
+        j.published = datetime.datetime.now()
+        j.published_by = request.user
+        j.save()
+        _tweet(job)
+
     return redirect(reverse('job_edit', args=[j.id]))
 
 def _update_job(j, form, user):
@@ -219,3 +230,25 @@ def reports(request):
                                             "subjects_y": subjects_y,
                                             "employers_m": employers_m,
                                             "employers_y": employers_y})
+
+
+def _tweet(job):
+    # get short url for the job
+    long_url = "http://jobs.code4lib.org/job/%s/" % job.id
+    bitly = bitlyapi.BitLy(settings.BITLY_USERNAME, settings.BITLY_PASSWORD)
+    response = bitly.shorten(longUrl=long_url)
+    url = response['url']
+
+    # construct tweet message
+    msg = job.title
+    if job.employer:
+        job += " at " + job.employer.name
+    msg += ' ' + url
+
+    # tweet it
+    auth = tweepy.OAuthHandler(settings.TWITTER_OAUTH_CONSUMER_KEY,
+                               settings.TWITTER_OAUTH_CONSUMER_SECRET,
+    auth.set_access_token(settings.TWITTER_OAUTH_ACCESS_TOKEN_KEY,
+                          settings.TWITTER_OAUTH_ACCESS_TOKEN_SECRET)
+    twitter = tweepy(auth)
+    twitter.update_status(msg)

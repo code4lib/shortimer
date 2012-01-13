@@ -41,6 +41,9 @@ class Job(models.Model):
     job_type = models.CharField(max_length=2, choices=JOB_TYPES, default='ft')
     employer = models.ForeignKey('Employer', related_name='jobs', null=True)
     creator = models.ForeignKey(User, related_name='jobs', null=True)
+    published = models.DateTimeField(null=True)
+    published_by = models.ForeignKey(User, related_name='published_jobs', 
+            null=True)
 
     @property 
     def description_html(self):
