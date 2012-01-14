@@ -19,8 +19,8 @@
             <dd itemprop="hiringOrganization"><a href="">{{ job.employer.name }}</a></dd>
             {% endif %}
             {% if job.url %}
-            <dt itemprop="url">Job URL:</dt>
-            <dd><a href="{{ job.url }}">{{ job.url }}</a></dd>
+            <dt>Job URL:</dt>
+            <dd><a itemprop="url" href="{{ job.url }}">{{ job.url }}</a></dd>
             {% endif %}
             <dt>Posted:</dt>
             <dd itempromp="datePosted"><time datetime="{{ job.post_date|date:"Y-m-d" }}">{{ job.post_date }}</time></dd>
