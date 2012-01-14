@@ -7,7 +7,7 @@
 <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <header itemprop="title">{{ job.title }}</header>
     <div class="row">
-    <section class="span12" itemtype="description">
+    <section class="span12" itemprop="description">
         {{ job.description_html|safe }}
     </section>
     <section class="span4">
@@ -19,11 +19,11 @@
             <dd itemprop="hiringOrganization"><a href="">{{ job.employer.name }}</a></dd>
             {% endif %}
             {% if job.url %}
-            <dt itempropr="url">Job URL:</dt>
+            <dt itemprop="url">Job URL:</dt>
             <dd><a href="{{ job.url }}">{{ job.url }}</a></dd>
             {% endif %}
             <dt>Posted:</dt>
-            <dd itempmropr="datePosted"><time>{{ job.post_date }}</time></dd>
+            <dd itempromp="datePosted"><time datetime="{{ job.post_date|date:"Y-m-d" }}">{{ job.post_date }}</time></dd>
             {% if job.close_date %}
             <dt>Closes:</dt>
             <dd><time>{{ job.close_date }}</dd>
@@ -38,9 +38,9 @@
             {% endif %}
             <dt>Tags:</dt>
             <dd>
-                <ul class="tags" itemprop="skills">
+                <ul class="tags">
                     {% for subject in job.subjects.all %}
-                    <li class="label"><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></li>
+                    <li class="label" itemprop="skills"><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></li>
                     {% endfor %}
                 </ul>
             </dd>
