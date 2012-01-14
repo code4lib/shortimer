@@ -1,5 +1,38 @@
 # Django settings for shortimer project.
 
+# email account to pop for new job emails
+
+POP_SERVER = "pop.gmail.com"
+POP_PORT = 995
+POP_USER = ""
+POP_PASSWORD = ""
+
+# socialauth credentials for logins at various providers
+
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+FACEBOOK_APP_ID = '' 
+FACEBOOK_API_SECRET = ''
+LINKEDIN_CONSUMER_KEY = ''
+LINKEDIN_CONSUMER_SECRET = ''
+GITHUB_APP_ID = ''
+GITHUB_API_SECRET = ''
+
+# credentials for the code4lib twitter account, to tweet new job postings
+
+CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY = ''
+CODE4LIB_TWITTER_OAUTH_CONSUMER_SECRET = ''
+CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_KEY = ''
+CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_SECRET = ''
+
+# bitly credentials for shortening job urls
+
+BITLY_USERNAME = ''
+BITLY_PASSWORD = ''
+
+# you shouldn't need to change anything else below unless you want to 
+# modify database connection to be something other than sqlite
+
 import os
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -9,7 +42,6 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Ed Summers', 'ehs@pobox.com'),
 )
 
 MANAGERS = ADMINS
@@ -141,15 +173,6 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.contrib.github.GithubBackend',
 )
 
-TWITTER_CONSUMER_KEY = ''
-TWITTER_CONSUMER_SECRET = ''
-FACEBOOK_APP_ID = '' 
-FACEBOOK_API_SECRET = ''
-LINKEDIN_CONSUMER_KEY = ''
-LINKEDIN_CONSUMER_SECRET = ''
-GITHUB_APP_ID = ''
-GITHUB_API_SECRET = ''
-
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/login-error/'
@@ -195,16 +218,5 @@ LOGGING = {
     }
 }
 
-POP_SERVER = "pop.gmail.com"
-POP_PORT = 995
-POP_USER = ""
-POP_PASSWORD = ""
-
 USE_THOUSAND_SEPARATOR = True
-TWITTER_OAUTH_CONSUMER_KEY = ''
-TWITTER_OAUTH_CONSUMER_SECRET = ''
-TWITTER_OAUTH_ACCESS_TOKEN_KEY = ''
-TWITTER_OAUTH_ACCESS_TOKEN_SECRET = ''
 
-BITLY_USERNAME = ''
-BITLY_PASSWORD = ''
