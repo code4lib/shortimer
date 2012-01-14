@@ -24,6 +24,16 @@
     <dd><time>{{ user.date_joined }}</time></dd>
     <dt>homepage:</dt>
     <dd><a rel="self" href="{{ user.profile.home_url }}">{{ user.profile.home_url }}</a></dd>
+    {% if recent_edits %}
+    <dt>recent edits:</dt>
+    <dd>
+    <ul>
+        {% for edit in recent_edits %}
+        <li><a href="{% url job edit.job.id %}">{{ edit.job }}</a></li>
+    {% endfor %}
+    </ul>
+    </dd>
+    {% endif %}
 </dl>
 
 

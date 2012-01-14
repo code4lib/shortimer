@@ -83,7 +83,10 @@ def _update_job(j, form, user):
                 freebase_id=form.get("employer_freebase_id"))
         j.employer = e
 
-    j.description = form.get('description')
+    # only people flagged as staff can edit the job text
+    if user.is_staff:
+        j.description = form.get('description')
+
     j.save()
 
     # update subjects
@@ -102,7 +105,9 @@ def _update_job(j, form, user):
 def user(request, username):
     user = get_object_or_404(auth.models.User, username=username)
     can_edit = request.user.is_authenticated() and user == request.user
-    return render(request, "user.html", {"user": user, "can_edit": can_edit})
+    recent_edits = user.edits.all()[0:15]
+    return render(request, "user.html", {"user": user, "can_edit": can_edit,
+                                         "recent_edits": recent_edits})
 
 def users(request):
     users = auth.models.User.objects.all().order_by('username')
