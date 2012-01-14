@@ -17,7 +17,7 @@ From there on things should work independent of what operating system you are
 using.
 
 1. `sudo apt-get install python-virtualenv`
-1. `git clone http://github.com/code4lib/shortimer`
+1. `git clone git://github.com/code4lib/shortimer.git`
 1. `cd shortimer`
 1. `virtualenv --no-site-packages ENV`
 1. `source ENV/bin/activate`
