@@ -45,16 +45,6 @@ class Job(models.Model):
     published_by = models.ForeignKey(User, related_name='published_jobs', 
             null=True)
 
-    @property 
-    def description_html(self):
-        if self.edits.all().count() > 0:
-            return self.description
-
-        html = "<p>" + self.description + "</p>"
-        html = html.replace("\n\n", "</p>\n\n<p>")
-        html = re.sub(url_pattern, r'<a href="\1">\1</a>', html)
-        return html
-
     def __str__(self):
         return self.title
 

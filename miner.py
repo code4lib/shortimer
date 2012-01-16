@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 import json
 import time
@@ -17,6 +19,10 @@ Functions for doing text munging on job text.
 """
 
 NOUN_CODES = ["NNP"]
+
+# http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+URL_PATTERN = re.compile(r'''(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''')
+
 
 def email_to_job(msg):
     logging.info("looking at email with subject: %s", msg['subject'])
@@ -40,7 +46,7 @@ def email_to_job(msg):
     j.title = re.sub("^\[CODE4LIB\] ", "", msg['subject'])
     j.title = re.sub("[\n\r]", "", j.title)
     j.email_message_id = msg['message-id']
-    j.description = get_body(msg)
+    j.description = get_html(get_body(msg))
 
     t = time.mktime(rfc822.parsedate(msg['date']))
     j.post_date = datetime.datetime.fromtimestamp(t)
@@ -68,6 +74,12 @@ def normalize_name(name):
         parts.insert(0, first_name)
         name = ' '.join(parts)
     return name
+
+def get_html(text):
+    html = "<p>" + text + "</p>"
+    html = html.replace("\n\n", "</p>\n\n<p>")
+    html = re.sub(URL_PATTERN, r'<a href="\1">\1</a>', html)
+    return html
 
 def get_body(msg):
     # pull out first text part to a multipart message

@@ -54,7 +54,7 @@
         // set up employer freebase suggest lookup
         $("#employer")
             .suggest({
-                "type": ["/business/employer", "/business/company", "/education/university", "/organization/organization", "/venture_capital", "/computer/software_developer", "/library/public_library"],
+                "type": ["/business/employer", "/business/company", "/education/university", "/organization/organization", "/venture_capital", "/computer/software_developer", "/library/public_library", "/internet/website"],
                 "type_strict": "any",
                 "suggest_new": "Click here if you don't see anything in list."
             })
@@ -88,11 +88,11 @@
     <section class="span11">
         {% if user.is_staff %}
         <textarea name="description" class="editor" itemprop="description">
-            {{ job.description_html|safe }}
+            {{ job.description|safe }}
         </textarea>
         {% else %}
         <div name="description" itemprop="description">
-            {{ job.description_html|safe }}
+            {{ job.description|safe }}
         </div>
         {% endif %}
     </section>
