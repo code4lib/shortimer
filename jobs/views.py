@@ -245,7 +245,7 @@ def _tweet(job):
     url = response['url']
 
     # construct tweet message
-    msg = job.title
+    msg = "Job: " + job.title
     if job.employer:
         msg = msg + " at " + job.employer.name
     msg += ' ' + url
