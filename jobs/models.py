@@ -73,7 +73,7 @@ class Keyword(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=500)
-    slug = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100, unique=True)
     type = models.CharField(max_length=100)
     freebase_id = models.CharField(max_length=100)
     freebase_type_id = models.CharField(max_length=100)

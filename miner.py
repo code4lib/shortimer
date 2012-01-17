@@ -125,6 +125,8 @@ def is_job_email(msg):
         return True
     if re.search('position', subject):
         return True
+    if re.search('employment', subject):
+        return True
     return False
 
 def nouns(text):

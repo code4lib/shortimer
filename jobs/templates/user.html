@@ -8,7 +8,7 @@
 
 <div class="span2">&nbsp;</div>
 
-<div class="span5">
+<div class="span9">
 
 <header>
 {% if user.profile.pic_url %}
@@ -29,7 +29,7 @@
     <dd>
     <ul>
         {% for edit in recent_edits %}
-        <li><a href="{% url job edit.job.id %}">{{ edit.job }}</a></li>
+        <li>{{ edit.created|time }} - <a href="{% url job edit.job.id %}">{{ edit.job }}</a></li>
     {% endfor %}
     </ul>
     </dd>

@@ -1,11 +1,12 @@
 import re
 import datetime
 
-from django.db.models import Count
 from django.conf import settings
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
 import tweepy
@@ -94,10 +95,17 @@ def _update_job(j, form, user):
     for k in form.keys():
         m = re.match('^subject_(\d+)$', k)
         if not m: continue
+
         name = form.get(k)
         fb_id = form.get("subject_freebase_id_" + m.group(1))
-        s, created = models.Subject.objects.get_or_create(name=name, freebase_id=fb_id)
-        j.subjects.add(s)
+        slug = slugify(name)
+
+        try:
+            s = models.Subject.objects.get(slug=slug)
+        except models.Subject.DoesNotExist:
+            s = models.Subject.objects.create(name=name, freebase_id=fb_id, slug=slug)
+        finally:
+            j.subjects.add(s)
 
     # record the edit
     models.JobEdit.objects.create(job=j, user=user)
