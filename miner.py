@@ -55,6 +55,10 @@ def email_to_job(msg):
         logging.warn("missing body")
         return None
 
+    if 'http://jobs.code4lib.org' in j.description:
+        logging.warn("not loading a job that shortimer posted")
+        return None
+
     j.save()
 
     # automatically assign subjects based on keywords in the job description

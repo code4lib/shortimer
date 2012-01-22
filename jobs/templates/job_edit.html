@@ -82,17 +82,25 @@
 <form id="job" method="post">
     <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <header>
-    <input type="text" size="200" name="title" class="span10" value="{{ job.title }}">
+    <input placeholder="Enter the job title here: e.g. Web Developer" type="text" size="200" name="title" class="span10" value="{{ job.title }}">
     </header>
     <div class="row">
     <section class="span11">
-        {% if user.is_staff %}
+        {% if can_edit_description %}
         <textarea name="description" class="editor" itemprop="description">
+            {% if job.description %}
             {{ job.description|safe }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </textarea>
         {% else %}
-        <div name="description" itemprop="description">
+        <div placeholder="foo" name="description" itemprop="description">
+            {% if job.description %}
             {{ job.description|safe }}
+            {% else %}
+            &nbsp;
+            {% endif %}
         </div>
         {% endif %}
     </section>
@@ -102,35 +110,35 @@
             <dd itemprop="employmentType">{{ job.get_job_type_display }}</dd>
             <dt>Employer:</dt>
             <dd itemprop="hiringOrganization">
-            <input type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
+            <input placeholder="Enter the employer name here: e.g. University of Gondor" type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
             <input type="hidden" name="employer_freebase_id" value="{{ job.employer.freebase_id }}" id="employer_freebase_id"></input>
             </dd>
+            {% if job.post_date %}
             <dt>Posted:</dt>
             <dd itemprop="datePosted"><time>{{ job.post_date }}</time></dd>
+            {% endif %}
             {% if job.published %}
             <dt>Published:</dt>
             <dd><time>{{ job.published }}</time></dd>
             {% endif %}
-            <dt>Closes:</dt>
-            <dd><time>{{ job.close_date }}</dd>
             <dt>Contact Name:</dt>
-            <dd><input type="text" name="contact_name" value="{{ job.contact_name }}"></input></dd>
+            <dd><input placeholder="Name of who to contact" type="text" name="contact_name" value="{{ job.contact_name }}"></input></dd>
             <dt>Contact Email:</dt>
-            <dd><input type="text" name="contact_email" value="{{ job.contact_email }}"></input></dd>
-            <dt>Salary:</dt> 
-            <dd>{{ job.salary_start }} - {{ job.salary_end }}</dd>
+            <dd><input placeholder="Email of who to contact" type="text" name="contact_email" value="{{ job.contact_email }}"></input></dd>
             <dt itempropr="url">Job URL:</dt>
-            <dd><input type="url" name="url" value="{{ job.url }}"></input></dd>
+            <dd><input placeholder="http://acme.com/jobs/1234/" type="url" name="url" value="{{ job.url }}"></input></dd>
             <dt>Tags:</dt>
             <dd>
                 <ul class="tags" itemprop="skills">
+                    {% if job.created %}
                     {% for subject in job.subjects.all %}
                     <li>
                     <input class="subject" type="text" name="subject_{{ forloop.counter0 }}" value="{{ subject.name }}"></input>
                     <button class="remove-subject" value="{{ forloop.counter0 }}"><img class="delete" src="{{ STATIC_URL }}/images/delete.png"></button>
                     <input type="hidden" type="text" name="subject_freebase_id_{{ forloop.counter0 }}" value="{{ subject.freebase_id }}"</input>
-                     </li>
+                    </li>
                     {% endfor %}
+                    {% endif %}
                     <input class="subject-new" type="text" name="subject_new" placeholder="Add a new tag!"></input>
                 </ul>
             </dd>
@@ -139,7 +147,7 @@
         {% if curate_employers %}
         <button name="action" value="next" class="btn primary">Curate Next</button>
         {% else %}
-        {% if not job.published %}
+        {% if job.id and not job.published %}
         <button name="action" value="publish" class="btn success">Publish</button>
         {% endif %}
         <button name="action" value="save" class="btn primary">Save</button>

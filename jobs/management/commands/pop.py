@@ -14,9 +14,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         log.info("checking for new emails")
-        gmail = poplib.POP3_SSL(settings.POP_SERVER, settings.POP_PORT)
-        gmail.user(settings.POP_USER)
-        gmail.pass_(settings.POP_PASSWORD)
+        gmail = poplib.POP3_SSL(settings.EMAIL_HOST, settings.EMAIL_POP_PORT)
+        gmail.user(settings.EMAIL_HOST_USER)
+        gmail.pass_(settings.EMAIL_HOST_PASSWORD)
 
         num_messages = len(gmail.list()[1])
         for i in range(num_messages):

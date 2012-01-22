@@ -54,16 +54,12 @@
 
         {% else %}
 
-        <p>
-            <span style="color: red">{{ need_employer }}</span> 
-            jobs need to be assigned an employer
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <a href="{% url curate_employers %}">
-                <button class="btn primary">Start</button>
-            </a>
-        </p>
+        <ul>
+            <li><a href="{% url curate_drafts %}">{{ need_publish }}</a> job{{ need_publish|pluralize }} need{{ need_publish|pluralize:"s," }} to be looked over and published.
+            </li>
+            <li>
+            <a href="{% url curate_employers %}">{{ need_employer }}</a> job{{ need_employer|pluralize }} need to be assigned an employer.
+        </ul>
 
         {% endif %}
 

@@ -12,6 +12,7 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^jobs/(?P<subject_slug>.+)/$', 'jobs', name='jobs_by_subject'),
     url(r'^job/(?P<id>\d+)/$', 'job', name='job'),
     url(r'^job/(?P<id>\d+)/edit/$', 'job_edit', name='job_edit'),
+    url(r'^job/new/$', 'job_edit', name='job_new'),
 
     url(r'^keywords/matcher/$', 'matcher', name='matcher'),
     url(r'^keywords/matcher/table/$', 'matcher_table', name='matcher_table'),
@@ -28,6 +29,7 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^reports/$', 'reports', name='reports'),
     url(r'^curate/$', 'curate', name='curate'),
     url(r'^curate/employers/$', 'curate_employers', name='curate_employers'),
+    url(r'^curate/drafts/$', 'curate_drafts', name='curate_drafts'),
 
     url(r'', include('social_auth.urls')),
 

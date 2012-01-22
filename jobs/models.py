@@ -44,6 +44,7 @@ class Job(models.Model):
     published = models.DateTimeField(null=True)
     published_by = models.ForeignKey(User, related_name='published_jobs', 
             null=True)
+    tweet_date = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.title

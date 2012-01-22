@@ -1,9 +1,11 @@
 import re
+import smtplib
 import datetime
 
 from django.conf import settings
 from django.contrib import auth
 from django.db.models import Count
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
@@ -11,6 +13,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 import tweepy
 import bitlyapi
+import html2text
 
 from shortimer.jobs import models
 from shortimer.paginator import DiggPaginator
@@ -27,7 +30,8 @@ def logout(request):
     return redirect('/')
 
 def jobs(request, subject_slug=None):
-    jobs = models.Job.objects.all().order_by('-post_date')
+    jobs = models.Job.objects.filter(published__isnull=False)
+    jobs = jobs.order_by('-published')
 
     # filter by subject if we were given one
     if subject_slug:
@@ -52,22 +56,23 @@ def job(request, id):
     return render(request, "job.html", {"job": j})
 
 @login_required
-def job_edit(request, id):
-    j = get_object_or_404(models.Job, id=id)
+def job_edit(request, id=None):
+    if id:
+        j = get_object_or_404(models.Job, id=id)
+    else:
+        j = models.Job(creator=request.user)
+
+    can_edit_description = _can_edit_description(request.user, j)
+
     if request.method == "GET":
-        return render(request, "job_edit.html", {"job": j})
+        context = { "job": j, "can_edit_description": can_edit_description}
+        return render(request, "job_edit.html", context)
 
     form = request.POST
     if form.get("action") == "view":
         return redirect(reverse('job', args=[j.id]))
 
     _update_job(j, form, request.user)
-
-    if form.get("action") == "publish":
-        j.published = datetime.datetime.now()
-        j.published_by = request.user
-        j.save()
-        _tweet(j)
 
     return redirect(reverse('job_edit', args=[j.id]))
 
@@ -85,7 +90,7 @@ def _update_job(j, form, user):
         j.employer = e
 
     # only people flagged as staff can edit the job text
-    if user.is_staff:
+    if _can_edit_description(user, j):
         j.description = form.get('description')
 
     j.save()
@@ -106,6 +111,13 @@ def _update_job(j, form, user):
             s = models.Subject.objects.create(name=name, freebase_id=fb_id, slug=slug)
         finally:
             j.subjects.add(s)
+
+    if form.get("action") == "publish":
+        j.published = datetime.datetime.now()
+        j.published_by = user
+        j.save()
+        #_tweet(j)
+        _email(j)
 
     # record the edit
     models.JobEdit.objects.create(job=j, user=user)
@@ -198,7 +210,9 @@ def tags(request):
 
 def curate(request):
     need_employer = models.Job.objects.filter(employer__isnull=True).count()
-    return render(request, "curate.html", {"need_employer": need_employer})
+    need_publish = models.Job.objects.filter(published__isnull=True).count()
+    return render(request, "curate.html", {"need_employer": need_employer,
+                                           "need_publish": need_publish})
 
 @login_required
 def curate_employers(request):
@@ -210,9 +224,42 @@ def curate_employers(request):
 
     jobs = models.Job.objects.filter(employer__isnull=True)
     jobs = jobs.order_by('-post_date')
+
+    if jobs.count() == 0:
+        return redirect(reverse('curate'))
+
     job = jobs[0]
-    return render(request, "job_edit.html", {"job": job,
-                                             "curate_employers": True})
+    context = {
+            "job": job,
+            "curate_employers": True,
+            "can_edit_description": _can_edit_description(request.user, job)
+            }
+
+    return render(request, "job_edit.html", context)
+
+@login_required
+def curate_drafts(request):
+    if request.method == "POST":
+        form = request.POST
+        job = models.Job.objects.get(id=form.get('job_id'))
+        _update_job(job, form, request.user)
+        return redirect(reverse('curate_drafts'))
+
+    jobs = models.Job.objects.filter(published__isnull=True)
+    jobs = jobs.order_by('-post_date')
+
+    if jobs.count() == 0:
+        return redirect(reverse('curate'))
+
+    job = jobs[0]
+    context = {
+            "job": job,
+            "curate_drafts": True,
+            "can_edit_description": _can_edit_description(request.user, job)
+            }
+
+    return render(request, "job_edit.html", context)
+
 
 def reports(request):
     now = datetime.datetime.now()
@@ -244,13 +291,11 @@ def reports(request):
                                             "employers_m": employers_m,
                                             "employers_y": employers_y})
 
-
 def _tweet(job):
-    # get short url for the job
-    long_url = "http://jobs.code4lib.org/job/%s/" % job.id
-    bitly = bitlyapi.BitLy(settings.BITLY_USERNAME, settings.BITLY_PASSWORD)
-    response = bitly.shorten(longUrl=long_url)
-    url = response['url']
+    if job.tweet_date or not settings.CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY:
+        return 
+
+    url = _shortie(job)
 
     # construct tweet message
     msg = "Job: " + job.title
@@ -266,3 +311,42 @@ def _tweet(job):
 
     twitter = tweepy.API(auth)
     twitter.update_status(msg)
+    job.tweet_date = datetime.datetime.now()
+    job.save()
+
+def _email(job):
+    if job.post_date:
+        return
+
+    url = "http://jobs.code4lib.org/job/%s/" % job.id
+    body = html2text.html2text(job.description)
+    body += "\r\n\r\nBrought to you by code4lib jobs: " + url
+    body = re.sub('&[^ ]+;', '', body)
+
+    if job.employer:
+        subject = "Job: " + job.title + " at " + job.employer.name
+    else:
+        subject = "Job: " + job.title
+
+    send_mail(subject, body, 'jobs4lib@gmail.com', [settings.EMAIL_ANNOUNCE])
+    job.post_date = datetime.datetime.now()
+    job.save()
+
+def _shortie(job):
+    # get short url for the job
+    long_url = "http://jobs.code4lib.org/job/%s/" % job.id
+    bitly = bitlyapi.BitLy(settings.BITLY_USERNAME, settings.BITLY_PASSWORD)
+    response = bitly.shorten(longUrl=long_url)
+    return response['url']
+
+def _can_edit_description(user, job):
+    # only staff or the creator of a job posting can edit the text of the 
+    # job description.
+    if user.is_staff:
+        return True
+    elif job.creator == user:
+        return True
+    elif job.created == None:
+        return True
+    else:
+        return False
