@@ -11,6 +11,9 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
+from django.core.paginator import EmptyPage
+from django.http import HttpResponseNotFound
+
 import tweepy
 import bitlyapi
 import html2text
@@ -41,7 +44,10 @@ def jobs(request, subject_slug=None):
         subject = None
 
     paginator = DiggPaginator(jobs, 20, body=8)
-    page = paginator.page(request.GET.get("page", 1))
+    try:
+        page = paginator.page(request.GET.get("page", 1))
+    except EmptyPage:
+        return HttpResponseNotFound()
 
     context = {
         'jobs': page.object_list,
