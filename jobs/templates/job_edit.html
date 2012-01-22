@@ -110,7 +110,7 @@
             <dd itemprop="employmentType">{{ job.get_job_type_display }}</dd>
             <dt>Employer:</dt>
             <dd itemprop="hiringOrganization">
-            <input placeholder="Enter the employer name here: e.g. University of Gondor" type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
+            <input placeholder="University of Example" type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
             <input type="hidden" name="employer_freebase_id" value="{{ job.employer.freebase_id }}" id="employer_freebase_id"></input>
             </dd>
             {% if job.post_date %}
@@ -122,11 +122,11 @@
             <dd><time>{{ job.published }}</time></dd>
             {% endif %}
             <dt>Contact Name:</dt>
-            <dd><input placeholder="Name of who to contact" type="text" name="contact_name" value="{{ job.contact_name }}"></input></dd>
+            <dd><input placeholder="Joan Doe" type="text" name="contact_name" value="{{ job.contact_name }}"></input></dd>
             <dt>Contact Email:</dt>
-            <dd><input placeholder="Email of who to contact" type="text" name="contact_email" value="{{ job.contact_email }}"></input></dd>
+            <dd><input placeholder="joan@example.edu" type="text" name="contact_email" value="{{ job.contact_email }}"></input></dd>
             <dt itempropr="url">Job URL:</dt>
-            <dd><input placeholder="http://acme.com/jobs/1234/" type="url" name="url" value="{{ job.url }}"></input></dd>
+            <dd><input placeholder="http://example.edu/jobs/1234/" type="url" name="url" value="{{ job.url }}"></input></dd>
             <dt>Tags:</dt>
             <dd>
                 <ul class="tags" itemprop="skills">
