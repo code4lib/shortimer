@@ -32,7 +32,7 @@
                     <a class="brand" href="/">code4lib jobs</a>
                     <ul class="nav">
                         <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
-                        <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a href="{% url job_new %}">Post</a></li>
+                        <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a rel="nofollow" href="{% url job_new %}">Post</a></li>
                         <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url tags %}">Tags</a></li>
                         <li {% ifequal request.path "/users/" %} class="active" {% endifequal %}><a href="{% url users %}">Users</a></li>
                         <li {% ifequal request.path "/reports/" %} class="active" {% endifequal %}><a href="{% url reports %}">Reports</a></li>
