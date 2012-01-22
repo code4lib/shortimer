@@ -116,7 +116,7 @@ def _update_job(j, form, user):
         j.published = datetime.datetime.now()
         j.published_by = user
         j.save()
-        #_tweet(j)
+        _tweet(j)
         _email(j)
 
     # record the edit
@@ -328,7 +328,7 @@ def _email(job):
     else:
         subject = "Job: " + job.title
 
-    send_mail(subject, body, 'jobs4lib@gmail.com', [settings.EMAIL_ANNOUNCE])
+    send_mail(subject, body, 'jobs4lib@gmail.com', settings.EMAIL_ANNOUNCE)
     job.post_date = datetime.datetime.now()
     job.save()
 
