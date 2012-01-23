@@ -5,6 +5,7 @@ import datetime
 from django.conf import settings
 from django.contrib import auth
 from django.db.models import Count
+from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
@@ -25,6 +26,8 @@ def about(request):
     return render(request, 'about.html')
 
 def login(request):
+    if request.user.is_authenticated():
+        logout(request)
     next = request.GET.get('next', '')
     return render(request, 'login.html', {'next': next})
 
