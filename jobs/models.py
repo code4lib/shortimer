@@ -49,6 +49,10 @@ class Job(models.Model):
     def __str__(self):
         return self.title
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('job', [str(self.id)])
+
 class JobEdit(models.Model):
     user = models.ForeignKey(User, related_name="edits")
     job = models.ForeignKey(Job, related_name="edits")

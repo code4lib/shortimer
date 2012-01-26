@@ -165,9 +165,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shortimer.jobs',
     'django.contrib.admin',
+    'django.contrib.sitemaps',
     'south',
+    'shortimer.jobs',
 )
 
 AUTHENTICATION_BACKENDS = (

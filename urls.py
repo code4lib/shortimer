@@ -1,12 +1,9 @@
+from django.views.generic.simple import direct_to_template
 from django.conf.urls.defaults import patterns, include, url
 
-from django.contrib import admin
-
-admin.autodiscover()
+from shortimer.jobs.sitemap import JobSitemap
 
 urlpatterns = patterns('shortimer.jobs.views',
-    #url(r'^admin/', include(admin.site.urls)),
-
     url(r'^$', 'jobs', name='home'),
     url(r'^about/$', 'about', name='about'),
     url(r'^jobs/(?P<subject_slug>.+)/$', 'jobs', name='jobs_by_subject'),
@@ -31,6 +28,16 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^curate/employers/$', 'curate_employers', name='curate_employers'),
     url(r'^curate/drafts/$', 'curate_drafts', name='curate_drafts'),
 
+
     url(r'', include('social_auth.urls')),
 
+)
+
+# sitemap for the bots
+
+sitemaps = {'jobs': JobSitemap}
+
+urlpatterns += patterns('',
+    url(r'^robots\.txt$', direct_to_template, {'template': 'robots.txt', 'mimetype': 'text/plain'}),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )

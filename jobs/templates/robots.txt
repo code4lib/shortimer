@@ -1,0 +1,6 @@
+# Hi Bot! Welcome to jobs.code4lib.org
+
+User-agent: *
+Disallow: /nothing---please-crawl-us--
+
+Sitemap: http://jobs.code4lib.org/sitemap.xml
