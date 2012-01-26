@@ -10,14 +10,10 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^job/(?P<id>\d+)/$', 'job', name='job'),
     url(r'^job/(?P<id>\d+)/edit/$', 'job_edit', name='job_edit'),
     url(r'^job/new/$', 'job_edit', name='job_new'),
-
     url(r'^keywords/matcher/$', 'matcher', name='matcher'),
     url(r'^keywords/matcher/table/$', 'matcher_table', name='matcher_table'),
-
     url(r'^keywords/(?P<id>\d+)/$', 'keyword', name='keyword'),
-
     url(r'^tags/$', 'tags', name='tags'),
-
     url(r'^login/$', 'login', name='login'),
     url(r'^logout/$', 'logout', name='logout'),
     url(r'^user/(?P<username>.+)/$', 'user', name='user'),
@@ -27,16 +23,10 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^curate/$', 'curate', name='curate'),
     url(r'^curate/employers/$', 'curate_employers', name='curate_employers'),
     url(r'^curate/drafts/$', 'curate_drafts', name='curate_drafts'),
-
-
     url(r'', include('social_auth.urls')),
-
 )
 
-# sitemap for the bots
-
 sitemaps = {'jobs': JobSitemap}
-
 urlpatterns += patterns('',
     url(r'^robots\.txt$', direct_to_template, {'template': 'robots.txt', 'mimetype': 'text/plain'}),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
