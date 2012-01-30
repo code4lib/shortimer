@@ -5,6 +5,8 @@ from shortimer.jobs.sitemap import JobSitemap
 
 urlpatterns = patterns('shortimer.jobs.views',
     url(r'^$', 'jobs', name='home'),
+    url(r'^feed/$', 'feed', name='feed'),
+    url(r'^feed/(?P<page>\d+)/$', 'feed', name='feed_page'),
     url(r'^about/$', 'about', name='about'),
     url(r'^jobs/(?P<subject_slug>.+)/$', 'jobs', name='jobs_by_subject'),
     url(r'^job/(?P<id>\d+)/$', 'job', name='job'),

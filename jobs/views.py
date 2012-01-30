@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 
 from django.core.paginator import EmptyPage
 from django.http import HttpResponseNotFound
@@ -59,6 +59,17 @@ def jobs(request, subject_slug=None):
         'subject': subject,
     }
     return render(request, 'jobs.html', context)
+
+def feed(request, page=1):
+    jobs = models.Job.objects.filter(published__isnull=False)
+    jobs = jobs.order_by('-published')
+
+    paginator = DiggPaginator(jobs, 25, body=8)
+    page = paginator.page(page)
+
+    return render_to_response('feed.xml', 
+                              {"page": page}, 
+                              mimetype="application/atom+xml")
 
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)

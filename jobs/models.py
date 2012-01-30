@@ -43,8 +43,7 @@ class Job(models.Model):
     employer = models.ForeignKey('Employer', related_name='jobs', null=True)
     creator = models.ForeignKey(User, related_name='jobs', null=True)
     published = models.DateTimeField(null=True)
-    published_by = models.ForeignKey(User, related_name='published_jobs', 
-            null=True)
+    published_by = models.ForeignKey(User, related_name='published_jobs', null=True)
     tweet_date = models.DateTimeField(null=True)
 
     def __str__(self):
