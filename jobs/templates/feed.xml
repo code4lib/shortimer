@@ -21,7 +21,8 @@
         <name>{{ job.contact_name }}</name>
         <email>{{ job.contact_email }}</email>
         </author>
-        {% else %}
+        {% endif %}
+        {% if job.creator %}
         <author>
             <name>{{ job.creator.get_full_name }}</name>
             <uri>http://jobs.code4lib.org{% url user job.creator.username %}</uri>
