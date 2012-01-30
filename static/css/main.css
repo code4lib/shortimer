@@ -166,6 +166,27 @@ li.label {
     background-color: #ffffcc;
 }
 
+span.label.ft {
+    background-color: blue;
+}
+
+span.label.pt {
+    background-color: gray;
+}
+
+span.label.co {
+    background-color: yellow;
+    color: black;
+}
+
+span.label.tm {
+    background-color: orange;
+}
+
+span.label.in {
+    background-color: green;
+}
+
 td.social-small {
     text-align: center;
 }

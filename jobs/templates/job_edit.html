@@ -110,7 +110,7 @@
             <dd itemprop="employmentType">
                 <select name="job_type">
                 {% for code, value in job_types %}
-                <option value="{{ code }} {% ifequal code "pt" %}selected{% endifequal %}">{{ value }}</option>
+                <option value="{{ code }}" {% ifequal code job.job_type %}selected{% endifequal %}>{{ value }}</option>
                 {% endfor %}
             </select>
             </dd>

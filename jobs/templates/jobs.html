@@ -37,6 +37,7 @@
         <th style="width: 85px;">Posted</th>
         <th>Title</th>
         <th style="width: 45%">Tags</th>
+        <th>Type</th>
     </tr>
 {% for job in jobs %}
     <tr>
@@ -48,6 +49,9 @@
                 <li class="label"><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></li>
                 {% endfor %}
             </ul>
+        </td>
+        <td>
+            <span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</span>
         </td>
     </tr>
 {% endfor %}
