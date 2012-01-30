@@ -15,11 +15,11 @@ from social_auth.backends.twitter import TwitterBackend
 
 
 JOB_TYPES = (
-    ('ft', 'full-time'), 
-    ('pt', 'part-time'), 
-    ('co', 'contract'),
-    ('tm', 'temporary'), 
-    ('in', 'internship'),
+    (u'ft', 'full-time'), 
+    (u'pt', 'part-time'), 
+    (u'co', 'contract'),
+    (u'tm', 'temporary'), 
+    (u'in', 'internship'),
 )
 
 # http://daringfireball.net/2010/07/improved_regex_for_matching_urls

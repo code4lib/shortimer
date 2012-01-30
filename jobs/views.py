@@ -74,7 +74,10 @@ def job_edit(request, id=None):
     can_edit_description = _can_edit_description(request.user, j)
 
     if request.method == "GET":
-        context = { "job": j, "can_edit_description": can_edit_description}
+        context = {"job": j, 
+                   "curate_next": request.path == "/curate/employers/",
+                   "can_edit_description": can_edit_description, 
+                   "job_types": models.JOB_TYPES}
         return render(request, "job_edit.html", context)
 
     form = request.POST
@@ -83,13 +86,17 @@ def job_edit(request, id=None):
 
     _update_job(j, form, request.user)
 
-    return redirect(reverse('job_edit', args=[j.id]))
+    if request.path.startswith("/curate/"):
+        return redirect(request.path)
+    else:
+        return redirect(reverse('job_edit', args=[j.id]))
 
 def _update_job(j, form, user):
     j.title = form.get("title")
     j.url = form.get("url")
     j.contact_name = form.get("contact_name")
     j.contact_email = form.get("contact_email")
+    j.job_type = form.get("job_type")
 
     # set employer
     if form.get("employer", None):
@@ -226,49 +233,28 @@ def curate(request):
 @login_required
 def curate_employers(request):
     if request.method == "POST":
-        form = request.POST
-        job = models.Job.objects.get(id=form.get('job_id'))
-        _update_job(job, form, request.user)
-        return redirect(reverse('curate_employers'))
+        return job_edit(request, request.POST.get('job_id'))
 
+    # get latest job that lacks an employer
     jobs = models.Job.objects.filter(employer__isnull=True)
     jobs = jobs.order_by('-post_date')
-
     if jobs.count() == 0:
         return redirect(reverse('curate'))
-
     job = jobs[0]
-    context = {
-            "job": job,
-            "curate_employers": True,
-            "can_edit_description": _can_edit_description(request.user, job)
-            }
-
-    return render(request, "job_edit.html", context)
+    return job_edit(request, job.id)
 
 @login_required
 def curate_drafts(request):
     if request.method == "POST":
-        form = request.POST
-        job = models.Job.objects.get(id=form.get('job_id'))
-        _update_job(job, form, request.user)
-        return redirect(reverse('curate_drafts'))
+        return job_edit(request, request.POST.get('job_id'))
 
+    # get latest un-published job
     jobs = models.Job.objects.filter(published__isnull=True)
     jobs = jobs.order_by('-post_date')
-
     if jobs.count() == 0:
         return redirect(reverse('curate'))
-
     job = jobs[0]
-    context = {
-            "job": job,
-            "curate_drafts": True,
-            "can_edit_description": _can_edit_description(request.user, job)
-            }
-
-    return render(request, "job_edit.html", context)
-
+    return job_edit(request, job.id)
 
 def reports(request):
     now = datetime.datetime.now()

@@ -107,7 +107,13 @@
     <section class="span5">
         <dl>
             <dt>Job Type:</dt>
-            <dd itemprop="employmentType">{{ job.get_job_type_display }}</dd>
+            <dd itemprop="employmentType">
+                <select name="job_type">
+                {% for code, value in job_types %}
+                <option value="{{ code }} {% ifequal code "pt" %}selected{% endifequal %}">{{ value }}</option>
+                {% endfor %}
+            </select>
+            </dd>
             <dt>Employer:</dt>
             <dd itemprop="hiringOrganization">
             <input placeholder="University of Example" type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
@@ -144,7 +150,7 @@
             </dd>
         </dl>
         <br>
-        {% if curate_employers %}
+        {% if curate_next %}
         <button name="action" value="next" class="btn primary">Curate Next</button>
         {% else %}
         {% if job.id and not job.published %}
