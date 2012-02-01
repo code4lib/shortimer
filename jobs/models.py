@@ -98,11 +98,15 @@ class Subject(models.Model):
 
     def freebase_url(self):
         return "http://www.freebase.com/view" + self.freebase_id
-        base = "http://www.freebase.com/view"
-        if self.freebase_id.startswith("/en"):
-            return base + self.freebase_id
-        else:
-            return base + "/en" + self.freebase_id
+
+    def freebase_json_url(self):
+        return "http://www.freebase.com/experimental/topic/standard" + self.freebase_id
+
+    def freebase_rdf_url(self):
+        id = self.freebase_id
+        id = id.lstrip("/")
+        id = id.replace("/", ".")
+        return "http://rdf.freebase.com/rdf/" + id
 
     def freebase_type_url(self):
         return "http://www.freebase.com/view" + self.freebase_type_id

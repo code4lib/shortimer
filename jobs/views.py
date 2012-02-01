@@ -7,6 +7,7 @@ from django.contrib import auth
 from django.db.models import Count
 from django.contrib.auth import logout
 from django.core.mail import send_mail
+from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
@@ -63,13 +64,15 @@ def jobs(request, subject_slug=None):
 def feed(request, page=1):
     jobs = models.Job.objects.filter(published__isnull=False)
     jobs = jobs.order_by('-published')
+    updated = jobs[0].updated
 
     paginator = DiggPaginator(jobs, 25, body=8)
     page = paginator.page(page)
 
     return render_to_response('feed.xml', 
-                              {"page": page}, 
-                              mimetype="application/atom+xml")
+                              {"page": page, "updated": updated}, 
+                              mimetype="application/atom+xml",
+                              context_instance=RequestContext(request))
 
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)
