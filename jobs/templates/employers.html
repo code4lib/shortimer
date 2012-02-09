@@ -1,0 +1,27 @@
+{% extends "site.html" %}
+
+{% block title %}Employers{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="span3">&nbsp;</div>
+<div class="span11">
+<table class="zebra-striped bordered-table">
+    <tr>
+        <th>Employer</th>
+        <th>Jobs</th>
+    </tr>
+{% for employer in page.object_list %}
+    <tr>
+        <td>
+            <a href="{% url employer employer.slug %}">{{ employer.name }}</a>
+        </td>
+        <td>{{ employer.num_jobs }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% include "paginator.html" %}
+</div>
+</div>
+
+{% endblock %}
