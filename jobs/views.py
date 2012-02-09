@@ -229,6 +229,7 @@ def tags(request):
 
     subjects = models.Subject.objects.all()
     subjects = subjects.annotate(num_jobs=Count("jobs"))
+    subjects = subjects.filter(num_jobs__gt=0)
     subjects = subjects.order_by("-num_jobs")
     paginator = DiggPaginator(subjects, 25, body=8)
     page = paginator.page(request.GET.get("page", 1))
@@ -237,6 +238,23 @@ def tags(request):
         "page": page
         }
     return render(request, "tags.html", context)
+
+def employers(request):
+    employers = models.Employer.objects.all()
+    employers = employers.annotate(num_jobs=Count("jobs"))
+    employers = employers.filter(num_jobs__gt=0)
+    employers = employers.order_by("-num_jobs")
+    paginator = DiggPaginator(employers, 25, body=8)
+    page = paginator.page(request.GET.get("page", 1))
+    context = {
+        "paginator": paginator,
+        "page": page,
+    }
+    return render(request, "employers.html", context)
+
+def employer(request, employer_slug):
+    employer = get_object_or_404(Employer, slug=employer_slug)
+    return render(request, "employer.html", {"employer": employer})
 
 def curate(request):
     need_employer = models.Job.objects.filter(employer__isnull=True).count()
@@ -311,6 +329,10 @@ def _tweet(job):
     if job.employer:
         msg = msg + " at " + job.employer.name
     msg += ' ' + url
+
+    # can't tweet if it won't fit
+    if len(msg) > 140:
+        return 
 
     # tweet it
     auth = tweepy.OAuthHandler(settings.CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY,

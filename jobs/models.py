@@ -63,6 +63,7 @@ class JobEdit(models.Model):
 
 class Employer(models.Model):
     name = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255, null=True)
     freebase_id = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -151,6 +152,7 @@ def create_user_profile(sender, created, instance, **kwargs):
         UserProfile.objects.create(user=instance)
 
 pre_save.connect(make_slug, sender=Subject)
+pre_save.connect(make_slug, sender=Employer)
 pre_update.connect(facebook_extra_values, sender=FacebookBackend)
 pre_update.connect(twitter_extra_values, sender=TwitterBackend)
 post_save.connect(create_user_profile, sender=User)
