@@ -47,7 +47,11 @@
         // set up ckeditor panel for job description
         var config = {
             height: 1800,
-            toolbar_Full: [['Bold', 'Italic', 'Underline', 'SpellChecker', 'Link', "BulletedList", "NumberedList"]]
+            enterMode: CKEDITOR.ENTER_BR,
+            shiftEnterMode: CKEDITOR.ENTER_P,
+            forcePasteAsPlainText: true, 
+            toolbar_Full: [['Bold', 'Italic', 'Underline', 'Link',
+            "BulletedList", "Indent", "Outdent", "RemoveFormat", "Paste", "Undo", "Redo", "ShowBlocks"]]
         };
         $("textarea.editor").ckeditor(config);
 
