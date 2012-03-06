@@ -3,3 +3,5 @@ mboxes/*
 settings.py
 *.db
 logs/*
+.project
+.pydevproject
