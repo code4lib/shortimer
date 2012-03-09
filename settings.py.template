@@ -20,6 +20,9 @@ LINKEDIN_CONSUMER_KEY = ''
 LINKEDIN_CONSUMER_SECRET = ''
 GITHUB_APP_ID = ''
 GITHUB_API_SECRET = ''
+GOOGLE_CONSUMER_KEY = ''
+GOOGLE_CONSUMER_SECRET = ''
+GOOGLE_DISPLAY_NAME = ''
 
 # credentials for the code4lib twitter account, to tweet new job postings
 

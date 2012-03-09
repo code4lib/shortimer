@@ -126,7 +126,7 @@ class UserProfile(models.Model):
         return [s.provider for s in self.user.social_auth.all()]
     
     def unlinked_providers(self):
-        providers = set(["twitter", "facebook", "github", "linkedin"])
+        providers = set(["twitter", "facebook", "github", "linkedin", "google"])
         linked = set(self.linked_providers())
         return list(providers - linked)
 
