@@ -359,7 +359,7 @@ def _email(job):
     else:
         subject = "Job: " + job.title
 
-    send_mail(subject, body, 'jobs4lib@gmail.com', settings.EMAIL_ANNOUNCE)
+    send_mail(subject, body, settings.EMAIL_HOST_USER, settings.EMAIL_ANNOUNCE)
     job.post_date = datetime.datetime.now()
     job.save()
 
