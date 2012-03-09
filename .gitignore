@@ -5,3 +5,4 @@ settings.py
 logs/*
 .project
 .pydevproject
+ENV/
