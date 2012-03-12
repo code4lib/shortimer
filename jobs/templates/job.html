@@ -14,8 +14,16 @@
         <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         <br>
         <a name="fb_share"></a> <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-        <br>
-        <br>
+        <div class="gplus-like">
+            <div class="g-plusone" data-size="medium" data-annotation="inline"></div>
+            <script type="text/javascript">
+            (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+            </script>
+        </div>
         <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType">{{ job.get_job_type_display }}</dd>

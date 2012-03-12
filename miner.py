@@ -80,10 +80,12 @@ def normalize_name(name):
     return name
 
 def get_html(text):
-    html = "<p>" + text + "</p>"
-    html = html.replace("\n\n", "</p>\n\n<p>")
-    html = re.sub(URL_PATTERN, r'<a href="\1">\1</a>', html)
-    return html
+    if text is not None:
+        html = "<p>" + text + "</p>"
+        html = html.replace("\n\n", "</p>\n\n<p>")
+        return re.sub(URL_PATTERN, r'<a href="\1">\1</a>', html)
+    else:
+        return None
 
 def get_body(msg):
     # pull out first text part to a multipart message

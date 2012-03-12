@@ -152,6 +152,9 @@ img.tiny-avatar {
     line-height: 130%;
 }
 
+.gplus-like {
+    padding: 5px 0px 25px 0px;
+}
 
 ul.tags {
     list-style: none;
