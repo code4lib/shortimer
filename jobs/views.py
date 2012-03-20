@@ -132,6 +132,8 @@ def _update_job(j, form, user):
         if not m: continue
 
         name = form.get(k)
+        if not name: continue
+
         fb_id = form.get("subject_freebase_id_" + m.group(1))
         slug = slugify(name)
 
