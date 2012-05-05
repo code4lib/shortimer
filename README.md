@@ -49,8 +49,8 @@ might be useful to watch:
 * [libjobs](http://infoserv.inist.fr/wwsympa.fcgi/subrequest/libjobs)
 * [LITA Jobs](http://www.ala.org/lita/professional/jobs/looking)
 
-License:
+License
+-------
 
-Public Domain
-
+* CC0
 
