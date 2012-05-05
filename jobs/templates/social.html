@@ -17,5 +17,10 @@
 <li><a href="http://www.github.com/{{ s.user }}"><img title="{{ user.get_full_name }} on GitHub" src="{{ STATIC_URL }}/images/auth/github_64.png"></a></li>
 {% endifequal %}
 
+{% ifequal s.provider "google" %}
+<li><img title="{{ user.get_full_name }} on Google" src="{{ STATIC_URL }}/images/auth/google_64.png"></a></li>
+{% endifequal %}
+
+
 {% endfor %}
 </ul>
