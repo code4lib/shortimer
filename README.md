@@ -1,5 +1,5 @@
 shortimer
----------
+=========
 
 shortimer is a [django](http://www.djangoproject.com) web app that collects job 
 announcements from the code4lib discussion list and puts them on the Web. 
@@ -7,6 +7,9 @@ Basically shortimer subscribes to the code4lib discussion list, and periodically
 pops its email account looking for job advertisements. When it notices what
 looks like a job ad it adds it to the database, where it can be curated by
 folks who have an account.
+
+Install
+-------
 
 To get shortimer running locally you'll need to follow these instructions. The 
 first step installs Python's virtualenv which provides a sandbox environment 
@@ -32,6 +35,19 @@ login provider.
 1. fetch and load the code4lib email archive `python manage.py load_mboxes`
 1. `python manage.py runserver`
 1. point web browser at http://locahost:8000
+
+Ideas
+-----
+
+It might be useful for shortimer to monitor places where jobs are posted on the
+web and scrape them, where they could then be approved. Here are some sites that
+might be useful to watch:
+
+* [Digital Preservation Coalition](http://www.dpconline.org/newsroom/vacancies)
+* [Digital Humanities Job Archive](http://jobs.lofhm.org/)
+* [ALA Job List](http://joblist.ala.org/)
+* [libjobs](http://infoserv.inist.fr/wwsympa.fcgi/subrequest/libjobs)
+* [LITA Jobs](http://www.ala.org/lita/professional/jobs/looking)
 
 License:
 
