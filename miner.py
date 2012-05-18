@@ -60,15 +60,15 @@ def email_to_job(msg):
         return None
 
     j.save()
-
-    # automatically assign subjects based on keywords in the job description
-    for n in nouns(j.description):
-        n = n.lower()
-        for subject in Subject.objects.filter(keywords__name=n):
-            j.subjects.add(subject)
-
+    autotag(j)
     j.save()
     return j
+
+def autotag(job):
+    for n in nouns(job.description):
+        n = n.lower()
+        for subject in Subject.objects.filter(keywords__name=n):
+            job.subjects.add(subject)
 
 def normalize_name(name):
     if ',' in name:

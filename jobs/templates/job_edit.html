@@ -89,7 +89,7 @@
     <input placeholder="Enter just the job title here, the employer name comes from dropdown: e.g. Web Developer" type="text" size="200" name="title" class="span10" value="{{ job.title }}">
     </header>
     <div class="row">
-    <section class="span11">
+    <section class="span10">
         {% if can_edit_description %}
         <textarea name="description" class="editor" itemprop="description">
             {% if job.description %}
@@ -108,7 +108,7 @@
         </div>
         {% endif %}
     </section>
-    <section class="span5">
+    <section class="span6">
         <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType">
@@ -157,13 +157,19 @@
         {% if curate_next %}
         <button name="action" value="next" class="btn primary">Curate Next</button>
         {% else %}
-        {% if job.id and not job.published %}
-        <button name="action" value="publish" class="btn success">Publish</button>
-        {% endif %}
+        {% if job.id %}
+        <p>
         <button name="action" value="save" class="btn primary">Save</button>
-            {% if job.id %}
-            <button name="action" value="view" class="btn">View</button>
-            {% endif %}
+        <button name="action" value="autotag" class="btn warning">AutoTag</button>
+        <button name="action" value="view" class="btn">View</button>
+        </p>
+        {% endif %}
+        {% if job.id and not job.published %}
+        <p>
+        <button name="action" value="publish" class="btn success">Publish</button>
+        <button name="action" value="delete" class="btn danger">Delete</button>
+        </p>
+        {% endif %}
         {% endif %}
         <br>
         <br>

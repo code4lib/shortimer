@@ -21,6 +21,7 @@ import bitlyapi
 import html2text
 
 from shortimer.jobs import models
+from shortimer.miner import autotag
 from shortimer.paginator import DiggPaginator
 
 def about(request):
@@ -100,10 +101,19 @@ def job_edit(request, id=None):
 
     _update_job(j, form, request.user)
 
+    if form.get("action") == "autotag":
+        autotag(j)
+
+    if form.get("action") == "delete" and not j.published:
+        j.delete()
+
     if request.path.startswith("/curate/"):
         return redirect(request.path)
-    else:
+
+    if j:
         return redirect(reverse('job_edit', args=[j.id]))
+
+    return redirect("/") # job was deleted
 
 def _update_job(j, form, user):
     j.title = form.get("title")
