@@ -157,13 +157,11 @@
         {% if curate_next %}
         <button name="action" value="next" class="btn primary">Curate Next</button>
         {% else %}
-        {% if job.id %}
         <p>
         <button name="action" value="save" class="btn primary">Save</button>
         <button name="action" value="autotag" class="btn warning">AutoTag</button>
         <button name="action" value="view" class="btn">View</button>
         </p>
-        {% endif %}
         {% if job.id and not job.published %}
         <p>
         <button name="action" value="publish" class="btn success">Publish</button>
