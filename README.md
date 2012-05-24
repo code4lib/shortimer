@@ -48,6 +48,7 @@ might be useful to watch:
 * [ALA Job List](http://joblist.ala.org/)
 * [libjobs](http://infoserv.inist.fr/wwsympa.fcgi/subrequest/libjobs)
 * [LITA Jobs](http://www.ala.org/lita/professional/jobs/looking)
+* [NDIIPP on Twitter](https://twitter.com/#!/ndiipp)
 
 License
 -------
