@@ -177,7 +177,7 @@
             <dd>
             <ul>
                 {% for edit in job.edits.all %}
-                <li>{{ edit.user.username }} on {{ edit.created }}</li>
+                <li><a href="{% url user edit.user.username %}">{{ edit.user.username }}</a> on {{ edit.created }}</li>
                 {% endfor %}
             </ul>
             </dd>
