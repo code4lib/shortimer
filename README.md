@@ -49,6 +49,7 @@ might be useful to watch:
 * [libjobs](http://infoserv.inist.fr/wwsympa.fcgi/subrequest/libjobs)
 * [LITA Jobs](http://www.ala.org/lita/professional/jobs/looking)
 * [NDIIPP on Twitter](https://twitter.com/#!/ndiipp)
+* [metadatalibrarians](http://lists.monarchos.com/listinfo.cgi/metadatalibrarians-monarchos.com)
 
 License
 -------
