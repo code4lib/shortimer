@@ -40,8 +40,8 @@ Ideas
 -----
 
 It might be useful for shortimer to monitor places where jobs are posted on the
-web and scrape them, where they could then be approved. Here are some sites that
-might be useful to watch:
+web and scrape them, where they could then be approved (or deleted) in Shortimer's 
+queue. Here are some sites that might be useful to watch:
 
 * [Digital Preservation Coalition](http://www.dpconline.org/newsroom/vacancies)
 * [Digital Humanities Job Archive](http://jobs.lofhm.org/)
