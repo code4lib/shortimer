@@ -106,6 +106,7 @@ def job_edit(request, id=None):
 
     if form.get("action") == "delete" and not j.published:
         j.delete()
+        j = None
 
     if request.path.startswith("/curate/"):
         return redirect(request.path)
