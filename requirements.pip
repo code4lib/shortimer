@@ -9,3 +9,4 @@ django-social-auth
 bitlyapi
 tweepy
 html2text
+feedparser

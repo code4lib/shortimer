@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 
 from django.core.paginator import EmptyPage
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseGone, HttpResponseNotFound
 
 import tweepy
 import bitlyapi
@@ -38,7 +38,7 @@ def logout(request):
     return redirect('/')
 
 def jobs(request, subject_slug=None):
-    jobs = models.Job.objects.filter(published__isnull=False)
+    jobs = models.Job.objects.filter(published__isnull=False, deleted__isnull=True)
     jobs = jobs.order_by('-published')
 
     # filter by subject if we were given one
@@ -63,7 +63,7 @@ def jobs(request, subject_slug=None):
     return render(request, 'jobs.html', context)
 
 def feed(request, page=1):
-    jobs = models.Job.objects.filter(published__isnull=False)
+    jobs = models.Job.objects.filter(published__isnull=False, deleted__isnull=True)
     jobs = jobs.order_by('-published')
     updated = jobs[0].updated
 
@@ -77,6 +77,8 @@ def feed(request, page=1):
 
 def job(request, id):
     j = get_object_or_404(models.Job, id=id)
+    if j.deleted: 
+        return HttpResponseGone("Sorry, this job has been deleted.")
     return render(request, "job.html", {"job": j})
 
 @login_required
@@ -105,13 +107,13 @@ def job_edit(request, id=None):
         autotag(j)
 
     if form.get("action") == "delete" and not j.published:
-        j.delete()
-        j = None
+        j.deleted = datetime.datetime.now()
+        j.save()
 
     if request.path.startswith("/curate/"):
         return redirect(request.path)
 
-    if j:
+    if j and not j.deleted:
         return redirect(reverse('job_edit', args=[j.id]))
 
     return redirect("/") # job was deleted
@@ -240,7 +242,7 @@ def tags(request):
         s.save()
         return redirect(reverse('subject', args=[s.slug]))
 
-    subjects = models.Subject.objects.all()
+    subjects = models.Subject.objects.filter(jobs__deleted__isnull=True)
     subjects = subjects.annotate(num_jobs=Count("jobs"))
     subjects = subjects.filter(num_jobs__gt=0)
     subjects = subjects.order_by("-num_jobs")
@@ -270,8 +272,8 @@ def employer(request, employer_slug):
     return render(request, "employer.html", {"employer": employer})
 
 def curate(request):
-    need_employer = models.Job.objects.filter(employer__isnull=True).count()
-    need_publish = models.Job.objects.filter(published__isnull=True).count()
+    need_employer = models.Job.objects.filter(employer__isnull=True, deleted__isnull=True).count()
+    need_publish = models.Job.objects.filter(published__isnull=True, deleted__isnull=True).count()
     return render(request, "curate.html", {"need_employer": need_employer,
                                            "need_publish": need_publish})
 
@@ -281,7 +283,7 @@ def curate_employers(request):
         return job_edit(request, request.POST.get('job_id'))
 
     # get latest job that lacks an employer
-    jobs = models.Job.objects.filter(employer__isnull=True)
+    jobs = models.Job.objects.filter(employer__isnull=True, deleted__isnull=True)
     jobs = jobs.order_by('-post_date')
     if jobs.count() == 0:
         return redirect(reverse('curate'))
@@ -294,7 +296,7 @@ def curate_drafts(request):
         return job_edit(request, request.POST.get('job_id'))
 
     # get latest un-published job
-    jobs = models.Job.objects.filter(published__isnull=True)
+    jobs = models.Job.objects.filter(published__isnull=True, deleted__isnull=True)
     jobs = jobs.order_by('-post_date')
     if jobs.count() == 0:
         return redirect(reverse('curate'))
@@ -306,22 +308,22 @@ def reports(request):
     m = now - datetime.timedelta(days=31)
     y = now - datetime.timedelta(days=365)
 
-    subjects_m = models.Subject.objects.filter(jobs__post_date__gte=m)
+    subjects_m = models.Subject.objects.filter(jobs__post_date__gte=m, jobs__deleted__isnull=True)
     subjects_m = subjects_m.annotate(num_jobs=Count("jobs"))
     subjects_m = subjects_m.order_by("-num_jobs")
     subjects_m = subjects_m[0:25]
 
-    subjects_y = models.Subject.objects.filter(jobs__post_date__gte=y)
+    subjects_y = models.Subject.objects.filter(jobs__post_date__gte=y, jobs__deleted__isnull=True)
     subjects_y = subjects_y.annotate(num_jobs=Count("jobs"))
     subjects_y = subjects_y.order_by("-num_jobs")
     subjects_y = subjects_y[0:25]
 
-    employers_m = models.Employer.objects.filter(jobs__post_date__gte=m)
+    employers_m = models.Employer.objects.filter(jobs__post_date__gte=m, jobs__deleted__isnull=True)
     employers_m = employers_m.annotate(num_jobs=Count("jobs"))
     employers_m = employers_m.order_by("-num_jobs")
     employers_m = employers_m[0:10]
 
-    employers_y = models.Employer.objects.filter(jobs__post_date__gte=y)
+    employers_y = models.Employer.objects.filter(jobs__post_date__gte=y, jobs__deleted__isnull=True)
     employers_y = employers_y.annotate(num_jobs=Count("jobs"))
     employers_y = employers_y.order_by("-num_jobs")
     employers_y = employers_y[0:10]

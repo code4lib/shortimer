@@ -28,6 +28,7 @@ url_pattern = re.compile(r'''(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,
 class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     url = models.CharField(max_length=1024)
