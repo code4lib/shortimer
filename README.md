@@ -44,6 +44,7 @@ web and scrape them, where they could then be approved (or deleted) in Shortimer
 queue. Here are some sites that might be useful to watch:
 
 * [Digital Preservation Coalition](http://www.dpconline.org/newsroom/vacancies)
+* [Library jobs in the Chronicle of Higher * Education](http://chronicle.com/jobSearch?searchQueryString=&search_sortedBy=publicationDate+DESC&facetName%5B0%5D=jobadposition&facetName%5B1%5D=jobadcategory&facetValue%5B0%5D=54&facetValue%5B1%5D=58&facetCaption%5B0%5D=Professional+fields&facetCaption%5B1%5D=Library%2F+information+sciences&omni_mfs=true)
 * [Digital Humanities Job Archive](http://jobs.lofhm.org/)
 * [ALA Job List](http://joblist.ala.org/)
 * [libjobs](http://infoserv.inist.fr/wwsympa.fcgi/subrequest/libjobs)
