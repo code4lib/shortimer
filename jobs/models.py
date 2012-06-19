@@ -48,7 +48,7 @@ class Job(models.Model):
     tweet_date = models.DateTimeField(null=True)
 
     def __str__(self):
-        return self.title
+        return self.title.encode('ascii', 'ignore')
 
     @models.permalink
     def get_absolute_url(self):

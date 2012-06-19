@@ -51,6 +51,8 @@ queue. Here are some sites that might be useful to watch:
 * [LITA Jobs](http://www.ala.org/lita/professional/jobs/looking)
 * [NDIIPP on Twitter](https://twitter.com/#!/ndiipp)
 * [metadatalibrarians](http://lists.monarchos.com/listinfo.cgi/metadatalibrarians-monarchos.com)
+* [Archives Gig](http://archivesgig.livejournal.com/)
+* [Canadian Libraries Association Jobs](http://www.cla.ca/AM/Template.cfm?Section=Job_Search&Template=/CM/HTMLDisplay.cfm&ContentID=1964)
 
 License
 -------
