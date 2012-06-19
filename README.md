@@ -53,6 +53,7 @@ queue. Here are some sites that might be useful to watch:
 * [metadatalibrarians](http://lists.monarchos.com/listinfo.cgi/metadatalibrarians-monarchos.com)
 * [Archives Gig](http://archivesgig.livejournal.com/) also available on [Twitter](https://twitter.com/#!/archivesgig)
 * [Canadian Libraries Association Jobs](http://www.cla.ca/AM/Template.cfm?Section=Job_Search&Template=/CM/HTMLDisplay.cfm&ContentID=1964)
+* [Society of American Archivists](http://careers.archivists.org/)
 
 License
 -------
