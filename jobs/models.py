@@ -25,6 +25,26 @@ JOB_TYPES = (
 # http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 url_pattern = re.compile(r'''(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''')
 
+class FreebaseEntity(object):
+
+    def freebase_image_url(self):
+        url = "https://usercontent.googleapis.com/freebase/v1/image" 
+        url += self.freebase_id
+        url += "?maxwidth=400&maxheight=200"
+        return url
+
+    def freebase_url(self):
+        return "http://www.freebase.com/view" + self.freebase_id
+
+    def freebase_json_url(self):
+        return "http://www.freebase.com/experimental/topic/standard" + self.freebase_id
+
+    def freebase_rdf_url(self):
+        id = self.freebase_id
+        id = id.lstrip("/")
+        id = id.replace("/", ".")
+        return "http://rdf.freebase.com/rdf/" + id
+
 class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -62,7 +82,7 @@ class JobEdit(models.Model):
     class Meta: 
         ordering = ['-created']
 
-class Employer(models.Model):
+class Employer(models.Model, FreebaseEntity):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255, null=True)
     freebase_id = models.CharField(max_length=100, null=True)
@@ -78,7 +98,7 @@ class Keyword(models.Model):
     ignore = models.BooleanField(default=False)
     subject = models.ForeignKey('Subject', related_name='keywords', null=True)
 
-class Subject(models.Model):
+class Subject(models.Model, FreebaseEntity):
     name = models.CharField(max_length=500)
     slug = models.CharField(max_length=100, unique=True)
     type = models.CharField(max_length=100)
@@ -91,24 +111,6 @@ class Subject(models.Model):
 
     def __unicode__(self):
         return "%s [%s]" % (self.name, self.freebase_id) 
-
-    def freebase_image_url(self):
-        url = "https://usercontent.googleapis.com/freebase/v1/image" 
-        url += self.freebase_id
-        url += "?maxwidth=400&maxheight=200"
-        return url
-
-    def freebase_url(self):
-        return "http://www.freebase.com/view" + self.freebase_id
-
-    def freebase_json_url(self):
-        return "http://www.freebase.com/experimental/topic/standard" + self.freebase_id
-
-    def freebase_rdf_url(self):
-        id = self.freebase_id
-        id = id.lstrip("/")
-        id = id.replace("/", ".")
-        return "http://rdf.freebase.com/rdf/" + id
 
     def freebase_type_url(self):
         return "http://www.freebase.com/view" + self.freebase_type_id

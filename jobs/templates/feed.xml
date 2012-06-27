@@ -17,18 +17,17 @@
         <id>http://{{ request.META.HTTP_HOST }}{% url job job.id %}</id>
         <title>{{ job.title }}</title>
         <link rel="alternate" type="text/html" href="http://{{ request.META.HTTP_HOST }}{% url job job.id %}" />
-        {% if job.contact_name and job.contact_email %}
-        <author>
-        <name>{{ job.contact_name }}</name>
-        <email>{{ job.contact_email }}</email>
-        </author>
-        {% else %}
         {% if job.creator %}
         <author>
             <name>{{ job.creator.get_full_name }}</name>
             <uri>http://{{ request.META.HTTP_HOST }}{% url user job.creator.username %}</uri>
         </author>
         {% endif %}
+        {% if job.employer %}
+        <employer xmlns="http://jobs.code4lib.org">
+            <name>{{ job.employer.name }}</name>
+            <uri>{{ job.employer.freebase_url }}</uri>
+        </employer>
         {% endif %}
         <updated>{{ job.published|date:"Y-m-d\TH:i:s\Z" }}</updated>
         <content type="html">
