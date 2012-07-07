@@ -42,7 +42,7 @@
 {% for job in jobs %}
     <tr>
         <td>{{ job.post_date.date }}</td>
-        <td><a href="{% url job job.id %}">{{ job.title }}</a> {% if job.employer %} at {{ job.employer.name }}{% endif %}</td>
+        <td><a href="{% url job job.id %}">{{ job.title }}</a> {% if job.employer %} at <a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a>{% endif %}</td>
         <td>
             <ul class="tags">
                 {% for subject in job.subjects.all %}

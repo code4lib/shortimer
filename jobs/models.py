@@ -74,6 +74,9 @@ class Job(models.Model):
     def get_absolute_url(self):
         return ('job', [str(self.id)])
 
+    class Meta:
+        ordering = ['-post_date']
+
 class JobEdit(models.Model):
     user = models.ForeignKey(User, related_name="edits")
     job = models.ForeignKey(Job, related_name="edits")
@@ -91,6 +94,9 @@ class Employer(models.Model, FreebaseEntity):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=2)
     domain = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "%s - %s <%s>" % (self.name, self.slug, self.freebase_id)
 
 class Keyword(models.Model):
     created = models.DateTimeField(auto_now_add=True)

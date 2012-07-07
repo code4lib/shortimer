@@ -127,6 +127,8 @@ def _update_job(j, form, user):
 
     # set employer
     if form.get("employer", None):
+        employer_name = form.get("employer")
+        #employer_slug = 
         e, created = models.Employer.objects.get_or_create(
                 name=form.get("employer"),
                 freebase_id=form.get("employer_freebase_id"))
@@ -268,7 +270,7 @@ def employers(request):
     return render(request, "employers.html", context)
 
 def employer(request, employer_slug):
-    employer = get_object_or_404(Employer, slug=employer_slug)
+    employer = get_object_or_404(models.Employer, slug=employer_slug)
     return render(request, "employer.html", {"employer": employer})
 
 def curate(request):

@@ -55,6 +55,7 @@ queue. Here are some sites that might be useful to watch:
 * [Canadian Libraries Association Jobs](http://www.cla.ca/AM/Template.cfm?Section=Job_Search&Template=/CM/HTMLDisplay.cfm&ContentID=1964)
 * [Society of American Archivists](http://careers.archivists.org/)
 * [libgig](http://publicboard.libgig.com/)
+* [DigitalKoans](http://digital-scholarship.org/digitalkoans/category/digital-library-jobs/) also on [Twitter](https://twitter.com/DigitalKoans)
 
 License
 -------

@@ -51,7 +51,7 @@
         </tr>
         {% for employer in employers_m.all %}
         <tr>
-            <td>{{ employer.name }}</td>
+            <td><a href="{% url employer employer.slug %}">{{ employer.name }}</a></td>
             <td>{{ employer.num_jobs }}</td>
         </tr>
         {% endfor %}
@@ -67,7 +67,7 @@
         </tr>
         {% for employer in employers_y.all %}
         <tr>
-            <td>{{ employer.name }}</td>
+            <td><a href="{% url employer employer.slug %}">{{ employer.name }}</a></td>
             <td>{{ employer.num_jobs }}</td>
         </tr>
         {% endfor %}

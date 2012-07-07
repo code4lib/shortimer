@@ -29,7 +29,7 @@
             <dd itemprop="employmentType">{{ job.get_job_type_display }}</dd>
             {% if job.employer %}
             <dt>Employer:</dt>
-            <dd itemprop="hiringOrganization"><a href="">{{ job.employer.name }}</a></dd>
+            <dd itemprop="hiringOrganization"><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a></dd>
             {% endif %}
             {% if job.url %}
             <dt>Job URL:</dt>
