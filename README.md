@@ -11,15 +11,15 @@ folks who have an account.
 Install
 -------
 
-To get shortimer running locally you'll need to follow these instructions. The 
-first step installs Python's virtualenv which provides a sandbox environment 
+To get shortimer running locally you will need to follow these instructions. 
+The first step installs virtualenv which provides a Python sandbox environment 
 for you to install the other dependencies. Clearly apt-get is only available 
 on Debian based systems, but you will probably have a similar mechanism to 
 get virtualenv installed using other packages managers (homebrew, rpm, etc).
 From there on things should work independent of what operating system you are
 using.
 
-1. `sudo apt-get install python-virtualenv`
+1. `sudo apt-get install python-virtualenv mysql-server libmysqlclient-dev`
 1. `git clone git://github.com/code4lib/shortimer.git`
 1. `cd shortimer`
 1. `virtualenv --no-site-packages ENV`
@@ -27,9 +27,7 @@ using.
 1. `pip install -r requirements.pip`
 1. `cp settings.py.template settings.py`
 1. in order for people to login with their github, facebook, twitter, linkedin
-credentials you'll need to create applications on those sites, and fill in oauth
-keys in your settings.py. For development you can probably get by with just one
-login provider.
+credentials you will need to create applications on those sites, and fill in oauth keys in your settings.py. For development you can probably get by with just one login provider.
 1. `python manage.py syncdb --migrate`
 1. `python manage.py loaddata subjects_keywords`
 1. fetch and load the code4lib email archive `python manage.py load_mboxes`
@@ -40,8 +38,7 @@ Ideas
 -----
 
 It might be useful for shortimer to monitor places where jobs are posted on the
-web and scrape them, where they could then be approved (or deleted) in Shortimer's 
-queue. Here are some sites that might be useful to watch:
+web and scrape them, where they could then be approved (or deleted) in the queue. Here are some sites that might be useful to watch:
 
 * [Digital Preservation Coalition](http://www.dpconline.org/newsroom/vacancies)
 * [Library jobs in the Chronicle of Higher Education](http://chronicle.com/jobSearch?searchQueryString=&search_sortedBy=publicationDate+DESC&facetName%5B0%5D=jobadposition&facetName%5B1%5D=jobadcategory&facetValue%5B0%5D=54&facetValue%5B1%5D=58&facetCaption%5B0%5D=Professional+fields&facetCaption%5B1%5D=Library%2F+information+sciences&omni_mfs=true)
@@ -61,4 +58,3 @@ License
 -------
 
 * CC0
-
