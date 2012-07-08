@@ -228,3 +228,9 @@ LOGGING = {
 
 USE_THOUSAND_SEPARATOR = True
 
+JOB_FEEDS = [
+    'http://joblist.ala.org/news/',
+    'http://api.twitter.com/1/edsu/lists/jobs/statuses.atom',
+    'http://feeds.feedburner.com/alljobs',
+    'http://digital-scholarship.org/digitalkoans/category/digital-library-jobs/feed/'
+]

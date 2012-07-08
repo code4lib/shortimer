@@ -52,6 +52,7 @@ class Job(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     url = models.CharField(max_length=1024)
+    origin_url = models.CharField(max_length=1024, null=True)
     post_date = models.DateTimeField(null=True)
     close_date = models.DateTimeField(null=True)
     contact_name = models.CharField(max_length=255)

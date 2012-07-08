@@ -135,6 +135,10 @@
             <dd><input placeholder="Joan Doe" type="text" name="contact_name" value="{{ job.contact_name }}"></input></dd>
             <dt>Contact Email:</dt>
             <dd><input placeholder="joan@example.edu" type="text" name="contact_email" value="{{ job.contact_email }}"></input></dd>
+            {% if job.origin_url %}
+            <dt>Origin URL:</dt>
+            <dd><a href="{{ job.origin_url }}">{{ job.origin_url }}</a></dd>
+            {% endif %}
             <dt itempropr="url">Job URL:</dt>
             <dd><input placeholder="http://example.edu/jobs/1234/" type="url" name="url" value="{{ job.url }}"></input></dd>
             <dt>Tags:</dt>
