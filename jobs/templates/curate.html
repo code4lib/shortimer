@@ -25,27 +25,29 @@
 
         <p>
         <a href="http://jobs.code4lib.org">jobs.code4lib.org</a> 
-        automatically pulls job postings from the code4lib discussion list.
-        This means data entry of the job text, who the posting is from, and 
-        when it was posted can be done automatically using metadata in the 
-        email. We even automatically assign tags to postings using keywords
-        from the job description.
-        </p>
-        
-        <p>
-        But we need <em>people like you</em> to reliably evaluate these tags, 
-        assign employers, locations, etc. You might have a little 
-        bit of fun in the process since we use 
-        <a href="http://freebase.com">Freebase</a> as a pool of entities 
-        to use in our descriptions.
-        </p>
-        
-        <p>
-        This page can be used 
-        to identify and view job postings that could really use some of your 
-        organizational <em>mad skillz</em>. OK, here we go...
+        automatically pulls job postings from the 
+        <a href="http://dewey.library.nd.edu/mailing-lists/code4lib/">code4lib discussion list</a>,
+        the <a href="http://joblist.ala.org/news/">American Library Association</a>,
+        the <a href="http://www.cla.ca/AM/Template.cfm?Section=Job_Search&Template=/CM/HTMLDisplay.cfm&ContentID=1964">Canadian Library Association</a>,
+        <a href="http://digital-scholarship.org/digitalkoans/">Digital Koans</a>,
+        <a href="http://www.libgig.com/">LibGig</a>, and
+        <a href="http://archivesgig.livejournal.com/">ArchivesGig</a>. If 
+        there's other appropriate job sources please let us know at 
+        <a href="https://github.com/code4lib/shortimer/issues">Github</a> 
+        by opening an feature request.
         </p>
 
+        <p>
+        These job postings are put into a <a href="{% url curate_drafts %}">queue</a> where they wait for someone like you to make sure that the posting:
+        <ul>
+            <li>is relevant for the code4lib community</li>
+            <li>is assigned to an employer</li>
+            <li>contains a significant amount of the origin text of the
+            announcement</li>
+            <li>has useful tags assigned to it</li>
+        </ul>
+        </p>
+        
         {% if not user.is_authenticated %}
         <p>In order to curate job postings you will need to 
         <a href="{% url login %}?next={% url curate %}">login</a>. 
@@ -53,14 +55,9 @@
         </p>
 
         {% else %}
-
-        <ul>
-            <li><a href="{% url curate_drafts %}">{{ need_publish }}</a> job{{ need_publish|pluralize }} need{{ need_publish|pluralize:"s," }} to be looked over and published.
-            </li>
-            <li>
-            <a href="{% url curate_employers %}">{{ need_employer }}</a> job{{ need_employer|pluralize }} need to be assigned an employer.
-        </ul>
-
+        <p>
+        Right now <a href="{% url curate_drafts %}">{{ need_publish }}</a> job{{ need_publish|pluralize }} need{{ need_publish|pluralize:"s," }} to be looked over and published, and  <a href="{% url curate_employers %}">{{ need_employer }}</a> job{{ need_employer|pluralize }} need to be assigned an employer. Please help if you can!
+        </p>
         {% endif %}
 
         <br>
