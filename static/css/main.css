@@ -1,7 +1,6 @@
 body {
     color: black;
-    font-family: Courier;
-    font-size: 12pt;
+    font-size: 10pt;
 }
 
 #content {
@@ -154,7 +153,12 @@ img.tiny-avatar {
 }
 
 .bigtext p {
-    font-size: 12pt;
+    font-size: larger;
+    line-height: 130%;
+}
+
+.bigtext li {
+    font-size: larger;
     line-height: 130%;
 }
 
@@ -217,7 +221,6 @@ img.delete {
 
 li {
     color: black;
-    font-size: 12pt;
 }
 
 .brand {

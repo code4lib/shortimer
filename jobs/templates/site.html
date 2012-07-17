@@ -33,10 +33,11 @@
                     <a class="brand" href="/">code4lib jobs</a>
                     <ul class="nav">
                         <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
-                        <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a rel="nofollow" href="{% url job_new %}">Post</a></li>
                         <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url tags %}">Tags</a></li>
+                        <li {% ifequal request.path "/employers/" %} class="active" {% endifequal %}><a href="{% url employers %}">Employers</a></li>
                         <li {% ifequal request.path "/users/" %} class="active" {% endifequal %}><a href="{% url users %}">Users</a></li>
                         <li {% ifequal request.path "/reports/" %} class="active" {% endifequal %}><a href="{% url reports %}">Reports</a></li>
+                        <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a rel="nofollow" href="{% url job_new %}">Post</a></li>
                         <li {% ifequal request.path "/curate/" %} class="active" {% endifequal %}><a href="{% url curate %}">Curate</a></li>
                         <li {% ifequal request.path "/about/" %} class="active" {% endifequal %}><a href="{% url about %}">About</a></li>
                     </ul>
@@ -54,6 +55,7 @@
                         {% else %}
                         <li><a href="{% url login %}">Login</a></li>
                         {% endif %}
+                        <li><a href="{% url feed %}"><img class="tiny-avatar" src="/static/images/feed.png"></a></li>
                     </ul>
                 </div>
             </div>
