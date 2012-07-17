@@ -16,10 +16,6 @@ from django.shortcuts import render, render_to_response, get_object_or_404, redi
 from django.core.paginator import EmptyPage
 from django.http import HttpResponseGone, HttpResponseNotFound
 
-import tweepy
-import bitlyapi
-import html2text
-
 from shortimer.jobs import models
 from shortimer.miner import autotag
 from shortimer.paginator import DiggPaginator
@@ -94,6 +90,7 @@ def job_edit(request, id=None):
         context = {"job": j, 
                    "curate_next": request.path == "/curate/employers/",
                    "can_edit_description": can_edit_description, 
+                   "error": request.session.pop("error", None),
                    "job_types": models.JOB_TYPES}
         return render(request, "job_edit.html", context)
 
@@ -109,6 +106,13 @@ def job_edit(request, id=None):
     if form.get("action") == "delete" and not j.published:
         j.deleted = datetime.datetime.now()
         j.save()
+
+    if form.get("action") == "publish":
+        publishable, msg = j.publishable()
+        if not publishable:
+            request.session['error'] = 'Cannot publish yet: %s' % msg
+        else:
+            j.publish()
 
     if request.path.startswith("/curate/"):
         return redirect(request.path)
@@ -158,13 +162,6 @@ def _update_job(j, form, user):
             s = models.Subject.objects.create(name=name, freebase_id=fb_id, slug=slug)
         finally:
             j.subjects.add(s)
-
-    if form.get("action") == "publish":
-        j.published = datetime.datetime.now()
-        j.published_by = user
-        j.save()
-        _tweet(j)
-        _email(j)
 
     # record the edit
     models.JobEdit.objects.create(job=j, user=user)
@@ -334,58 +331,6 @@ def reports(request):
                                             "subjects_y": subjects_y,
                                             "employers_m": employers_m,
                                             "employers_y": employers_y})
-
-def _tweet(job):
-    if job.tweet_date or not settings.CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY:
-        return 
-
-    url = _shortie(job)
-
-    # construct tweet message
-    msg = "Job: " + job.title
-    if job.employer:
-        msg = msg + " at " + job.employer.name
-    msg += ' ' + url
-
-    # can't tweet if it won't fit
-    if len(msg) > 140:
-        return 
-
-    # tweet it
-    auth = tweepy.OAuthHandler(settings.CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY,
-                               settings.CODE4LIB_TWITTER_OAUTH_CONSUMER_SECRET)
-    auth.set_access_token(settings.CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_KEY,
-                          settings.CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_SECRET)
-
-    twitter = tweepy.API(auth)
-    twitter.update_status(msg)
-    job.tweet_date = datetime.datetime.now()
-    job.save()
-
-def _email(job):
-    if job.post_date:
-        return
-
-    url = "http://jobs.code4lib.org/job/%s/" % job.id
-    body = html2text.html2text(job.description)
-    body += "\r\n\r\nBrought to you by code4lib jobs: " + url
-    body = re.sub('&[^ ]+;', '', body)
-
-    if job.employer:
-        subject = "Job: " + job.title + " at " + job.employer.name
-    else:
-        subject = "Job: " + job.title
-
-    send_mail(subject, body, settings.EMAIL_HOST_USER, settings.EMAIL_ANNOUNCE)
-    job.post_date = datetime.datetime.now()
-    job.save()
-
-def _shortie(job):
-    # get short url for the job
-    long_url = "http://jobs.code4lib.org/job/%s/" % job.id
-    bitly = bitlyapi.BitLy(settings.BITLY_USERNAME, settings.BITLY_PASSWORD)
-    response = bitly.shorten(longUrl=long_url)
-    return response['url']
 
 def _can_edit_description(user, job):
     # only staff or the creator of a job posting can edit the text of the 

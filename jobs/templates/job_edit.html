@@ -83,6 +83,10 @@
 
 {% block content %}
 
+{% if error %}
+<div style="color: red; font-weight: bold;">{{ error }}</div>
+{% endif %}
+
 <form id="job" method="post">
     <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <header>
