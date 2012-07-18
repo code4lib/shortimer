@@ -309,20 +309,20 @@ def reports(request):
     y = now - datetime.timedelta(days=365)
 
     hotjobs_m = models.Job.objects.filter(post_date__gte=m, deleted__isnull=True)
-    hotjobs_m = hotjobs_m.order_by('-page_views')[0:25]
+    hotjobs_m = hotjobs_m.order_by('-page_views')[0:10]
 
     hotjobs_w = models.Job.objects.filter(post_date__gte=w, deleted__isnull=True)
-    hotjobs_w = hotjobs_w.order_by('-page_views')[0:25]
+    hotjobs_w = hotjobs_w.order_by('-page_views')[0:10]
 
     subjects_m = models.Subject.objects.filter(jobs__post_date__gte=m, jobs__deleted__isnull=True)
     subjects_m = subjects_m.annotate(num_jobs=Count("jobs"))
     subjects_m = subjects_m.order_by("-num_jobs")
-    subjects_m = subjects_m[0:25]
+    subjects_m = subjects_m[0:10]
 
     subjects_y = models.Subject.objects.filter(jobs__post_date__gte=y, jobs__deleted__isnull=True)
     subjects_y = subjects_y.annotate(num_jobs=Count("jobs"))
     subjects_y = subjects_y.order_by("-num_jobs")
-    subjects_y = subjects_y[0:25]
+    subjects_y = subjects_y[0:10]
 
     employers_m = models.Employer.objects.filter(jobs__post_date__gte=m, jobs__deleted__isnull=True)
     employers_m = employers_m.annotate(num_jobs=Count("jobs"))

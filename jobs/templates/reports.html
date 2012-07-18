@@ -8,15 +8,15 @@
 
     <article class="span8">
     <header>Top Jobs of the Week</header>
-    <table class="zebra-striped border-table">
+    <table class="zebra-striped">
         <tr>
             <th>Job</th>
-            <th title="Collected daily from Google Analytics">Page Views</th>
+            <th class="numeric" title="Collected daily from Google Analytics">Page Views</th>
         </tr>
         {% for job in hotjobs_w %}
         <tr>
             <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
-            <td>{{ job.page_views }}</td>
+            <td class="numeric">{{ job.page_views }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -24,15 +24,15 @@
 
     <article class="span8">
     <header>Top Jobs of the Month</header>
-    <table class="zebra-striped border-table">
+    <table class="zebra-striped">
         <tr>
             <th>Job</th>
-            <th><span title="Collected daily from Google Analytics">Page Views</span></th>
+            <th class="numeric" ><span title="Collected daily from Google Analytics">Page Views</span></th>
         </tr>
         {% for job in hotjobs_m %}
         <tr>
             <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
-            <td>{{ job.page_views }}</td>
+            <td class="numeric">{{ job.page_views }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -44,15 +44,15 @@
 
     <article class="span8">
     <header>Top Tags of the Month</header>
-    <table class="zebra-striped bordered-table">
+    <table class="zebra-striped">
         <tr>
             <th>Tag</th>
-            <th>Job Postings</th>
+            <th class="numeric">Job Postings</th>
         </tr>
         {% for subject in subjects_m.all %}
         <tr>
             <td><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></td>
-            <td>{{ subject.num_jobs }}</td>
+            <td class="numeric">{{ subject.num_jobs }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -60,15 +60,15 @@
 
     <article class="span8">
     <header>Top Tags of the Year</header>
-    <table class="zebra-striped bordered-table">
+    <table class="zebra-striped">
         <tr>
             <th>Tag</th>
-            <th>Job Postings</th>
+            <th class="numeric">Job Postings</th>
         </tr>
         {% for subject in subjects_y.all %}
         <tr>
             <td><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></td>
-            <td>{{ subject.num_jobs }}</td>
+            <td class="numeric">{{ subject.num_jobs }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -80,15 +80,15 @@
 
     <article class="span8">
     <header>Top Employers of the Month</header>
-    <table class="zebra-striped bordered-table">
+    <table class="zebra-striped">
         <tr>
             <th>Employer</th>
-            <th>Job Postings</th>
+            <th class="numeric">Job Postings</th>
         </tr>
         {% for employer in employers_m.all %}
         <tr>
             <td><a href="{% url employer employer.slug %}">{{ employer.name }}</a></td>
-            <td>{{ employer.num_jobs }}</td>
+            <td class="numeric">{{ employer.num_jobs }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -96,15 +96,15 @@
 
     <article class="span8">
     <header>Top Employers of the Year</header>
-    <table class="zebra-striped bordered-table">
+    <table class="zebra-striped">
         <tr>
             <th>Employer</th>
-            <th>Job Postings</th>
+            <th class="numeric">Job Postings</th>
         </tr>
         {% for employer in employers_y.all %}
         <tr>
             <td><a href="{% url employer employer.slug %}">{{ employer.name }}</a></td>
-            <td>{{ employer.num_jobs }}</td>
+            <td class="numeric">{{ employer.num_jobs }}</td>
         </tr>
         {% endfor %}
     </table>

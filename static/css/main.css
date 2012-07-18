@@ -234,3 +234,11 @@ section li {
 section p {
     color: black;
 }
+
+th.numeric {
+    text-align: right;
+}
+
+td.numeric {
+    text-align: right;
+}
