@@ -7,6 +7,11 @@ import requests
 from shortimer.jobs.models import Job
 
 class AnalyticsClient:
+    """
+    It's kind of sad that it was easier to roll my own code to talk 
+    to Google Analytics than it was to understand Google's gdata 
+    Python library...
+    """
 
     def __init__(self, username, password, source="jobs.code4lib.org"):
         self.username = username
