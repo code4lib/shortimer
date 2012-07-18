@@ -305,13 +305,14 @@ def curate_drafts(request):
 def reports(request):
     now = datetime.datetime.now()
     m = now - datetime.timedelta(days=31)
+    w = now - datetime.timedelta(days=7)
     y = now - datetime.timedelta(days=365)
 
     hotjobs_m = models.Job.objects.filter(post_date__gte=m, deleted__isnull=True)
     hotjobs_m = hotjobs_m.order_by('-page_views')[0:25]
 
-    hotjobs_y = models.Job.objects.filter(post_date__gte=y, deleted__isnull=True)
-    hotjobs_y = hotjobs_y.order_by('-page_views')[0:25]
+    hotjobs_w = models.Job.objects.filter(post_date__gte=w, deleted__isnull=True)
+    hotjobs_w = hotjobs_w.order_by('-page_views')[0:25]
 
     subjects_m = models.Subject.objects.filter(jobs__post_date__gte=m, jobs__deleted__isnull=True)
     subjects_m = subjects_m.annotate(num_jobs=Count("jobs"))
@@ -337,8 +338,8 @@ def reports(request):
                                             "subjects_y": subjects_y,
                                             "employers_m": employers_m,
                                             "employers_y": employers_y,
-                                            "hotjobs_m": hotjobs_m,
-                                            "hotjobs_y": hotjobs_y})
+                                            "hotjobs_w": hotjobs_w,
+                                            "hotjobs_m": hotjobs_m})
 
 def _can_edit_description(user, job):
     # only staff or the creator of a job posting can edit the text of the 

@@ -7,13 +7,13 @@
 <div class="row">
 
     <article class="span8">
-    <header>Top Jobs of the Month</header>
+    <header>Top Jobs of the Week</header>
     <table class="zebra-striped border-table">
         <tr>
             <th>Job</th>
-            <th><span title="Collected daily from Google Analytics">Page Views</span></th>
+            <th title="Collected daily from Google Analytics">Page Views</th>
         </tr>
-        {% for job in hotjobs_m %}
+        {% for job in hotjobs_w %}
         <tr>
             <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
             <td>{{ job.page_views }}</td>
@@ -23,13 +23,13 @@
     </article>
 
     <article class="span8">
-    <header>Top Jobs of the Year</header>
+    <header>Top Jobs of the Month</header>
     <table class="zebra-striped border-table">
         <tr>
             <th>Job</th>
-            <th title="Collected daily from Google Analytics">Page Views</th>
+            <th><span title="Collected daily from Google Analytics">Page Views</span></th>
         </tr>
-        {% for job in hotjobs_y %}
+        {% for job in hotjobs_m %}
         <tr>
             <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
             <td>{{ job.page_views }}</td>
