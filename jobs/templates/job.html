@@ -37,6 +37,10 @@
             {% endif %}
             <dt>Posted:</dt>
             <dd itempromp="datePosted"><time datetime="{{ job.post_date|date:"Y-m-d" }}">{{ job.post_date }}</time></dd>
+            {% if job.page_views %}
+            <dt>Page Views:</dt>
+            <dd>{{ job.page_views }}</dd>
+            {% endif %}
             {% if job.close_date %}
             <dt>Closes:</dt>
             <dd><time>{{ job.close_date }}</dd>

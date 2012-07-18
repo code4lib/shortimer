@@ -10,3 +10,4 @@ bitlyapi
 tweepy
 html2text
 feedparser
+requests

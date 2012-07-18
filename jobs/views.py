@@ -112,7 +112,7 @@ def job_edit(request, id=None):
         if not publishable:
             request.session['error'] = 'Cannot publish yet: %s' % msg
         else:
-            j.publish()
+            j.publish(request.user)
 
     if request.path.startswith("/curate/"):
         return redirect(request.path)
@@ -307,6 +307,12 @@ def reports(request):
     m = now - datetime.timedelta(days=31)
     y = now - datetime.timedelta(days=365)
 
+    hotjobs_m = models.Job.objects.filter(post_date__gte=m, deleted__isnull=True)
+    hotjobs_m = hotjobs_m.order_by('-page_views')[0:25]
+
+    hotjobs_y = models.Job.objects.filter(post_date__gte=y, deleted__isnull=True)
+    hotjobs_y = hotjobs_y.order_by('-page_views')[0:25]
+
     subjects_m = models.Subject.objects.filter(jobs__post_date__gte=m, jobs__deleted__isnull=True)
     subjects_m = subjects_m.annotate(num_jobs=Count("jobs"))
     subjects_m = subjects_m.order_by("-num_jobs")
@@ -330,7 +336,9 @@ def reports(request):
     return render(request, 'reports.html', {"subjects_m": subjects_m,
                                             "subjects_y": subjects_y,
                                             "employers_m": employers_m,
-                                            "employers_y": employers_y})
+                                            "employers_y": employers_y,
+                                            "hotjobs_m": hotjobs_m,
+                                            "hotjobs_y": hotjobs_y})
 
 def _can_edit_description(user, job):
     # only staff or the creator of a job posting can edit the text of the 

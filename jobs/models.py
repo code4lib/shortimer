@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import re
+import datetime
 
 from django.db import models
+from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -71,6 +73,7 @@ class Job(models.Model):
     published = models.DateTimeField(null=True)
     published_by = models.ForeignKey(User, related_name='published_jobs', null=True)
     tweet_date = models.DateTimeField(null=True)
+    page_views = models.IntegerField(null=True)
 
     def __str__(self):
         return self.title.encode('ascii', 'ignore')
@@ -79,7 +82,7 @@ class Job(models.Model):
     def get_absolute_url(self):
         return ('job', [str(self.id)])
 
-    def publish(self):
+    def publish(self, user):
         self.published = datetime.datetime.now()
         self.published_by = user
         self.tweet()
@@ -134,7 +137,7 @@ class Job(models.Model):
         body = re.sub('&[^ ]+;', '', body)
 
         if self.employer:
-            subject = "Job: " + self.title + " at " + job.employer.name
+            subject = "Job: " + self.title + " at " + self.employer.name
         else:
             subject = "Job: " + self.title
 

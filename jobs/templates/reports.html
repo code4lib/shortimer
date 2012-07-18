@@ -7,6 +7,42 @@
 <div class="row">
 
     <article class="span8">
+    <header>Top Jobs of the Month</header>
+    <table class="zebra-striped border-table">
+        <tr>
+            <th>Job</th>
+            <th>Page Views</th>
+        </tr>
+        {% for job in hotjobs_m %}
+        <tr>
+            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
+            <td>{{ job.page_views }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </article>
+
+    <article class="span8">
+    <header>Top Jobs of the Year</header>
+    <table class="zebra-striped border-table">
+        <tr>
+            <th>Job</th>
+            <th>Page Views</th>
+        </tr>
+        {% for job in hotjobs_y %}
+        <tr>
+            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
+            <td>{{ job.page_views }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </article>
+
+</div>
+
+<div class="row">
+
+    <article class="span8">
     <header>Top Tags of the Month</header>
     <table class="zebra-striped bordered-table">
         <tr>
