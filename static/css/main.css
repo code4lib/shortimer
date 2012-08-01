@@ -237,6 +237,7 @@ section p {
 
 th.numeric {
     text-align: right;
+    width: 85px;
 }
 
 td.numeric {
