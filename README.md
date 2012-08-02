@@ -53,6 +53,7 @@ web and scrape them, where they could then be approved (or deleted) in the queue
 * [Society of American Archivists](http://careers.archivists.org/)
 * [libgig](http://publicboard.libgig.com/)
 * [DigitalKoans](http://digital-scholarship.org/digitalkoans/category/digital-library-jobs/) also on [Twitter](https://twitter.com/DigitalKoans)
+* [idealist](http://www.idealist.org/)
 
 License
 -------
