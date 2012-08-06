@@ -26,6 +26,7 @@ JOB_TYPES = (
     (u'co', 'contract'),
     (u'tm', 'temporary'), 
     (u'in', 'internship'),
+    (u'rp', 'rfp'),
 )
 
 # http://daringfireball.net/2010/07/improved_regex_for_matching_urls

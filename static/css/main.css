@@ -196,6 +196,10 @@ span.label.tm {
     background-color: orange;
 }
 
+span.label.rp {
+    background-color: #ffd700;
+}
+
 span.label.in {
     background-color: green;
 }
