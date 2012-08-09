@@ -1,5 +1,7 @@
 import re
+import json
 import datetime
+import urlparse
 
 from django.conf import settings
 import requests
@@ -32,34 +34,34 @@ class AnalyticsClient:
 
     def get_json(self, path, params=None):
         headers = {"Authorization": self.auth, "GData-Version": "2"}
-        url = "https://www.google.com/" + path
+        url = urlparse.urljoin("https://www.googleapis.com", path)
         return requests.get(url, params=params, headers=headers).json
 
     def account_json(self):
-        return self.get_json("/analytics/feeds/accounts/default?alt=json")
+        return self.get_json("/analytics/v3/management/accounts?alt=json")
 
     def data_json(self, query):
-        return self.get_json("/analytics/feeds/data?alt=json", params=query)
+        return self.get_json("/analytics/v3/data/ga?alt=json", params=query)
 
-def websites():
+def profiles():
     c = AnalyticsClient(settings.GA_USERNAME, settings.GA_PASSWORD)
-    for a in c.account_json()['feed']['entry']:
-        print a['title']['$t'], a['dxp$tableId']['$t']
+    for account in c.account_json()['items']:
+        for prop in c.get_json(account['childLink']['href'])['items']:
+            for profile in c.get_json(prop['childLink']['href'])['items']:
+                yield profile
 
 def update():
     c = AnalyticsClient(settings.GA_USERNAME, settings.GA_PASSWORD)
     end_date = datetime.datetime.now().strftime("%Y-%m-%d")
     result = c.data_json({
-        "ids": "ga:54634246", 
+        "ids": settings.GA_PROFILE_ID,
         "dimensions": "ga:pagePath",
         "metrics": "ga:pageViews", 
         "start-date": "2010-01-01", 
         "end-date": end_date
     })
 
-    for row in result['feed']['entry']:
-        page = row['dxp$dimension'][0]['value']
-        views = row['dxp$metric'][0]['value']
+    for page, views in result['rows']:
         m = re.match("^/job/(\d+)/$", page)
         if not m:
             continue

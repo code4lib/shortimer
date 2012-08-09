@@ -6,3 +6,4 @@ logs/*
 .project
 .pydevproject
 ENV/
+build
