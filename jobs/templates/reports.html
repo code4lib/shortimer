@@ -15,7 +15,7 @@
         </tr>
         {% for job in hotjobs_w %}
         <tr>
-            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
+            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a></td>
             <td class="numeric">{{ job.page_views }}</td>
         </tr>
         {% endfor %}
@@ -31,7 +31,7 @@
         </tr>
         {% for job in hotjobs_m %}
         <tr>
-            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.id %}">{{ job.employer.name }}</a></td>
+            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a></td>
             <td class="numeric">{{ job.page_views }}</td>
         </tr>
         {% endfor %}
