@@ -53,21 +53,33 @@ def profiles():
 def update():
     c = AnalyticsClient(settings.GA_USERNAME, settings.GA_PASSWORD)
     end_date = datetime.datetime.now().strftime("%Y-%m-%d")
-    result = c.data_json({
-        "ids": settings.GA_PROFILE_ID,
-        "dimensions": "ga:pagePath",
-        "metrics": "ga:pageViews", 
-        "start-date": "2010-01-01", 
-        "end-date": end_date
-    })
+    start = 1
 
-    for page, views in result['rows']:
-        m = re.match("^/job/(\d+)/$", page)
-        if not m:
-            continue
-        try:
-            job = Job.objects.get(id=int(m.group(1)))
-            job.page_views = views
-            job.save()
-        except Job.DoesNotExist:
-            pass # deleted
+    while True:
+        result = c.data_json({
+            "ids": settings.GA_PROFILE_ID,
+            "dimensions": "ga:pagePath",
+            "metrics": "ga:pageViews", 
+            "start-date": "2010-01-01", 
+            "end-date": end_date,
+            "max-results": 1000,
+            "start-index": start
+        })
+
+        # no more stats to process
+        if not result.has_key('rows'):
+            break
+
+        for page, views in result['rows']:
+            m = re.match("^/job/(\d+)/$", page)
+            if not m:
+                continue
+            try:
+                job = Job.objects.get(id=int(m.group(1)))
+                job.page_views = views
+                job.save()
+            except Job.DoesNotExist:
+                pass # deleted
+
+        # ok, get the next page of stats
+        start += 1000
