@@ -1,6 +1,6 @@
 {% extends "site.html" %}
 
-{% block title %}Jobs{% endblock %}
+{% block title %}{% if subject %}{{ subject.name }}{% else %}all jobs{% endif %}{% endblock %}
 
 {% block extra_head %}
 <script>
