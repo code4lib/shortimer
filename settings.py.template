@@ -234,9 +234,9 @@ JOB_FEEDS = [
     'http://publicboard.libgig.com/feeds/rss20',
     'http://feeds.feedburner.com/alljobs',
     'http://digital-scholarship.org/digitalkoans/category/digital-library-jobs/feed/',
-    'http://www.idealist.org/search/v2/feeds?qs=QlpoOTFBWSZTWROKb4MAAHofgAMIcAIFAAQAv_f_oDAAtjDUJkZGT1GIZMQ0Gk0jZI0NAAeoAxIho0yZTT1A09IGnsaBMZv-SQETKJOFDVQsdpnWDKDuzV4JW8kjKyEyQmjaXJ9RvxmSNJBOdtPsEqMSOOj-u9MR9G0dRMUKrckQVmqWMoGDWxEL3sHHKYZhuzB_w67dyymKrznR2ZVRXUkYvdgHpRe2fJA0X6ksIBkshEdloJ4XuEkfdpnr_F3JFOFCQE4pvgw%3D',
     'http://www.alia.org.au/rss/vacancies.php',
     'http://www.higheredjobs.com/rss/categoryFeed.cfm?catID=34',
+    'http://www.museumsandtheweb.com/taxonomy/term/2703/0/feed',
 ]
 
 GA_USERNAME = ""

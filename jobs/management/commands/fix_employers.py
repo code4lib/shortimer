@@ -16,7 +16,7 @@ class Command(BaseCommand):
             without_freebase_id = []
             
             for employer in employers:
-                if employer.freebase_id:
+                if employer.freebase_id.startswith("/en/"):
                     with_freebase_id.append(employer)
                 else:
                     without_freebase_id.append(employer)
