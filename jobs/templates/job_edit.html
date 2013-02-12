@@ -2,85 +2,6 @@
 
 {% block title %}Edit{% endblock %}
 
-{% block extra_head %}
-<link type="text/css" rel="stylesheet" href="/static/css/suggest.min.css">
-<script type="text/javascript" src="/static/js/suggest.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}ckeditor/adapters/jquery.js"></script>
-
-<script type="text/javascript">
-    function addEmployer(e, data) {
-        $("#employer_freebase_id").val(data.id);
-    }
-
-    function addSubject(e, data) {
-        var i = $(".subject").length;
-
-        var name = $('<input class="subject" type="text">');
-        name.attr("name", "subject_" + i);
-        name.attr("value", data.name);
-
-        var freebaseId = $('<input type="hidden">');
-        freebaseId.attr("name", "subject_freebase_id_" + i);
-        freebaseId.attr("value", data.id);
-
-        $(".subject-new").before(name).after(freebaseId);
-        $('[name="subject_new"]').val(null);
-    }
-
-    function updateSubject(e, data) {
-        var name = $(this).attr("name");
-        var freebaseId = name.replace(/subject_/, "subject_freebase_id_");
-        $('[name="' + name +'"]').attr("value", data.name);
-        $('[name="' + freebaseId + '"]').attr("value", data.id);
-    }
-
-    function removeSubject() {
-        var i = $(this).val();
-        $('[name="subject_' + i + '"]').remove();
-        $('[name="subject_freebase_id_' + i + '"]').remove();
-        $(this).remove();
-        return false;
-    }
-
-    $(document).ready(function() {
-        // set up ckeditor panel for job description
-        var config = {
-            height: 1800,
-            enterMode: CKEDITOR.ENTER_BR,
-            shiftEnterMode: CKEDITOR.ENTER_P,
-            forcePasteAsPlainText: true, 
-            toolbar_Full: [['Bold', 'Italic', 'Underline', 'Link',
-            "BulletedList", "Indent", "Outdent", "RemoveFormat", "Paste", "Undo", "Redo", "ShowBlocks"]]
-        };
-        $("textarea.editor").ckeditor(config);
-
-        // set up employer freebase suggest lookup
-        $("#employer")
-            .suggest({
-                "type": ["/business/employer", "/business/company", "/education/university", "/organization/organization", "/venture_capital", "/computer/software_developer", "/library/public_library", "/internet/website", "/architecture/museum", "/location/location", "/people/person"],
-                "type_strict": "any",
-                "suggest_new": "Click here if you don't see anything in list."
-            })
-            .bind("fb-select", addEmployer)
-            .click(function(e) {$(this).trigger("keyup");});
-
-        // wire up new subject box
-        $("input.subject-new")
-            .suggest({"required": "always"})
-            .bind("fb-select", addSubject);
-
-        // wire up existing subject boxes so they can be updated
-        $("input.subject")
-            .suggest({"required": "always"})
-            .bind("fb-select", updateSubject);
-
-        $(".remove-subject").click(removeSubject);
-            
-    });
-</script>
-{% endblock %}
-
 {% block content %}
 
 {% if error %}
@@ -90,10 +11,10 @@
 <form id="job" method="post">
     <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <header>
-    <input placeholder="Enter just the job title here, the employer name comes from dropdown: e.g. Web Developer" type="text" size="200" name="title" class="span10" value="{{ job.title }}">
+    <input placeholder="Enter just the job title here, the employer name comes from dropdown: e.g. Web Developer" type="text" size="200" name="title" class="span9" value="{{ job.title }}">
     </header>
     <div class="row">
-    <section class="span10">
+    <section class="span9">
         {% if can_edit_description %}
         <textarea name="description" class="editor" itemprop="description">
             {% if job.description %}
@@ -112,7 +33,7 @@
         </div>
         {% endif %}
     </section>
-    <section class="span6">
+    <section class="span3">
         <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType">
@@ -198,5 +119,79 @@
 <input type="hidden" name="job_id" value="{{ job.id }}"></input>
 {% csrf_token %}
 </form>
+{% endblock %}
 
+{% block extra_javascript %}
+<script type="text/javascript">
+    function addEmployer(e, data) {
+        $("#employer_freebase_id").val(data.id);
+    }
+
+    function addSubject(e, data) {
+        var i = $(".subject").length;
+
+        var name = $('<input class="subject" type="text">');
+        name.attr("name", "subject_" + i);
+        name.attr("value", data.name);
+
+        var freebaseId = $('<input type="hidden">');
+        freebaseId.attr("name", "subject_freebase_id_" + i);
+        freebaseId.attr("value", data.id);
+
+        $(".subject-new").before(name).after(freebaseId);
+        $('[name="subject_new"]').val(null);
+    }
+
+    function updateSubject(e, data) {
+        var name = $(this).attr("name");
+        var freebaseId = name.replace(/subject_/, "subject_freebase_id_");
+        $('[name="' + name +'"]').attr("value", data.name);
+        $('[name="' + freebaseId + '"]').attr("value", data.id);
+    }
+
+    function removeSubject() {
+        var i = $(this).val();
+        $('[name="subject_' + i + '"]').remove();
+        $('[name="subject_freebase_id_' + i + '"]').remove();
+        $(this).remove();
+        return false;
+    }
+
+    $(document).ready(function() {
+        // set up ckeditor panel for job description
+        var config = {
+            height: 1800,
+            enterMode: CKEDITOR.ENTER_BR,
+            shiftEnterMode: CKEDITOR.ENTER_P,
+            forcePasteAsPlainText: true, 
+            toolbar_Full: [['Bold', 'Italic', 'Underline', 'Link',
+            "BulletedList", "Indent", "Outdent", "RemoveFormat", "Paste", "Undo", "Redo", "ShowBlocks"]]
+        };
+        $("textarea.editor").ckeditor(config);
+
+        // set up employer freebase suggest lookup
+        $("#employer")
+            .suggest({
+                "key": "{{ google_api_key }}",   
+                "type": ["/business/employer", "/business/company", "/education/university", "/organization/organization", "/venture_capital", "/computer/software_developer", "/library/public_library", "/internet/website", "/architecture/museum", "/location/location", "/people/person"],
+                "type_strict": "any",
+                "suggest_new": "Click here if you don't see anything in list."
+            })
+            .bind("fb-select", addEmployer)
+            .click(function(e) {$(this).trigger("keyup");});
+
+        // wire up new subject box
+          $("input.subject-new")
+            .suggest({"key": "{{ google_api_key }}", "required": "always"})
+            .bind("fb-select", addSubject);
+
+        // wire up existing subject boxes so they can be updated
+        $("input.subject")
+            .suggest({"key": "{{ google_api_key }}", "required": "always"})
+            .bind("fb-select", updateSubject);
+
+        $(".remove-subject").click(removeSubject);
+            
+    });
+</script>
 {% endblock %}

@@ -2,34 +2,12 @@
 
 {% block title %}{{ employer.name }}{% endblock %}
 
-{% block extra_head %}
-<script>
-
-    function lookupEmployer() {
-        var employer = $(".employer")[0];
-        if (! employer) return;
-        var freebaseId = $(employer).data("freebase-id");
-        var freebaseUrl = "http://www.freebase.com/experimental/topic/standard" + freebaseId + "?callback=?";
-        $.getJSON(freebaseUrl, function(response) {
-            if (! response.result.description) return
-            var desc = 
-                response.result.description + 
-                '<a href="' + response.result.url + '">' + 
-                '<img class="freebase-icon" src="/static/images/freebase.jpg"></a>';
-            $(".employer-description").html(desc);
-        });
-    }
-
-    $(document).ready(lookupEmployer);
-</script>
-{% endblock %}
-
 {% block content %}
-<table class="zebra-striped bordered-table">
+<table class="table table-striped">
     <header data-freebase-id="{{ employer.freebase_id }}" class="employer">
     {% if employer.freebase_id %}<a href="{{ employer.freebase_url }}"><img class="freebase-thumbnail" src="{{ employer.freebase_image_url }}"></a>{% endif %}
     <span class="employer-name">{{ employer.name }} Jobs</span><br><br>
-    <p class="employer-description"></p>
+    <p id="employer-description"></p>
     </header>
     <tr>
         <th style="width: 85px;">Posted</th>
@@ -56,3 +34,27 @@
 </table>
 {% include "paginator.html" %}
 {% endblock %}
+
+{% block extra_javascript %}
+<script>
+
+    function lookupEmployer() {
+        var employer = $(".employer")[0];
+        if (! employer) return;
+        var freebaseId = $(employer).data("freebase-id");
+        var freebaseUrl = "http://www.freebase.com/experimental/topic/standard" + freebaseId + "?callback=?";
+        $.getJSON(freebaseUrl, function(response) {
+            if (! response.result.description) return
+            var desc = 
+                response.result.description + 
+                '<a href="' + response.result.url + '">' + 
+                '<img class="freebase-icon" src="/static/images/freebase.jpg"></a>';
+            $("#employer-description").html(desc);
+        });
+    }
+
+    $(document).ready(lookupEmployer);
+</script>
+{% endblock %}
+
+

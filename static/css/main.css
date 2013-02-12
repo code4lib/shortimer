@@ -1,4 +1,4 @@
-body {
+/* body {
     color: black;
     font-size: 10pt;
 }
@@ -82,6 +82,8 @@ div.pagination {
     border-bottom: thin solid #eeeeee;
 }
 
+*/
+
 img.freebase-thumbnail {
     height: 50px;
     padding: 5px;
@@ -95,6 +97,8 @@ img.freebase-icon {
     vertical-align: middle;
 }
 
+/* 
+ 
 div[itemprop="title"] {
     font-size: larger;
     font-weight: bold;
@@ -132,6 +136,8 @@ section.job-details {
     border: thin solid red;
 }
 
+*/
+
 [contenteditable] {
     border: thin solid gray;
     padding: 2px;
@@ -152,20 +158,6 @@ img.tiny-avatar {
     list-style: none;
 }
 
-.bigtext p {
-    font-size: larger;
-    line-height: 130%;
-}
-
-.bigtext li {
-    font-size: larger;
-    line-height: 130%;
-}
-
-.gplus-like {
-    padding: 5px 0px 25px 0px;
-}
-
 ul.tags {
     list-style: none;
 }
@@ -177,6 +169,7 @@ ul.tags li {
 
 li.label {
     background-color: #ffffcc;
+    border: thin solid #cccccc;
 }
 
 span.label.ft {
@@ -223,6 +216,8 @@ img.delete {
     vertical-align: middle;
 }
 
+/*
+
 li {
     color: black;
 }
@@ -238,6 +233,8 @@ section li {
 section p {
     color: black;
 }
+
+*/
 
 th.numeric {
     text-align: right;

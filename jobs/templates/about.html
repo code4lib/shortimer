@@ -5,14 +5,13 @@
 {% block content %}
 
 <article class="row" style="margin-top: 30px;">
-<div class="span2">&nbsp;</div>
-<div class="span6">
+<div class="span5 offset1">
 <img width="340" src="{{ STATIC_URL }}/images/books.jpg">
-<figcaption style="text-align: center;">
+<figcaption>
 <a href="http://www.flickr.com/photos/adulau/3086751588/in/photostream/">The Practice of Programming</a> by Alexandre Dulaunoy
 </figcaption>
 </div>
-<div class="span6 bigtext" style="margin-left: 20px;">
+<div class="span6">
     <p>
     So you might be wondering...given the many places there are on the Web
     already to look for and advertise jobs, why should you care about 
@@ -40,6 +39,24 @@
     <a href="http://github.com/code4lib/shortimer">shortimer</a> basically
     subscribes to the discussion list and looks for job postings to publish
     here. Think of it as a Web amplifier for the jobs on the discussion list.
+    </p>
+
+    <p>
+    If you would like to have access to the data that is behind this 
+    application you can find most everything in the 
+    <a href="{% url feed %}">Atom feed</a> which includes:
+    <ul>
+      <li>the url for the job</li>
+      <li>the author's name and url</li>
+      <li>the job description</li>
+      <li>the employer's name and Freebase url</li>
+      <li>tag names and Freebase urls</li>
+      <li>pagination links to drill backwards in time</li>
+    </ul>
+
+    The Freebase urls are particularly useful for getting structured data about
+    the employer or tag using JSON or RDF. The jobs.code4lib.org data is made 
+    available using the <a href="http://creativecommons.org/licenses/by/3.0/">CC BY</a>.
     </p>
 
 </div>

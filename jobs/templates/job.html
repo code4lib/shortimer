@@ -4,37 +4,14 @@
 
 {% block content %}
 
-<script>
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=352748954751141";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
 <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
-    <header itemprop="title">{{ job.title }}</header>
+    <h3 itemprop="title">{{ job.title }}</h3>
     <div class="row">
-    <section class="span12" itemprop="description">
+    <section class="span9" itemprop="description">
         {{ job.description|safe }}
     </section>
-    <section class="span4">
-        <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        <br>
-        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true"></div>
-        <div class="gplus-like">
-            <div class="g-plusone" data-size="medium" data-annotation="inline"></div>
-            <script type="text/javascript">
-            (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
-            </script>
-        </div>
-        <dl>
+    <section class="span3">
+       <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType"><span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</a></dd>
             {% if job.employer %}
@@ -72,12 +49,40 @@
                 </ul>
             </dd>
         </dl>
+        <br>
+        <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        <br>
+        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true"></div>
+        <div class="gplus-like">
+            <div class="g-plusone" data-size="medium" data-annotation="inline"></div>
+            <script type="text/javascript">
+            (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+            </script>
+        </div>
+        <br>
+        <br>
         {% if request.user.is_authenticated %}
         <a rel="nofollow" href="{% url job_edit job.id %}">
             <button class="btn primary">Edit</button>
         {% endif %}
-    </section>
+     </section>
     </div>
 </article>
 
+{% endblock %}
+
+{% block extra_javascript %}
+<script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=352748954751141";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 {% endblock %}

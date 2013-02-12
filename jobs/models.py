@@ -129,7 +129,7 @@ class Job(models.Model):
         self.save()
 
     def email(self):
-        if self.post_date:
+        if self.post_date or not settings.EMAIL_HOST_PASSWORD:
             return
 
         url = "http://jobs.code4lib.org/job/%s/" % self.id

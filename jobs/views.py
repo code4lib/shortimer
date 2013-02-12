@@ -91,7 +91,8 @@ def job_edit(request, id=None):
                    "curate_next": request.path == "/curate/employers/",
                    "can_edit_description": can_edit_description, 
                    "error": request.session.pop("error", None),
-                   "job_types": models.JOB_TYPES}
+                   "job_types": models.JOB_TYPES,
+                   "google_api_key": settings.GOOGLE_API_KEY}
         return render(request, "job_edit.html", context)
 
     form = request.POST
@@ -113,6 +114,7 @@ def job_edit(request, id=None):
             request.session['error'] = 'Cannot publish yet: %s' % msg
         else:
             j.publish(request.user)
+            return redirect(reverse('job', args=[j.id]))
 
     if request.path.startswith("/curate/"):
         return redirect(request.path)

@@ -1,14 +1,74 @@
 <!doctype html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>code4lib jobs: {% block title %}{% endblock %}</title>
         <link title="code4lib jobs feed" rel="alternate" href="{% url feed %}" type="application/atom+xml">
-        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script type="text/javascript" src="/static/js/underscore-min.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/csrf.js"></script>
-        <script type="text/javascript">
+        <link rel="stylesheet" href="{{ STATIC_URL }}/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}/bootstrap/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}/css/main.css">
+        <link rel="stylesheet" href="https://www.gstatic.com/freebase/suggest/4_1/suggest.min.css" />
+        {% block extra_head %}{% endblock %}
+    </head>
+
+    <body>
+        <nav class="navbar">
+          <div class="navbar-inner">
+            <div class="container">
+              <a class="brand" href="/">code4lib jobs</a>
+              <ul class="nav">
+                  <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
+                  <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url tags %}">Tags</a></li>
+                  <li {% ifequal request.path "/employers/" %} class="active" {% endifequal %}><a href="{% url employers %}">Employers</a></li>
+                  <li {% ifequal request.path "/users/" %} class="active" {% endifequal %}><a href="{% url users %}">Users</a></li>
+                  <li {% ifequal request.path "/reports/" %} class="active" {% endifequal %}><a href="{% url reports %}">Reports</a></li>
+                  <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a rel="nofollow" href="{% url job_new %}">Post</a></li>
+                  <li {% ifequal request.path "/curate/" %} class="active" {% endifequal %}><a href="{% url curate %}">Curate</a></li>
+                  <li {% ifequal request.path "/about/" %} class="active" {% endifequal %}><a href="{% url about %}">About</a></li>
+              </ul>
+              <ul class="nav pull-right">
+                  {% if request.user.is_authenticated %}
+                  <li>
+                      <a style="color: blue;" href="{% url user request.user.username %}">
+                      <img class="tiny-avatar" src="{{ request.user.profile.pic_url }}">
+                      {{ request.user.username }}
+                  </a>
+                  </li>
+                  <li>
+                      <a href="{% url logout %}">Logout</a>
+                  </li>
+                  {% else %}
+                  <li><a href="{% url login %}">Login</a></li>
+                  {% endif %}
+                  <li><a href="{% url feed %}"><img class="tiny-avatar" src="/static/images/feed.png"></a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container" id="content">
+          <div class="row">
+            {% block content %}{% endblock %}
+          </div>
+        </div>
+
+        <footer id="footer">
+            <div class="container">
+            </div>
+        </footer>
+
+        </div>
+        </div>
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script src="https://www.gstatic.com/freebase/suggest/4_1/suggest.min.js"></script>
+        <script src="{{ STATIC_URL }}/bootstrap/js/bootstrap.min.js"></script>
+        <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
+        <script src="{{ STATIC_URL }}js/csrf.js"></script>
+        <script src="{{ STATIC_URL }}ckeditor/ckeditor.js"></script>
+        <script src="{{ STATIC_URL }}ckeditor/adapters/jquery.js"></script>
+
+        <script>
 
           var _gaq = _gaq || [];
           _gaq.push(['_setAccount', 'UA-28140435-1']);
@@ -19,59 +79,9 @@
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
           })();
-</script>
-        {% block extra_head %}{% endblock %}
+        </script>
 
-    </head>
-    <body>
-        <div class="container">
-        <div class="row">
-
-        <nav class="topbar">
-            <div class="fill">
-                <div class="container">
-                    <a class="brand" href="/">code4lib jobs</a>
-                    <ul class="nav">
-                        <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
-                        <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url tags %}">Tags</a></li>
-                        <li {% ifequal request.path "/employers/" %} class="active" {% endifequal %}><a href="{% url employers %}">Employers</a></li>
-                        <li {% ifequal request.path "/users/" %} class="active" {% endifequal %}><a href="{% url users %}">Users</a></li>
-                        <li {% ifequal request.path "/reports/" %} class="active" {% endifequal %}><a href="{% url reports %}">Reports</a></li>
-                        <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a rel="nofollow" href="{% url job_new %}">Post</a></li>
-                        <li {% ifequal request.path "/curate/" %} class="active" {% endifequal %}><a href="{% url curate %}">Curate</a></li>
-                        <li {% ifequal request.path "/about/" %} class="active" {% endifequal %}><a href="{% url about %}">About</a></li>
-                    </ul>
-                    <ul class="secondary-nav">
-                        {% if request.user.is_authenticated %}
-                        <li>
-                            <a style="color: yellow;" href="{% url user request.user.username %}">
-                            <img class="tiny-avatar" src="{{ request.user.profile.pic_url }}">
-                            {{ request.user.username }}
-                        </a>
-                        </li>
-                        <li>
-                            <a href="{% url logout %}">Logout</a>
-                        </li>
-                        {% else %}
-                        <li><a href="{% url login %}">Login</a></li>
-                        {% endif %}
-                        <li><a href="{% url feed %}"><img class="tiny-avatar" src="/static/images/feed.png"></a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div id="content">
-            {% block content %}{% endblock %}
-        </div>
-
-        <footer id="footer">
-            <div class="container">
-            </div>
-        </footer>
-
-        </div>
-        </div>
+        {% block extra_javascript %}{% endblock %}
 
     </body>
 </html>
