@@ -1,142 +1,16 @@
-/* body {
-    color: black;
-    font-size: 10pt;
-}
-
-#content {
-    padding-top: 60px;
-}
-
-img.ignore-keyword {
-    height: 32px;
-    cursor: pointer;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-tr.odd {
-    background-color: white;
-}
-
-tr.even {
-    background-color: #eeeeee;
-}
-
-td {
-    padding: 5px;
-}
-
-a.page {
-    padding: 3px;
-}
-
-div.pagination a {
-    text-decoration: none;
-    color: black;
-}
-
-div.pagination span.current {
-    font-size: larger;
-    font-weight: bold;
-}
-
-div.pagination a.next {
-    margin-left: 30px;
-}
-
-div.pagination a.prev {
-    margin-right: 30px;
-}
-
-div.pagination {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#matcher-table table {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#matcher-table td.keyword-count {
-    width: 15%;
-}
-
-#matcher-table td.keyword {
-    width: 35%;
-}
-
-#matcher-table td.freebase-concept {
-    width: 40%;
-}
-
-#matcher-table tr {
-    border-bottom: thin solid #eeeeee;
-}
-
-#matcher-table th {
-    text-align: left;
-    border-bottom: thin solid #eeeeee;
-}
-
-*/
-
 img.freebase-thumbnail {
     height: 50px;
     padding: 5px;
     margin-right: 10px;
     vertical-align: middle;
     border: thin solid #eeeeee;
+    float: left;
 }
 
 img.freebase-icon {
     height: 20px;
     vertical-align: middle;
 }
-
-/* 
- 
-div[itemprop="title"] {
-    font-size: larger;
-    font-weight: bold;
-}
-
-input[class="title"] {
-    width: 80%;
-}
-
-header {
-    font-size: 16pt;
-    font-weight: bold;
-    margin: 10px 0px 10px 0px;
-}
-
-article header {
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-article.job {
-    margin: 10px;
-}
-
-section[itemtype="description"] {
-    color: black;
-}
-
-section[itemtype="description"] * {
-    color: black;
-}
-
-section.job-details {
-    padding-left: 80px;
-    border: thin solid red;
-}
-
-*/
 
 [contenteditable] {
     border: thin solid gray;
@@ -165,11 +39,11 @@ ul.tags {
 ul.tags li {
     display: inline;
     margin-left: 0px;
+    line-height: 2em; 
 }
 
 li.label {
     background-color: #ffffcc;
-    border: thin solid #cccccc;
 }
 
 span.label.ft {
@@ -216,26 +90,6 @@ img.delete {
     vertical-align: middle;
 }
 
-/*
-
-li {
-    color: black;
-}
-
-.brand {
-    font-weight: bold;
-}
-
-section li {
-    color: black;
-}
-
-section p {
-    color: black;
-}
-
-*/
-
 th.numeric {
     text-align: right;
     width: 85px;
@@ -243,4 +97,22 @@ th.numeric {
 
 td.numeric {
     text-align: right;
+}
+
+#employer-description {
+  clear: both;
+  padding-top: 10px;
+}
+
+#subject-description {
+  clear: both;
+  padding-top: 10px;
+}
+
+header h3 {
+  color: green;
+}
+
+dd {
+  -webkit-margin-start: 0px;
 }

@@ -5,7 +5,16 @@
 {% block content %}
 
 <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
-    <h3 itemprop="title">{{ job.title }}</h3>
+    <div class="page-header">
+      <h2 itemprop="title">{{ job.title }}
+      {% if job.employer %}
+      <br>
+      <small>
+        <a itemprop="hiringOrganization" href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a>
+      </small>
+      {% endif %}
+      </h2>
+    </div>
     <div class="row">
     <section class="span9" itemprop="description">
         {{ job.description|safe }}
@@ -14,10 +23,6 @@
        <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType"><span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</a></dd>
-            {% if job.employer %}
-            <dt>Employer:</dt>
-            <dd itemprop="hiringOrganization"><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a></dd>
-            {% endif %}
             {% if job.url %}
             <dt>Job URL:</dt>
             <dd><a itemprop="url" href="{{ job.url }}">{{ job.url }}</a></dd>

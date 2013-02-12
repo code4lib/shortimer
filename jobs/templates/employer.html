@@ -6,7 +6,7 @@
 <table class="table table-striped">
     <header data-freebase-id="{{ employer.freebase_id }}" class="employer">
     {% if employer.freebase_id %}<a href="{{ employer.freebase_url }}"><img class="freebase-thumbnail" src="{{ employer.freebase_image_url }}"></a>{% endif %}
-    <span class="employer-name">{{ employer.name }} Jobs</span><br><br>
+    <h3>{{ employer.name }} Jobs</h3>
     <p id="employer-description"></p>
     </header>
     <tr>

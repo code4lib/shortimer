@@ -4,9 +4,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>code4lib jobs: {% block title %}{% endblock %}</title>
         <link title="code4lib jobs feed" rel="alternate" href="{% url feed %}" type="application/atom+xml">
-        <link rel="stylesheet" href="{{ STATIC_URL }}/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}/bootstrap/css/bootstrap-responsive.min.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}/css/main.css">
+        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="/static/css/main.css">
         <link rel="stylesheet" href="https://www.gstatic.com/freebase/suggest/4_1/suggest.min.css" />
         {% block extra_head %}{% endblock %}
     </head>
@@ -15,8 +15,11 @@
         <nav class="navbar">
           <div class="navbar-inner">
             <div class="container">
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
               <a class="brand" href="/">code4lib jobs</a>
+              <div class="nav-collapse collapse">
               <ul class="nav">
+
                   <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
                   <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url tags %}">Tags</a></li>
                   <li {% ifequal request.path "/employers/" %} class="active" {% endifequal %}><a href="{% url employers %}">Employers</a></li>
@@ -41,7 +44,8 @@
                   <li><a href="{% url login %}">Login</a></li>
                   {% endif %}
                   <li><a href="{% url feed %}"><img class="tiny-avatar" src="/static/images/feed.png"></a></li>
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>
         </nav>
@@ -62,11 +66,11 @@
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
         <script src="https://www.gstatic.com/freebase/suggest/4_1/suggest.min.js"></script>
-        <script src="{{ STATIC_URL }}/bootstrap/js/bootstrap.min.js"></script>
-        <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
-        <script src="{{ STATIC_URL }}js/csrf.js"></script>
-        <script src="{{ STATIC_URL }}ckeditor/ckeditor.js"></script>
-        <script src="{{ STATIC_URL }}ckeditor/adapters/jquery.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/js/underscore-min.js"></script>
+        <script src="/static/js/csrf.js"></script>
+        <script src="/static/ckeditor/ckeditor.js"></script>
+        <script src="/static/ckeditor/adapters/jquery.js"></script>
 
         <script>
 

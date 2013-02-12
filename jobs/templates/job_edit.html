@@ -10,11 +10,14 @@
 
 <form id="job" method="post">
     <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
-    <header>
-    <input placeholder="Enter just the job title here, the employer name comes from dropdown: e.g. Web Developer" type="text" size="200" name="title" class="span9" value="{{ job.title }}">
-    </header>
     <div class="row">
-    <section class="span9">
+      <div class="span6 offset1">
+      <input placeholder="Enter just the job title here, the employer name comes
+    from dropdown: e.g. Web Developer" style="width: 100%;" size="200" type="text" name="title" value="{{ job.title }}">
+      </div>
+    </div>
+    <div class="row">
+    <section class="span6 offset1">
         {% if can_edit_description %}
         <textarea name="description" class="editor" itemprop="description">
             {% if job.description %}
@@ -68,17 +71,17 @@
             <dd><input placeholder="http://example.edu/jobs/1234/" type="url" name="url" value="{{ job.url }}"></input></dd>
             <dt>Tags:</dt>
             <dd>
-                <ul class="tags" itemprop="skills">
+                <ul class="tags" style="margin: 0 0 10px 5px;" itemprop="skills">
                     {% if job.created %}
                     {% for subject in job.subjects.all %}
-                    <li>
-                    <input class="subject" type="text" name="subject_{{ forloop.counter0 }}" value="{{ subject.name }}"></input>
-                    <button class="remove-subject" value="{{ forloop.counter0 }}"><img class="delete" src="{{ STATIC_URL }}/images/delete.png"></button>
+                    <li style="margin: 0 0 10px 0px;">
+                    <input class="subject" style="width: 80%;" type="text" name="subject_{{ forloop.counter0 }}" value="{{ subject.name }}"></input>
+                    <i class="remove-subject icon-trash" data-pos="{{ forloop.counter0 }}"></i>
                     <input type="hidden" type="text" name="subject_freebase_id_{{ forloop.counter0 }}" value="{{ subject.freebase_id }}"</input>
                     </li>
                     {% endfor %}
                     {% endif %}
-                    <input class="subject-new" type="text" name="subject_new" placeholder="Add a new tag!"></input>
+                    <input style="width: 80%" class="subject-new" type="text" name="subject_new" placeholder="Add a new tag!"></input>
                 </ul>
             </dd>
         </dl>
@@ -150,7 +153,7 @@
     }
 
     function removeSubject() {
-        var i = $(this).val();
+        var i = $(this).data("pos");
         $('[name="subject_' + i + '"]').remove();
         $('[name="subject_freebase_id_' + i + '"]').remove();
         $(this).remove();
