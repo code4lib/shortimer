@@ -8,7 +8,7 @@
     <header data-freebase-id="{{ employer.freebase_id }}" class="employer">
     {% if employer.freebase_id %}<a href="{{ employer.freebase_url }}" class="hidden-phone"><img class="freebase-thumbnail" src="{{ employer.freebase_image_url }}"></a>{% endif %}
     <h3>{{ employer.name }} Jobs</h3>
-    <p id="employer-description"></p>
+    <p class="hidden-phone" id="employer-description"></p>
     </header>
     <tr class="hidden-phone">
         <th style="width: 85px;">Posted</th>
