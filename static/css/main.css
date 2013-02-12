@@ -112,3 +112,8 @@ td.numeric {
 dd {
   -webkit-margin-start: 0px;
 }
+
+.jobinfo {
+  border-left: thin solid #eeeeee;
+  padding-left: 15px;
+}

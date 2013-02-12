@@ -19,7 +19,7 @@
     <section class="span9" itemprop="description">
         {{ job.description|safe }}
     </section>
-    <section class="span3">
+    <section class="jobinfo span3">
        <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType"><span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</a></dd>
@@ -57,7 +57,8 @@
         <br>
         <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         <br>
-        <div class="fb-like" data-send="true" data-width="450" data-show-faces="true"></div>
+        <div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-show-faces="true"></div>
+        <br>
         <div class="gplus-like">
             <div class="g-plusone" data-size="medium" data-annotation="inline"></div>
             <script type="text/javascript">
