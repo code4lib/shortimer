@@ -114,13 +114,12 @@ def job_edit(request, id=None):
             request.session['error'] = 'Cannot publish yet: %s' % msg
         else:
             j.publish(request.user)
-            return redirect(reverse('job', args=[j.id]))
 
     if request.path.startswith("/curate/"):
         return redirect(request.path)
 
     if j and not j.deleted:
-        return redirect(reverse('job_edit', args=[j.id]))
+        return redirect(reverse('job', args=[j.id]))
 
     return redirect("/") # job was deleted
 
