@@ -3,6 +3,7 @@
 {% block title %}{{ employer.name }}{% endblock %}
 
 {% block content %}
+<div class="span10 offset1">
 <table class="table table-striped">
     <header data-freebase-id="{{ employer.freebase_id }}" class="employer">
     {% if employer.freebase_id %}<a href="{{ employer.freebase_url }}"><img class="freebase-thumbnail" src="{{ employer.freebase_image_url }}"></a>{% endif %}
@@ -33,6 +34,7 @@
 {% endfor %}
 </table>
 {% include "paginator.html" %}
+</div>
 {% endblock %}
 
 {% block extra_javascript %}
