@@ -2,6 +2,8 @@
 
 import re
 import datetime
+import json
+import urllib
 
 from django.db import models
 from django.conf import settings
@@ -45,6 +47,13 @@ class FreebaseEntity(object):
 
     def freebase_json_url(self):
         return "http://www.freebase.com/experimental/topic/standard" + self.freebase_id
+
+    def freebase_data(self):
+        try:
+            data = json.load(urllib.urlopen(self.freebase_json_url()))
+            return data
+        except ValueError:
+            return {}
 
     def freebase_rdf_url(self):
         id = self.freebase_id
@@ -405,8 +414,39 @@ def create_user_profile(sender, created, instance, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
+
+def add_employer_location(sender, **kwargs):
+    job = kwargs.get('instance')
+    employer = job.employer
+    #Add employer location data if not available already.
+    if not employer.city:
+        fb = employer.freebase_data()
+        fb_properties = fb.get('result', {}).get('properties', {})
+        if fb_properties:
+            hq_values = fb_properties.get('/organization/organization/headquarters', {}).get('values', {})
+            if hq_values:
+                for val in hq_values:
+                    addr = val.get('address')
+                    if addr:
+                        city = addr.get('city', {}).get('text', {})
+                        if city:
+                            employer.city = city
+                        state = addr.get('region', {}).get('text', {})
+                        if state:
+                            #DC appears twice in the Freebase data, as city and state.
+                            if state != 'Washington, D.C.':
+                                employer.state = state
+                        country = addr.get('country', {}).get('text', {})
+                        if country:
+                            employer.country = country
+                        employer.save()
+                        #Let's work with the first available address only. 
+                        return
+
+
 pre_save.connect(make_slug, sender=Subject)
 pre_save.connect(make_slug, sender=Employer)
 pre_update.connect(facebook_extra_values, sender=FacebookBackend)
 pre_update.connect(twitter_extra_values, sender=TwitterBackend)
 post_save.connect(create_user_profile, sender=User)
+post_save.connect(add_employer_location, sender=Job)
