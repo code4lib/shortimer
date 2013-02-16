@@ -1,0 +1,2 @@
+{# Only display locations if we have a city.  Don't display country unless it's not USA.  #}
+{% if employer.city %}{{ employer.city }}{%if employer.state %}, {{ employer.state }}{%endif%}{%if employer.country%}{% ifnotequal employer.country "United States of America" %}, {{ employer.country }}{%endifnotequal%}{%endif%}.{% endif %}
