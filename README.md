@@ -58,4 +58,4 @@ web and scrape them, where they could then be approved (or deleted) in the queue
 License
 -------
 
-* CC0
+* [CC0](https://creativecommons.org/about/cc0)
