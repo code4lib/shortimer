@@ -96,7 +96,7 @@ def job_edit(request, id=None):
         return render(request, "job_edit.html", context)
 
     form = request.POST
-    if form.get("action") == "view":
+    if form.get("action") == "view" and j.id:
         return redirect(reverse('job', args=[j.id]))
 
     _update_job(j, form, request.user)
@@ -119,7 +119,7 @@ def job_edit(request, id=None):
         return redirect(request.path)
 
     if j and not j.deleted:
-        return redirect(reverse('job', args=[j.id]))
+        return redirect(reverse('job_edit', args=[j.id]))
 
     return redirect("/") # job was deleted
 
