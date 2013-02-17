@@ -7,7 +7,7 @@ from jobs.models import Job, Keyword, Subject
 
 import miner
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+#logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 class JobsTests(unittest.TestCase):
 
