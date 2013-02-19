@@ -449,7 +449,7 @@ def add_employer_location(sender, **kwargs):
         fb = employer.freebase_data()
         location = get_freebase_location(fb)
         if location.get('city'):
-            employer.location = location['state']
+            employer.city = location['city']
         if location.get('state'):
             employer.state = location['state']
         if location.get('country'):
