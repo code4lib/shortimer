@@ -1,1 +1,43 @@
-[{"pk": 1, "model": "sites.site", "fields": {"domain": "jobs.code4lib.org", "name": "code4lib jobs"}}]
+[
+    {
+        "pk": 1,
+        "model": "sites.site",
+        "fields": {
+            "domain": "jobs.code4lib.org",
+            "name": "code4lib jobs"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "jobs.employer",
+        "fields": {
+            "domain": "",
+            "name": "Stanford University",
+            "address": "",
+            "freebase_id": "/en/stanford_university",
+            "slug": "stanford-university"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "jobs.employer",
+        "fields": {
+            "domain": "",
+            "name": "University of the Pacific",
+            "address": "",
+            "freebase_id": "/en/university_of_the_pacific",
+            "slug": "university-of-the-pacific"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "jobs.employer",
+        "fields": {
+            "domain": "",
+            "name": "Kansas State University",
+            "address": "",
+            "freebase_id": "/en/bad_url",
+            "slug": "kansas-state-university"
+        }
+    }
+]

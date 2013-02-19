@@ -61,6 +61,32 @@ class FreebaseEntity(object):
         id = id.replace("/", ".")
         return "http://rdf.freebase.com/rdf/" + id
 
+def get_freebase_location(fb_data):
+    """
+    Pull location values from Freebase JSON data.
+    """
+    location = {}
+    fb_properties = fb_data.get('result', {}).get('properties', {})
+    if fb_properties:
+        hq_values = fb_properties.get('/organization/organization/headquarters', {}).get('values', [])
+        for val in hq_values:
+            addr = val.get('address')
+            if addr:
+                city = addr.get('city', {}).get('text', {})
+                if city:
+                    location['city'] = city
+                state = addr.get('region', {}).get('text', {})
+                if state:
+                    #DC appears twice in the Freebase data, as city and state.
+                    if state != 'Washington, D.C.':
+                        location['state'] = state
+                country = addr.get('country', {}).get('text', {})
+                if country:
+                    location['country'] = country
+                #Let's work with the first available address only. 
+                return location
+    return location
+
 class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -419,30 +445,16 @@ def add_employer_location(sender, **kwargs):
     job = kwargs.get('instance')
     employer = job.employer
     #Add employer location data if not available already.
-    if not employer.city:
+    if (employer) and (not employer.city):
         fb = employer.freebase_data()
-        fb_properties = fb.get('result', {}).get('properties', {})
-        if fb_properties:
-            hq_values = fb_properties.get('/organization/organization/headquarters', {}).get('values', {})
-            if hq_values:
-                for val in hq_values:
-                    addr = val.get('address')
-                    if addr:
-                        city = addr.get('city', {}).get('text', {})
-                        if city:
-                            employer.city = city
-                        state = addr.get('region', {}).get('text', {})
-                        if state:
-                            #DC appears twice in the Freebase data, as city and state.
-                            if state != 'Washington, D.C.':
-                                employer.state = state
-                        country = addr.get('country', {}).get('text', {})
-                        if country:
-                            employer.country = country
-                        employer.save()
-                        #Let's work with the first available address only. 
-                        return
-
+        location = get_freebase_location(fb)
+        if location.get('city'):
+            employer.location = location['state']
+        if location.get('state'):
+            employer.state = location['state']
+        if location.get('country'):
+            employer.country = location['country']
+        employer.save()
 
 pre_save.connect(make_slug, sender=Subject)
 pre_save.connect(make_slug, sender=Employer)

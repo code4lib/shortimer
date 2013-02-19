@@ -1,9 +1,10 @@
 import sys
 import email
+import json
 import logging
 import unittest
 
-from jobs.models import Job, Keyword, Subject
+from jobs.models import Employer, Job, Keyword, Subject
 
 import miner
 
@@ -59,4 +60,182 @@ class MinerTests(unittest.TestCase):
         self.assertTrue(("Flash", "NNP") in miner.tags(MinerTests.text))
 
     def test_wikipedia_categories(self):
-        self.assertTrue("Dynamic programming languages" in miner.wikipedia_categories("Perl"))
+       self.assertTrue("Dynamic programming languages" in miner.wikipedia_categories("Perl"))
+
+class FreebaseTests(unittest.TestCase):
+
+    def setUp(self):
+        pass
+        
+    def test_get_json_url(self):
+        emp = Employer.objects.get(pk=1)
+        self.assertEqual('http://www.freebase.com/experimental/topic/standard/en/stanford_university', emp.freebase_json_url())
+
+    def test_get_freebase_data(self):
+        emp = Employer.objects.get(pk=1)
+        data = emp.freebase_data()
+        self.assertTrue('/api/status/ok', data['code'])
+
+    def test_get_freebase_data_bad_url(self):
+        emp = Employer.objects.get(pk=3) 
+        data = emp.freebase_data()
+        self.assertEqual('/api/status/error', data['code'])
+        self.assertEqual('400 Bad Request', data['status'])
+
+    def test_get_location_exists(self):
+        from jobs.models import get_freebase_location
+        raw = """
+        {
+            "status": "200 OK",
+            "code": "/api/status/ok",
+            "result": {
+                "properties": {
+                    "/organization/organization/headquarters": {
+                        "text": "Headquarters",
+                        "expected_type": {
+                            "text": "Address",
+                            "id": "/location/mailing_address"
+                        },
+                        "values": [
+                            {
+                                "text": "450 Serra Mall, Stanford, California, United States of America 94305",
+                                "address": {
+                                    "city": {
+                                        "url": "http://www.freebase.com/view/en/stanford",
+                                        "text": "Stanford",
+                                        "id": "/en/stanford"
+                                    },
+                                    "region": {
+                                        "url": "http://www.freebase.com/view/en/california",
+                                        "text": "California",
+                                        "id": "/en/california"
+                                    },
+                                    "street": [
+                                        "450 Serra Mall"
+                                    ],
+                                    "postal_code": "94305",
+                                    "country": {
+                                        "url": "http://www.freebase.com/view/en/united_states",
+                                        "text": "United States of America",
+                                        "id": "/en/united_states"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+        """
+        data = json.loads(raw)
+        location = get_freebase_location(data)
+        self.assertEqual('Stanford', location.get('city'))
+        self.assertEqual('California', location.get('state'))
+        self.assertEqual('United States of America', location.get('country'))
+
+    def test_get_location_not_exists(self):
+        from jobs.models import get_freebase_location
+        raw = """
+        {
+            "status": "200 OK",
+            "code": "/api/status/ok",
+            "result": {
+                "properties": {
+                }
+            }
+        }
+        """
+        data = json.loads(raw)
+        location = get_freebase_location(data)
+        self.assertEqual(None, location.get('city'))
+        self.assertEqual(None, location.get('state'))
+        self.assertEqual(None, location.get('country'))
+
+    def test_get_location_partial(self):
+        from jobs.models import get_freebase_location
+        raw = """
+        {
+            "status": "200 OK",
+            "code": "/api/status/ok",
+            "result": {
+                "properties": {
+                    "/organization/organization/headquarters": {
+                        "text": "Headquarters",
+                        "expected_type": {
+                            "text": "Address",
+                            "id": "/location/mailing_address"
+                        },
+                        "values": [
+                            {
+                                "text": "450 Serra Mall, Stanford, California, United States of America 94305",
+                                "address": {
+                                    "country": {
+                                        "url": "http://www.freebase.com/view/en/united_states",
+                                        "text": "United States of America",
+                                        "id": "/en/united_states"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+        """
+        data = json.loads(raw)
+        location = get_freebase_location(data)
+        self.assertEqual(None, location.get('city'))
+        self.assertEqual(None, location.get('state'))
+        self.assertEqual('United States of America', location.get('country'))
+
+
+    def test_get_location_dc(self):
+        from jobs.models import get_freebase_location
+        raw = """
+        {
+            "status": "200 OK",
+            "code": "/api/status/ok",
+            "result": {
+                "properties": {
+                    "/organization/organization/headquarters": {
+                        "expected_type": {
+                            "id": "/location/mailing_address",
+                            "text": "Address"
+                        },
+                        "text": "Headquarters",
+                        "values": [
+                            {
+                                "address": {
+                                    "city": {
+                                        "id": "/en/washington_united_states",
+                                        "text": "Washington, D.C.",
+                                        "url": "http://www.freebase.com/view/en/washington_united_states"
+                                    },
+                                    "country": {
+                                        "id": "/en/united_states",
+                                        "text": "United States of America",
+                                        "url": "http://www.freebase.com/view/en/united_states"
+                                    },
+                                    "postal_code": "20052",
+                                    "region": {
+                                        "id": "/en/washington_united_states",
+                                        "text": "Washington, D.C.",
+                                        "url": "http://www.freebase.com/view/en/washington_united_states"
+                                    },
+                                    "street": [
+                                        "2121 I Street, NW"
+                                    ]
+                                },
+                                "text": "2121 I Street, NW, Washington, D.C., Washington, D.C., United States of America 20052"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+        """
+        data = json.loads(raw)
+        location = get_freebase_location(data)
+        self.assertEqual("Washington, D.C.", location.get('city'))
+        self.assertEqual(None, location.get('state'))
+        self.assertEqual('United States of America', location.get('country'))
