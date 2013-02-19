@@ -60,7 +60,7 @@ class MinerTests(unittest.TestCase):
         self.assertTrue(("Flash", "NNP") in miner.tags(MinerTests.text))
 
     def test_wikipedia_categories(self):
-       self.assertTrue("Dynamic programming languages" in miner.wikipedia_categories("Perl"))
+        self.assertTrue("Dynamic programming languages" in miner.wikipedia_categories("Perl"))
 
 class FreebaseTests(unittest.TestCase):
 
