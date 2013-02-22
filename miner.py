@@ -171,7 +171,7 @@ def wikipedia_term(term):
 def wikipedia_categories(term):
     """Pass wikipedia term and get back the categories it belongs to.
     """
-    url = "http://en.wikipedia.org/w/api.php?action=query&prop=categories&titles=%s&format=json" % term
+    url = "http://en.wikipedia.org/w/api.php?action=query&prop=categories&titles=%s&format=json&cllimit=50" % term
     results = _get_json(url)
     page_id = results['query']['pages'].keys()[0]
 

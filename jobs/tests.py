@@ -8,8 +8,6 @@ from jobs.models import Employer, Job, Keyword, Subject
 
 import miner
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
 class JobsTests(unittest.TestCase):
 
     def setUp(self):
@@ -34,9 +32,6 @@ class JobsTests(unittest.TestCase):
         subjects = [s.name for s in j.subjects.all()]
         self.assertTrue('Drupal' in subjects)
     
-        # test employer
-        #self.assertEqual(j.from_domain, 'miami.edu')
-
     def test_multipart(self):
         msg = email.message_from_file(open("test-data/job-multipart-email"))
         j = miner.email_to_job(msg)
