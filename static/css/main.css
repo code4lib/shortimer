@@ -28,6 +28,10 @@ img.tiny-avatar {
     margin-right: 5px;
 }
 
+.social-providers {
+    text-align: right;
+}
+
 .social-providers li {
     list-style: none;
 }

@@ -6,9 +6,7 @@
 
 <div class="row">
 
-<div class="span2">&nbsp;</div>
-
-<section class="span9">
+<section class="span4 offset2">
 
 <form class="form-stacked" method="post">
 
@@ -46,8 +44,8 @@
     <div class="clearfix">
     <label for="email">Email</label>
     <div class="input">
-    <input type="email" name="email" value="{{ user.email }}">
-    <span class="help-inline">Note: email will not be publicly displayed.</span>
+      <input type="email" name="email" value="{{ user.email }}">
+      <em>will not be displayed.</em>
     </div>
     </div>
 
@@ -58,7 +56,8 @@
     </div>
     </div>
 
-    <div class="actions span4">
+    <div class="actions">
+    <br>
     <button type="submit" class="btn primary">Save</button>
     <button type="reset" class="btn">Reset</button>
     </div>
@@ -71,7 +70,7 @@
 
 </section>
 
-<section class="social-providers">
+<section class="social-providers span4">
 
 <h4>Linked Accounts (click to unlink)</h4>
 <ul>
