@@ -78,7 +78,9 @@ class FreebaseTests(unittest.TestCase):
         self.assertEqual('400 Bad Request', data['status'])
 
     def test_get_location_exists(self):
-        from jobs.models import get_freebase_location
+        e = Employer(name="Stanford University",
+                     freebase_id="/en/stanford_university")
+        e.save()
         raw = """
         {
             "status": "200 OK",
@@ -122,11 +124,11 @@ class FreebaseTests(unittest.TestCase):
             }
         }
         """
-        data = json.loads(raw)
-        location = get_freebase_location(data)
-        self.assertEqual('Stanford', location.get('city'))
-        self.assertEqual('California', location.get('state'))
-        self.assertEqual('United States of America', location.get('country'))
+        #data = json.loads(raw)
+        #location = get_freebase_location(data)
+        self.assertEqual(e.city, 'Stanford')
+        self.assertEqual(e.state, 'California')
+        self.assertEqual(e.country, 'United States of America')
 
     def test_get_location_not_exists(self):
         from jobs.models import get_freebase_location

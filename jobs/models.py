@@ -198,19 +198,6 @@ class JobEdit(models.Model):
     class Meta: 
         ordering = ['-created']
 
-class Employer(models.Model, FreebaseEntity):
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255, null=True)
-    freebase_id = models.CharField(max_length=100, null=True)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=2)
-    domain = models.CharField(max_length=50)
-
-    def __str__(self):
-        return "%s - %s <%s>" % (self.name, self.slug, self.freebase_id)
-
 class Keyword(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=255)
@@ -280,19 +267,6 @@ class JobEdit(models.Model):
 
     class Meta: 
         ordering = ['-created']
-
-class Employer(models.Model, FreebaseEntity):
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255, null=True)
-    freebase_id = models.CharField(max_length=100, null=True)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=2)
-    domain = models.CharField(max_length=50)
-
-    def __str__(self):
-        return "%s - %s <%s>" % (self.name, self.slug, self.freebase_id)
 
 class Keyword(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -374,6 +348,14 @@ class Employer(models.Model, FreebaseEntity):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=2)
     domain = models.CharField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        if self.freebase_id and not self.country:
+            location = get_freebase_location(self.freebase_data())
+            self.city = location["city"]
+            self.state = location["state"]
+            self.country = location["country"]
+        super(Employer, self).save(*args, **kwargs)
 
     def __str__(self):
         return "%s - %s <%s>" % (self.name, self.slug, self.freebase_id)
