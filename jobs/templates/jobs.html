@@ -22,7 +22,9 @@
 {% for job in jobs %}
     <tr>
         <td class="hidden-phone">{{ job.post_date.date }}</td>
-        <td><a href="{% url job job.id %}">{{ job.title }}</a> {% if job.employer %}<br><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a>{% endif %}</td>
+        <td><a href="{% url job job.id %}">{{ job.title }}</a> {% if job.employer %}<br><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a>{% endif %}
+        <br><small>{% include "snippets/location.html" with employer=job.employer %}</small>
+        </td>
         <td class="hidden-phone">
             <ul class="tags">
                 {% for subject in job.subjects.all %}

@@ -2,6 +2,8 @@
 
 import re
 import datetime
+import json
+import urllib
 
 from django.db import models
 from django.conf import settings
@@ -46,11 +48,44 @@ class FreebaseEntity(object):
     def freebase_json_url(self):
         return "http://www.freebase.com/experimental/topic/standard" + self.freebase_id
 
+    def freebase_data(self):
+        try:
+            data = json.load(urllib.urlopen(self.freebase_json_url()))
+            return data
+        except ValueError:
+            return {}
+
     def freebase_rdf_url(self):
         id = self.freebase_id
         id = id.lstrip("/")
         id = id.replace("/", ".")
         return "http://rdf.freebase.com/rdf/" + id
+
+def get_freebase_location(fb_data):
+    """
+    Pull location values from Freebase JSON data.
+    """
+    location = {}
+    fb_properties = fb_data.get('result', {}).get('properties', {})
+    if fb_properties:
+        hq_values = fb_properties.get('/organization/organization/headquarters', {}).get('values', [])
+        for val in hq_values:
+            addr = val.get('address')
+            if addr:
+                city = addr.get('city', {}).get('text', {})
+                if city:
+                    location['city'] = city
+                state = addr.get('region', {}).get('text', {})
+                if state:
+                    #DC appears twice in the Freebase data, as city and state.
+                    if state != 'Washington, D.C.':
+                        location['state'] = state
+                country = addr.get('country', {}).get('text', {})
+                if country:
+                    location['country'] = country
+                #Let's work with the first available address only. 
+                return location
+    return location
 
 class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -238,8 +273,25 @@ def create_user_profile(sender, created, instance, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
+
+def add_employer_location(sender, **kwargs):
+    job = kwargs.get('instance')
+    employer = job.employer
+    #Add employer location data if not available already.
+    if (employer) and (not employer.city):
+        fb = employer.freebase_data()
+        location = get_freebase_location(fb)
+        if location.get('city'):
+            employer.city = location['city']
+        if location.get('state'):
+            employer.state = location['state']
+        if location.get('country'):
+            employer.country = location['country']
+        employer.save()
+
 pre_save.connect(make_slug, sender=Subject)
 pre_save.connect(make_slug, sender=Employer)
 pre_update.connect(facebook_extra_values, sender=FacebookBackend)
 pre_update.connect(twitter_extra_values, sender=TwitterBackend)
 post_save.connect(create_user_profile, sender=User)
+post_save.connect(add_employer_location, sender=Job)
