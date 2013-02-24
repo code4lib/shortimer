@@ -34,6 +34,35 @@ JOB_TYPES = (
 # http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 url_pattern = re.compile(r'''(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''')
 
+class FreebaseValue(object):
+
+    @classmethod 
+    def make_values(klass, property_data, prop):
+        values = []
+        p = property_data.get(prop, {})
+        valuetype = p.get("valuetype")
+        for v in p.get("values", []):
+            values.append(FreebaseValue(valuetype, v))
+        return values
+   
+    def __init__(self, valuetype, obj={}):
+        self.valuetype = valuetype
+        self.text = obj.get("text")
+        self.lang = obj.get("lang")
+        self.id = obj.get("id")
+        self.creator = obj.get("creator")
+        self.timestamp = obj.get("timestamp")
+        self.value = obj.get("value")
+        self.property = obj.get("property", {})
+
+    def get_values(self, prop):
+        return FreebaseValue.make_values(self.property, prop)
+
+    def get_value(self, prop):
+        values = self.get_values(prop)
+        if len(values) > 0:
+            return values[0]
+
 class FreebaseEntity(object):
 
     def freebase_image_url(self):
@@ -46,46 +75,32 @@ class FreebaseEntity(object):
         return "http://www.freebase.com/view" + self.freebase_id
 
     def freebase_json_url(self):
-        return "http://www.freebase.com/experimental/topic/standard" + self.freebase_id
+        return "https://www.googleapis.com/freebase/v1/topic" + self.freebase_id + "?key=" + settings.GOOGLE_API_KEY
 
     def freebase_data(self):
+        if hasattr(self, '_fb_data'):
+            return self._fb_data
         try:
-            data = json.load(urllib.urlopen(self.freebase_json_url()))
+            print self.freebase_json_url()
+            resp = urllib.urlopen(self.freebase_json_url())
+            print "STATUS: %s" % resp.code
+            data = json.load(resp)
+            self._fb_data = data
             return data
         except ValueError:
             return {}
 
+    def freebase_values(self, prop):
+        data = self.freebase_data()
+        if not data or not data.has_key("property"):
+            return []
+        return FreebaseValue.make_values(data["property"], prop)
+        
     def freebase_rdf_url(self):
         id = self.freebase_id
         id = id.lstrip("/")
         id = id.replace("/", ".")
         return "http://rdf.freebase.com/rdf/" + id
-
-def get_freebase_location(fb_data):
-    """
-    Pull location values from Freebase JSON data.
-    """
-    location = {}
-    fb_properties = fb_data.get('result', {}).get('properties', {})
-    if fb_properties:
-        hq_values = fb_properties.get('/organization/organization/headquarters', {}).get('values', [])
-        for val in hq_values:
-            addr = val.get('address')
-            if addr:
-                city = addr.get('city', {}).get('text', {})
-                if city:
-                    location['city'] = city
-                state = addr.get('region', {}).get('text', {})
-                if state:
-                    #DC appears twice in the Freebase data, as city and state.
-                    if state != 'Washington, D.C.':
-                        location['state'] = state
-                country = addr.get('country', {}).get('text', {})
-                if country:
-                    location['country'] = country
-                #Let's work with the first available address only. 
-                return location
-    return location
 
 class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -110,6 +125,7 @@ class Job(models.Model):
     published_by = models.ForeignKey(User, related_name='published_jobs', null=True)
     tweet_date = models.DateTimeField(null=True)
     page_views = models.IntegerField(null=True)
+    location = models.ForeignKey('Location', related_name='jobs', null=True)
 
     def __str__(self):
         return self.title.encode('ascii', 'ignore')
@@ -187,6 +203,18 @@ class Job(models.Model):
         response = bitly.shorten(longUrl=long_url)
         return response['url']
 
+    def display_location(self):
+        if self.location and self.location.name == self.employer.city:
+            return self.employer.display_location()
+        elif self.location:
+            return self.location.name
+        elif self.employer.city and self.employer.state:
+            return "%s, %s" % (self.employer.city, self.employer.state)
+        elif self.employer.city:
+            return self.employer.city
+        else:
+            return ""
+
     class Meta:
         ordering = ['-post_date']
 
@@ -205,19 +233,91 @@ class Employer(models.Model, FreebaseEntity):
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    country = models.CharField(max_length=2)
+    country = models.CharField(max_length=100)
     domain = models.CharField(max_length=50)
+    postal_code = models.CharField(max_length=25)
 
     def save(self, *args, **kwargs):
+        # try to grab some stuff from freebase if it is not defined already
         if self.freebase_id and not self.country:
-            location = get_freebase_location(self.freebase_data())
-            self.city = location["city"]
-            self.state = location["state"]
-            self.country = location["country"]
+            self.load_freebase_data()
         super(Employer, self).save(*args, **kwargs)
 
+    def load_freebase_data(self):
+        values = self.freebase_values("/organization/organization/headquarters")
+        values.extend(self.freebase_values("/location/location/street_address"))
+        for addr in values:
+            city = addr.get_value("/location/mailing_address/citytown")
+            state = addr.get_value("/location/mailing_address/state_province_region")
+            country = addr.get_value("/location/mailing_address/country")
+            postal_code = addr.get_value("/location/mailing_address/postal_code")
+            address = addr.get_value("/location/mailing_address/street_address")
+
+            if city:
+                self.city = city.text
+                if state:
+                    self.state = state.text
+                if country:
+                    self.country = country.text
+                if postal_code:
+                    self.postal_code = postal_code.text
+                if address:
+                    self.address = address.text
+
+                return
+
+    def guess_location(self):
+        if not self.freebase_id: return None
+
+        # look for city in a few places
+        values = self.freebase_values('/organization/organization/headquarters')
+        values.extend(self.freebase_values('/location/location/street_address'))
+
+        for addr in values:
+            city = addr.get_value("/location/mailing_address/citytown")
+            if city: 
+                try:
+                    return Location.objects.get(freebase_id=city.id)
+                except Location.DoesNotExist:
+                    l = Location()
+                    l.name = city.text
+                    l.freebase_id = city.id
+                return l
+        return None
+
+    def display_location(self):
+        if self.city and self.state:
+            return "%s, %s" % (self.city, self.state)
+        elif self.city:
+            return self.city
+        else:
+            return ""
+
     def __str__(self):
-        return "%s - %s <%s>" % (self.name, self.slug, self.freebase_id)
+        return "%s - %s [%s] [%s, %s, %s %s]" % (self.name, self.slug, self.freebase_id, self.city, self.state, self.country, self.postal_code)
+
+class Location(models.Model, FreebaseEntity):
+    name = models.CharField(max_length=255)
+    freebase_id = models.CharField(max_length=100)
+    longitude = models.FloatField(null=True)
+    latitude = models.FloatField(null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.latitude:
+           self.load_freebase_data()
+        super(Location, self).save(*args, **kwargs)
+
+    def load_freebase_data(self):
+        for value in self.freebase_values("/location/location/geolocation"):
+            lat = value.get_value("/location/geocode/latitude")
+            lon = value.get_value("/location/geocode/longitude")
+            if lat and lon:
+                self.latitude = lat.value
+                self.longitude = lon.value
+                return
+
+    def __str__(self):
+        return "%s (%s, %s) [%s]" % (self.name, self.latitude, self.longitude, self.freebase_id)
 
 class Keyword(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -281,24 +381,8 @@ def create_user_profile(sender, created, instance, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
-def add_employer_location(sender, **kwargs):
-    job = kwargs.get('instance')
-    employer = job.employer
-    #Add employer location data if not available already.
-    if (employer) and (not employer.city):
-        fb = employer.freebase_data()
-        location = get_freebase_location(fb)
-        if location.get('city'):
-            employer.city = location['city']
-        if location.get('state'):
-            employer.state = location['state']
-        if location.get('country'):
-            employer.country = location['country']
-        employer.save()
-
 pre_save.connect(make_slug, sender=Subject)
 pre_save.connect(make_slug, sender=Employer)
 pre_update.connect(facebook_extra_values, sender=FacebookBackend)
 pre_update.connect(twitter_extra_values, sender=TwitterBackend)
 post_save.connect(create_user_profile, sender=User)
-post_save.connect(add_employer_location, sender=Job)

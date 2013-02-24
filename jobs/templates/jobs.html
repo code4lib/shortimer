@@ -15,7 +15,7 @@
 <table class="span10 offset1 table table-striped table-bordered">
     <tr class="hidden-phone">
         <th style="width: 85px;">Posted</th>
-        <th>Title</th>
+        <th>Job</th>
         <th style="width: 45%">Tags</th>
         <th>Type</th>
     </tr>
@@ -23,7 +23,7 @@
     <tr>
         <td class="hidden-phone">{{ job.post_date.date }}</td>
         <td><a href="{% url job job.id %}">{{ job.title }}</a> {% if job.employer %}<br><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a>{% endif %}
-        <br><small>{% include "snippets/location.html" with employer=job.employer %}</small>
+        <br><small>{{ job.display_location }}</small>
         </td>
         <td class="hidden-phone">
             <ul class="tags">

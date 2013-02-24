@@ -51,6 +51,11 @@
             <input placeholder="University of Example" type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
             <input type="hidden" name="employer_freebase_id" value="{{ job.employer.freebase_id }}" id="employer_freebase_id"></input>
             </dd>
+            <dt>Location:</dt>
+            <dd itemprop="jobLocation">
+            <input placeholder="Centerville" type="text" name="location" id="location" value="{{ job.location.name }}"></input>
+            <input type="hidden" name="location_freebase_id" value="{{ job.location.freebase_id }}" id="location_freebase_id"></input>
+            </dd>
             {% if job.post_date %}
             <dt>Posted:</dt>
             <dd itemprop="datePosted"><time>{{ job.post_date }}</time></dd>
@@ -128,8 +133,20 @@
 
 {% block extra_javascript %}
 <script type="text/javascript">
+    function freebaseURL(id) {
+        return "http://www.freebase.com/experimental/topic/standard" + id;
+    }
+
     function addEmployer(e, data) {
         $("#employer_freebase_id").val(data.id);
+        $.getJSON("/api/v1/guess_location?freebase_id=" + data.id, function(city) {
+            $("#location").val(city.name);
+            $("#location_freebase_id").val(city.freebase_id);
+        });
+    }
+
+    function addLocation(e, data) {
+        $("#location_freebase_id").val(data.id);
     }
 
     function addSubject(e, data) {
@@ -183,6 +200,16 @@
                 "suggest_new": "Click here if you don't see anything in list."
             })
             .bind("fb-select", addEmployer)
+            .click(function(e) {$(this).trigger("keyup");});
+
+        // set up location freebase suggest lookup
+        $("#location")
+            .suggest({
+                "key": "{{ google_api_key }}",   
+                "filter": '(all type:/location/citytown)',
+                "type_strict": "any",
+            })
+            .bind("fb-select", addLocation)
             .click(function(e) {$(this).trigger("keyup");});
 
         // wire up new subject box

@@ -1,4 +1,5 @@
 import re
+import json
 import smtplib
 import datetime
 
@@ -14,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 
 from django.core.paginator import EmptyPage
-from django.http import HttpResponseGone, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseGone, HttpResponseNotFound
 
 from shortimer.jobs import models
 from shortimer.miner import autotag
@@ -130,14 +131,21 @@ def _update_job(j, form, user):
     j.contact_email = form.get("contact_email")
     j.job_type = form.get("job_type")
 
-    # set employer
+    # set employer: when an employer is first added this save triggers
+    # a lookup to Freebase to get hq address information
     if form.get("employer", None):
-        employer_name = form.get("employer")
-        #employer_slug = 
         e, created = models.Employer.objects.get_or_create(
-                name=form.get("employer"),
-                freebase_id=form.get("employer_freebase_id"))
+            name=form.get("employer"),
+            freebase_id=form.get("employer_freebase_id"))
         j.employer = e
+
+    # set location: when a location is first added this save triggers
+    # a lookup to Freebase to get geo-coordinates
+    if form.get("location", None):
+        l, created = models.Location.objects.get_or_create(
+            name=form.get("location"),
+            freebase_id=form.get("location_freebase_id"))
+        j.location = l
 
     # only people flagged as staff can edit the job text
     if _can_edit_description(user, j):
@@ -341,6 +349,18 @@ def reports(request):
                                             "employers_y": employers_y,
                                             "hotjobs_w": hotjobs_w,
                                             "hotjobs_m": hotjobs_m})
+
+def guess_location(request):
+    """guess location of the job based on the employer's headquarters
+    """
+    freebase_id = request.GET.get("freebase_id", None)
+    employer = models.Employer(freebase_id=freebase_id)
+    location = employer.guess_location()
+    if location:
+        result = {"name": location.name, "freebase_id": location.freebase_id}
+    else:
+        result = None
+    return HttpResponse(json.dumps(result), mimetype="application/json")
 
 def _can_edit_description(user, job):
     # only staff or the creator of a job posting can edit the text of the 

@@ -27,6 +27,7 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^curate/$', 'curate', name='curate'),
     url(r'^curate/employers/$', 'curate_employers', name='curate_employers'),
     url(r'^curate/drafts/$', 'curate_drafts', name='curate_drafts'),
+    url(r'^api/v1/guess_location', 'guess_location', name='guess_location'),
     url(r'', include('social_auth.urls')),
 )
 
