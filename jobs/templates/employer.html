@@ -12,7 +12,7 @@
     <small>{{ employer.display_location }}</small>
     {% else %}
         {% if employer.freebase_id %}
-        <small><a href="{{ employer.freebase_url }}">Can you add the location on Freebase?</a></small>
+        <small><a href="{{ employer.freebase_url }}">Can you add the location in Freebase?</a></small>
         {% endif %}
     {% endif %}
     <p class="hidden-phone" id="employer-description"></p>
@@ -24,6 +24,7 @@
         <th>Type</th>
     </tr>
 {% for job in employer.jobs.all %}
+    {% if not job.deleted %}
     <tr>
         <td class="hidden-phone">{{ job.post_date.date }}</td>
         <td><a href="{% url job job.id %}">{{ job.title }}</a></td>
@@ -38,6 +39,7 @@
             <span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</span>
         </td>
     </tr>
+    {% endif %} 
 {% endfor %}
 </table>
 {% include "paginator.html" %}

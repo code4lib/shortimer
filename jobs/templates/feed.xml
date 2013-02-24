@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom"
+    xmlns:georss="http://www.georss.org/georss">
 
     {% if subject %}
     <title>code4lib jobs - {{ subject.name }}</title>
@@ -23,7 +24,7 @@
     {% for job in page.object_list %}
     <entry>
         <id>http://{{ request.META.HTTP_HOST }}{% url job job.id %}</id>
-        <title>{{ job.title }}</title>
+        <title>{{ job.title }}{% if job.location %} - {{ job.location.name }}{% endif %}</title>
         <link rel="alternate" type="text/html" href="http://{{ request.META.HTTP_HOST }}{% url job job.id %}" />
         {% if job.creator %}
         <author>
@@ -31,6 +32,8 @@
             <uri>http://{{ request.META.HTTP_HOST }}{% url user job.creator.username %}</uri>
         </author>
         {% endif %}
+        {% if job.location %}<location>{{ job.location.freebase_url }}</location>{% endif %}
+        {% if job.location.longitude and job.location.latitude %}<georss:point>{{ job.location.latitude }} {{ job.location.longitude }}</georss:point>{% endif %}
         {% if job.employer %}
         <employer xmlns="http://jobs.code4lib.org">
             <name>{{ job.employer.name }}</name>
@@ -44,7 +47,7 @@
         {% for subject in job.subjects.all %}
         {% if subject.freebase_url %}
         <link rel="tag" title="{{ subject.name }}" href="{{ subject.freebase_url }}" type="text/html" />
-        <link rel="tag" title="{{ subject.name }} [JSON]" href="{{ subject.freebase_json_url }}" type="application/json" />
+        <link rel="tag" title="{{ subject.name }} [JSON]" href="{{ subject.freebase_json_url_no_key }}" type="application/json" />
         <link rel="tag" title="{{ subject.name }} [RDF]" href="{{ subject.freebase_rdf_url }}" type="application/rdf+xml" />
         {% endif %}
         {% endfor %}

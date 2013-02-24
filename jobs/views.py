@@ -78,7 +78,7 @@ def feed(request, tag=None, page=1):
     jobs = jobs.order_by('-published')
     updated = jobs[0].updated
 
-    paginator = DiggPaginator(jobs, 25, body=8)
+    paginator = DiggPaginator(jobs, 50, body=8)
     page = paginator.page(page)
 
     return render_to_response('feed.xml', 
