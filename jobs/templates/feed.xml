@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
+    {% if subject %}
+    <title>code4lib jobs - {{ subject.name }}</title>
+    <id>http://jobs.code4lib.org/feed/</id>
+    <link rel="self" type="application/atom+xml" href="http://{{ request.META.HTTP_HOST }}{% url feed_tag subject.slug %}" /> 
+    {% if page.has_next %}<link rel="next" type="application/atom+xml" href="http://{{ request.META.HTTP_HOST }}{% url feed_tag_page subject.slug page.next_page_number %}" />{% endif %}
+    {% if page.has_previous %}<link rel="previous" type="application/atom+xml" href="http://{{ request.META.HTTP_HOST }}{% url feed_tag_page subject.slug page.previous_page_number %}" />{% endif %}
+    {% else %}
     <title>code4lib jobs</title>
     <id>http://jobs.code4lib.org/feed/</id>
     <link rel="self" type="application/atom+xml" href="http://{{ request.META.HTTP_HOST }}{% url feed %}" /> 
     {% if page.has_next %}<link rel="next" type="application/atom+xml" href="http://{{ request.META.HTTP_HOST }}{% url feed_page page.next_page_number %}" />{% endif %}
     {% if page.has_previous %}<link rel="previous" type="application/atom+xml" href="http://{{ request.META.HTTP_HOST }}{% url feed_page page.previous_page_number %}" />{% endif %}
+    {% endif %}
     <author>
         <name>code4lib</name>
         <uri>http://code4lib.org</uri>

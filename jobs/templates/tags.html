@@ -9,6 +9,7 @@
     <tr>
         <th>Tag Name</th>
         <th>Jobs</th>
+        <th>Syndicate</th>
     </tr>
 {% for subject in page.object_list %}
     <tr>
@@ -16,6 +17,9 @@
             <a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a>
         </td>
         <td>{{ subject.num_jobs }}</td>
+        <td>
+          <a href="{% url feed_tag subject.slug %}"><img class="tiny-avatar" src="/static/images/feed.png"></a>
+        </td>
     </tr>
 {% endfor %}
 </table>

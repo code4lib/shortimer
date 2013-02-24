@@ -42,7 +42,11 @@ def jobs(request, subject_slug=None):
     if subject_slug:
         subject = get_object_or_404(models.Subject, slug=subject_slug)
         jobs = jobs.filter(subjects__in=[subject])
+        feed_url = "http://" + request.META['HTTP_HOST'] + reverse('feed_tag', args=[subject.slug])
+        feed_title = 'code4lib jobs feed - %s' % subject.name
     else: 
+        feed_url = "http://" + request.META['HTTP_HOST'] + reverse('feed')
+        feed_title = 'code4lib jobs feed'
         subject = None
 
     paginator = DiggPaginator(jobs, 20, body=8)
@@ -56,11 +60,21 @@ def jobs(request, subject_slug=None):
         'page': page,
         'paginator': paginator,
         'subject': subject,
+        'feed_url': feed_url, 
+        'feed_title': feed_title
     }
     return render(request, 'jobs.html', context)
 
-def feed(request, page=1):
+def feed(request, tag=None, page=1):
     jobs = models.Job.objects.filter(published__isnull=False, deleted__isnull=True)
+    title = "code4lib jobs feed"
+    feed_url = "http://" + request.META['HTTP_HOST'] + reverse('feed')
+    if tag:
+        subject = get_object_or_404(models.Subject, slug=tag)
+        jobs = jobs.filter(subjects__in=[subject])
+        title = "code4lib jobs feed - %s" % subject.name 
+        feed_url = "http://" + request.META['HTTP_HOST'] + reverse('feed_tag', args=[tag])
+
     jobs = jobs.order_by('-published')
     updated = jobs[0].updated
 
@@ -68,7 +82,11 @@ def feed(request, page=1):
     page = paginator.page(page)
 
     return render_to_response('feed.xml', 
-                              {"page": page, "updated": updated}, 
+                              {
+                                  "subject": subject,
+                                  "page": page, 
+                                  "updated": updated, 
+                              }, 
                               mimetype="application/atom+xml",
                               context_instance=RequestContext(request))
 
