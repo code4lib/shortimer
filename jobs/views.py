@@ -69,6 +69,7 @@ def feed(request, tag=None, page=1):
     jobs = models.Job.objects.filter(published__isnull=False, deleted__isnull=True)
     title = "code4lib jobs feed"
     feed_url = "http://" + request.META['HTTP_HOST'] + reverse('feed')
+    subject = None
     if tag:
         subject = get_object_or_404(models.Subject, slug=tag)
         jobs = jobs.filter(subjects__in=[subject])
