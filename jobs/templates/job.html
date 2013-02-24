@@ -10,8 +10,13 @@
       {% if job.employer %}
       <br>
       <small>
-        <a itemprop="hiringOrganization" href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a> - 
-        <span itemprop="hiringOrganizationLocation">{{ job.display_location }}</span>
+        <a itemprop="hiringOrganization" href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a>
+        {% if job.location %}
+        - 
+        <a href="{{ job.location.freebase_url }}">
+          <span itemprop="hiringOrganizationLocation">{{ job.display_location }}</span>
+        </a>
+        {% endif %} 
       </small>
       {% endif %}
       </h2>

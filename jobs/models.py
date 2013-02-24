@@ -148,6 +148,8 @@ class Job(models.Model):
             return False, "need to assign a title"
         if not self.employer:
             return False, "need to assign an employer"
+        if not self.location:
+            return False, "need to assign a location"
         if self.subjects.all().count() == 0:
             return False, "please assign some tags"
         return True, "ok"

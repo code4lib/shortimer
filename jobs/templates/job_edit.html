@@ -5,7 +5,9 @@
 {% block content %}
 
 {% if error %}
-<div style="color: red; font-weight: bold;">{{ error }}</div>
+<div class="row">
+  <div class="span6 offset1 alert">{{ error }}</div>
+</div>
 {% endif %}
 
 <form id="job" method="post">

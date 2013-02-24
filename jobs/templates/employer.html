@@ -8,7 +8,13 @@
     <header data-freebase-id="{{ employer.freebase_id }}" class="employer">
     {% if employer.freebase_id %}<a href="{{ employer.freebase_url }}" class="hidden-phone"><img class="freebase-thumbnail" src="{{ employer.freebase_image_url }}"></a>{% endif %}
     <h3>{{ employer.name }} Jobs</h3>
+    {% if employer.display_location %}
     <small>{{ employer.display_location }}</small>
+    {% else %}
+        {% if employer.freebase_id %}
+        <small><a href="{{ employer.freebase_url }}">Can you add the location on Freebase?</a></small>
+        {% endif %}
+    {% endif %}
     <p class="hidden-phone" id="employer-description"></p>
     </header>
     <tr class="hidden-phone">
