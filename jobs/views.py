@@ -3,8 +3,9 @@ import json
 import smtplib
 import datetime
 
-from django.conf import settings
+from django.http import Http404
 from django.contrib import auth
+from django.conf import settings
 from django.db.models import Count
 from django.contrib.auth import logout
 from django.core.mail import send_mail
@@ -53,7 +54,7 @@ def jobs(request, subject_slug=None):
     try:
         page = paginator.page(request.GET.get("page", 1))
     except EmptyPage:
-        return HttpResponseNotFound()
+        raise Http404 
 
     context = {
         'jobs': page.object_list,
@@ -80,7 +81,10 @@ def feed(request, tag=None, page=1):
     updated = jobs[0].updated
 
     paginator = DiggPaginator(jobs, 50, body=8)
-    page = paginator.page(page)
+    try: 
+        page = paginator.page(page)
+    except EmptyPage:
+        raise Http404
 
     return render_to_response('feed.xml', 
                               {
