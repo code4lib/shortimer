@@ -31,6 +31,7 @@ credentials you will need to create applications on those sites, and fill in oau
 1. `python manage.py syncdb --migrate`
 1. `python manage.py loaddata subjects_keywords`
 1. fetch and load the code4lib email archive `python manage.py load_mboxes`
+1. if you are doing development and want a snapshot of the db just ask me
 1. `python manage.py runserver`
 1. point web browser at http://locahost:8000
 
