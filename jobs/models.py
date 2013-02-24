@@ -77,13 +77,14 @@ class FreebaseEntity(object):
     def freebase_json_url(self):
         return "https://www.googleapis.com/freebase/v1/topic" + self.freebase_id + "?key=" + settings.GOOGLE_API_KEY
 
+    def freebase_json_url_no_key(self):
+        return "https://www.googleapis.com/freebase/v1/topic" + self.freebase_id
+
     def freebase_data(self):
         if hasattr(self, '_fb_data'):
             return self._fb_data
         try:
-            print self.freebase_json_url()
             resp = urllib.urlopen(self.freebase_json_url())
-            print "STATUS: %s" % resp.code
             data = json.load(resp)
             self._fb_data = data
             return data

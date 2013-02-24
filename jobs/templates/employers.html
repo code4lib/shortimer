@@ -17,7 +17,15 @@
             <a href="{% url employer employer.slug %}">{{ employer.name }}</a> 
         </td>
         <td>{{ employer.num_jobs }}</td>
-        <td>{% include "snippets/location.html" with employer=employer %}</td>
+        <td>
+          {% if employer.display_location %}
+          {{ employer.display_location }}
+          {% else %}
+            {% if employer.frebase_id %}
+            <small><a href="{{ employer.freebase_url }}">Can you add the location in Freebase?</a></small>
+            {% endif %}
+          {% endif %}
+        </td>
     </tr>
 {% endfor %}
 </table>

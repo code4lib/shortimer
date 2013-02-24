@@ -15,7 +15,7 @@
     {% for job in page.object_list %}
     <entry>
         <id>http://{{ request.META.HTTP_HOST }}{% url job job.id %}</id>
-        <title>{{ job.title }}</title>
+        <title>{{ job.title }}{% if job.location %} - {{ job.location.name }}{% endif %}</title>
         <link rel="alternate" type="text/html" href="http://{{ request.META.HTTP_HOST }}{% url job job.id %}" />
         {% if job.creator %}
         <author>
@@ -27,6 +27,7 @@
         <employer xmlns="http://jobs.code4lib.org">
             <name>{{ job.employer.name }}</name>
             <uri>{{ job.employer.freebase_url }}</uri>
+            {% if job.location %}<location>{{ job.location.freebase_url }}</location>{% endif %}
         </employer>
         {% endif %}
         <updated>{{ job.published|date:"Y-m-d\TH:i:s\Z" }}</updated>
@@ -36,7 +37,7 @@
         {% for subject in job.subjects.all %}
         {% if subject.freebase_url %}
         <link rel="tag" title="{{ subject.name }}" href="{{ subject.freebase_url }}" type="text/html" />
-        <link rel="tag" title="{{ subject.name }} [JSON]" href="{{ subject.freebase_json_url }}" type="application/json" />
+        <link rel="tag" title="{{ subject.name }} [JSON]" href="{{ subject.freebase_json_url_no_key }}" type="application/json" />
         <link rel="tag" title="{{ subject.name }} [RDF]" href="{{ subject.freebase_rdf_url }}" type="application/rdf+xml" />
         {% endif %}
         {% endfor %}
