@@ -30,6 +30,8 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^curate/employers/$', 'curate_employers', name='curate_employers'),
     url(r'^curate/drafts/$', 'curate_drafts', name='curate_drafts'),
     url(r'^api/v1/guess_location', 'guess_location', name='guess_location'),
+    url(r'^map/$', 'map_jobs', name='map_jobs'),
+    url(r'^map/more/(?P<count>\d+)/$','more_map_data', name="more_maps_data"),
     url(r'', include('social_auth.urls')),
 )
 

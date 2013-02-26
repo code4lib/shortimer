@@ -1,0 +1,31 @@
+{% extends 'map_base.html' %}
+
+{% block  map_extend%}
+        var marker_count = 0;
+        var oldest_job;
+
+
+        //add a marker for each job, with a popup on click with Title and Employer
+        {% for job in jobs %}
+
+
+            marker = add_marker(
+                    {
+                        pk                  : {{job.pk}},
+                        location__latitude  : {{ job.location.latitude }},
+                        location__longitude : {{ job.location.longitude }},
+                        title               : "{{ job.title }}",
+                        employer__name      : "{{ job.employer.name }}",
+                        //should do the nice date upstream in view
+                        post_date           : new Date("{{ job.post_date }}").toDateString()
+
+            });
+
+            //Add this point to the bounds, so the map knows its own extent with this new marker
+            bounds.extend(new L.LatLng(marker._latlng.lat,marker._latlng.lng));
+
+            //set marker count so we can request more later
+            marker_count++;
+
+        {% endfor %}
+{% endblock map_extend %}
