@@ -96,6 +96,12 @@ class FreebaseEntity(object):
         if not data or not data.has_key("property"):
             return []
         return FreebaseValue.make_values(data["property"], prop)
+
+    def freebase_value(self, prop):
+        values = self.freebase_values(prop)
+        if len(values) > 0:
+            return values[0].value
+        return None
         
     def freebase_rdf_url(self):
         id = self.freebase_id
@@ -239,6 +245,11 @@ class Employer(models.Model, FreebaseEntity):
     country = models.CharField(max_length=100)
     domain = models.CharField(max_length=50)
     postal_code = models.CharField(max_length=25)
+    description = models.TextField(null=True)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('employer', [str(self.id)])
 
     def save(self, *args, **kwargs):
         # try to grab some stuff from freebase if it is not defined already
@@ -249,6 +260,7 @@ class Employer(models.Model, FreebaseEntity):
     def load_freebase_data(self):
         values = self.freebase_values("/organization/organization/headquarters")
         values.extend(self.freebase_values("/location/location/street_address"))
+        self.description = self.freebase_value("/common/topic/description")
         for addr in values:
             city = addr.get_value("/location/mailing_address/citytown")
             state = addr.get_value("/location/mailing_address/state_province_region")

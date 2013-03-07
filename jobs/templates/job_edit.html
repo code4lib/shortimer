@@ -125,7 +125,8 @@
             </dd>
         </dl>
 
-    </section>
+        </section>
+        <section class="span2" id="recent_jobs"></section>
     </div>
 </article>
 <input type="hidden" name="job_id" value="{{ job.id }}"></input>
@@ -141,9 +142,24 @@
 
     function addEmployer(e, data) {
         $("#employer_freebase_id").val(data.id);
+
+        // pre-populate job location with a best guess
         $.getJSON("/api/v1/guess_location?freebase_id=" + data.id, function(city) {
+            if (! city) return;
             $("#location").val(city.name);
             $("#location_freebase_id").val(city.freebase_id);
+        });
+
+        // add recent jobs to help reduce duplicates
+        $.getJSON("/api/v1/recent_jobs?freebase_id=" + data.id, function(r) {
+            var recentJobs = $("#recent_jobs").empty().hide();
+            if (r.jobs.length == 0) return;
+            recentJobs.append("<h4>Recent Jobs:</h4><hr>")
+            for (i=0; i<r.jobs.length; i++) {
+              job = r.jobs[i];
+              recentJobs.append('<a target="_new" href="' + job.url + '">' + job.title + '</a><br>' + job.created + '<br><br>')
+            }
+            recentJobs.slideDown();
         });
     }
 

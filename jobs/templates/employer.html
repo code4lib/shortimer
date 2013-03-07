@@ -15,7 +15,9 @@
         <small><a href="{{ employer.freebase_url }}">Can you add the location in Freebase?</a></small>
         {% endif %}
     {% endif %}
-    <p class="hidden-phone" id="employer-description"></p>
+    <p class="hidden-phone" id="employer-description">
+    {{ employer.description|default:"" }}
+    </p>
     </header>
     <tr class="hidden-phone">
         <th style="width: 85px;">Posted</th>

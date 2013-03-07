@@ -21,6 +21,7 @@ from django.http import HttpResponse, HttpResponseGone, HttpResponseNotFound
 from shortimer.jobs import models
 from shortimer.miner import autotag
 from shortimer.paginator import DiggPaginator
+from shortimer.jobs.decorators import AllowJSONPCallback
 
 def about(request):
     return render(request, 'about.html')
@@ -373,6 +374,9 @@ def reports(request):
                                             "hotjobs_w": hotjobs_w,
                                             "hotjobs_m": hotjobs_m})
 
+# bits of an API as needed, might be nice to rationalize this at some point
+
+@AllowJSONPCallback
 def guess_location(request):
     """guess location of the job based on the employer's headquarters
     """
@@ -383,6 +387,24 @@ def guess_location(request):
         result = {"name": location.name, "freebase_id": location.freebase_id}
     else:
         result = None
+    return HttpResponse(json.dumps(result), mimetype="application/json")
+
+@AllowJSONPCallback
+def recent_jobs(request):
+    freebase_id = request.GET.get("freebase_id", None)
+    jobs = models.Job.objects.filter(published__isnull=False).order_by('-created')
+    result = {'jobs': []}
+    if freebase_id:
+        jobs = jobs.filter(employer__freebase_id=freebase_id)
+
+    for job in jobs[0:10]:
+        result['jobs'].append({
+            'title': job.title,
+            'created': job.created.strftime('%Y-%m-%d'),
+            'employer': job.employer.name,
+            'url': _add_host(request, job.get_absolute_url())
+        })
+
     return HttpResponse(json.dumps(result), mimetype="application/json")
 
 def _can_edit_description(user, job):
@@ -396,3 +418,7 @@ def _can_edit_description(user, job):
         return True
     else:
         return False
+
+def _add_host(request, url):
+    return 'http://' + request.META['HTTP_HOST'] + url
+
