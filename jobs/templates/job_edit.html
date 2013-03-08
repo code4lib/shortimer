@@ -4,6 +4,14 @@
 
 {% block content %}
 
+{% if not job.title %}
+<div class="row">
+  <div class="alert span8 offset1">
+  If this looks intimidating email the job URL to <a href="mailto:jobs@code4lib.org?subject=Awesome Job Opportunity">jobs@code4lib.org</a> with a subject that has "job" in it and we'll do it for you.
+  </div>
+</div>
+{% endif %}
+
 {% if error %}
 <div class="row">
   <div class="span6 offset1 alert">{{ error }}</div>
@@ -14,8 +22,7 @@
     <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <div class="row">
       <div class="span6 offset1">
-      <input placeholder="Enter just the job title here, the employer name comes
-    from dropdown: e.g. Web Developer" style="width: 100%;" size="200" type="text" name="title" value="{{ job.title }}">
+      <input placeholder="e.g. Data Wrangler/Masseuse" style="width: 97%;" size="200" type="text" name="title" value="{{ job.title }}">
       </div>
     </div>
     <div class="row">
