@@ -80,6 +80,7 @@ def feed(request, tag=None, page=1):
 
     jobs = jobs.order_by('-published')
     if jobs.count() == 0: raise Http404
+    updated = jobs[0].updated
 
     paginator = DiggPaginator(jobs, 50, body=8)
     try: 
