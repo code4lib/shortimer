@@ -29,6 +29,10 @@
        <dl>
             <dt>Job Type:</dt>
             <dd itemprop="employmentType"><span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</a></dd>
+            <dt>Telecommute:<dt>
+            <dd>
+            {% if job.telecommute %}Yes{% else %}No{% endif %}
+            </dd>
             {% if job.url %}
             <dt>Job URL:</dt>
             <dd><a itemprop="url" href="{{ job.url }}">{{ job.url|urlizetrunc:40 }}</a></dd>

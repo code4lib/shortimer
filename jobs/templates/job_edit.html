@@ -47,14 +47,6 @@
     </section>
     <section class="span3">
         <dl>
-            <dt>Job Type:</dt>
-            <dd itemprop="employmentType">
-                <select name="job_type">
-                {% for code, value in job_types %}
-                <option value="{{ code }}" {% ifequal code job.job_type %}selected{% endifequal %}>{{ value }}</option>
-                {% endfor %}
-            </select>
-            </dd>
             <dt>Employer:</dt>
             <dd itemprop="hiringOrganization">
             <input placeholder="University of Example" type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
@@ -64,6 +56,21 @@
             <dd itemprop="jobLocation">
             <input placeholder="Centerville" type="text" name="location" id="location" value="{{ job.location.name }}"></input>
             <input type="hidden" name="location_freebase_id" value="{{ job.location.freebase_id }}" id="location_freebase_id"></input>
+            </dd>
+            <dt>Job Type:</dt>
+            <dd itemprop="employmentType">
+                <select name="job_type">
+                {% for code, value in job_types %}
+                <option value="{{ code }}" {% ifequal code job.job_type %}selected{% endifequal %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+            </dd>
+            <dt>Telecommute:</dt>
+            <dd>
+                <select name="telecommute">
+                  <option value="no" {% if not job.telecommute %}selected{% endif %}>No</option>
+                  <option value="yes" {% if job.telecommute %}selected{% endif %}>Yes</option>
+                </select>
             </dd>
             {% if job.post_date %}
             <dt>Posted:</dt>

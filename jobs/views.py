@@ -154,6 +154,7 @@ def _update_job(j, form, user):
     j.contact_name = form.get("contact_name")
     j.contact_email = form.get("contact_email")
     j.job_type = form.get("job_type")
+    j.telecommute = True if form.get("telecommute") == "yes" else False
 
     # set employer: when an employer is first added this save triggers
     # a lookup to Freebase to get hq address information
