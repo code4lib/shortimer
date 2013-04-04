@@ -61,7 +61,7 @@ class FreebaseTests(unittest.TestCase):
 
     def test_get_json_url(self):
         emp = Employer.objects.get(pk=1)
-        self.assertEqual(emp.freebase_json_url(), "https://www.googleapis.com/freebase/v1/topic/en/stanford_university")
+        self.assertTrue("https://www.googleapis.com/freebase/v1/topic/en/stanford_university?key=AIzaSyBE36z7o6NUafIWcLEB8yk2I47-8_5y1_0" in emp.freebase_json_url())
 
     def test_employer_save(self):
         e = Employer(name="Stanford University",
@@ -71,6 +71,7 @@ class FreebaseTests(unittest.TestCase):
         self.assertEqual(e.state, 'California')
         self.assertEqual(e.country, 'United States of America')
         self.assertEqual(e.postal_code, '94305')
+        self.assertTrue('American private research university located in Stanford' in e.description)
 
         e = Employer(name="University of Chicago",
                      freebase_id="/en/university_of_chicago")

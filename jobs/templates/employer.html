@@ -15,7 +15,9 @@
         <small><a href="{{ employer.freebase_url }}">Can you add the location in Freebase?</a></small>
         {% endif %}
     {% endif %}
-    <p class="hidden-phone" id="employer-description"></p>
+    <p class="hidden-phone" id="employer-description">
+    {{ employer.description|default:"" }}
+    </p>
     </header>
     <tr class="hidden-phone">
         <th style="width: 85px;">Posted</th>
@@ -45,27 +47,3 @@
 {% include "paginator.html" %}
 </div>
 {% endblock %}
-
-{% block extra_javascript %}
-<script>
-
-    function lookupEmployer() {
-        var employer = $(".employer")[0];
-        if (! employer) return;
-        var freebaseId = $(employer).data("freebase-id");
-        var freebaseUrl = "http://www.freebase.com/experimental/topic/standard" + freebaseId + "?callback=?";
-        $.getJSON(freebaseUrl, function(response) {
-            if (! response.result.description) return
-            var desc = 
-                response.result.description + 
-                '<a href="' + response.result.url + '">' + 
-                '<img class="freebase-icon" src="/static/images/freebase.jpg"></a>';
-            $("#employer-description").html(desc);
-        });
-    }
-
-    $(document).ready(lookupEmployer);
-</script>
-{% endblock %}
-
-

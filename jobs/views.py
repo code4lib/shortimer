@@ -22,6 +22,7 @@ from django.http import HttpResponse, HttpResponseGone, HttpResponseNotFound
 from shortimer.jobs import models
 from shortimer.miner import autotag
 from shortimer.paginator import DiggPaginator
+from shortimer.jobs.decorators import AllowJSONPCallback
 
 def about(request):
     return render(request, 'about.html')
@@ -79,7 +80,7 @@ def feed(request, tag=None, page=1):
         feed_url = "http://" + request.META['HTTP_HOST'] + reverse('feed_tag', args=[tag])
 
     jobs = jobs.order_by('-published')
-    updated = jobs[0].updated
+    if jobs.count() == 0: raise Http404
 
     paginator = DiggPaginator(jobs, 50, body=8)
     try: 
@@ -154,6 +155,7 @@ def _update_job(j, form, user):
     j.contact_name = form.get("contact_name")
     j.contact_email = form.get("contact_email")
     j.job_type = form.get("job_type")
+    j.telecommute = True if form.get("telecommute") == "yes" else False
 
     # set employer: when an employer is first added this save triggers
     # a lookup to Freebase to get hq address information
@@ -374,6 +376,9 @@ def reports(request):
                                             "hotjobs_w": hotjobs_w,
                                             "hotjobs_m": hotjobs_m})
 
+# bits of an API as needed, might be nice to rationalize this at some point
+
+@AllowJSONPCallback
 def guess_location(request):
     """guess location of the job based on the employer's headquarters
     """
@@ -384,6 +389,24 @@ def guess_location(request):
         result = {"name": location.name, "freebase_id": location.freebase_id}
     else:
         result = None
+    return HttpResponse(json.dumps(result), mimetype="application/json")
+
+@AllowJSONPCallback
+def recent_jobs(request):
+    freebase_id = request.GET.get("freebase_id", None)
+    jobs = models.Job.objects.filter(published__isnull=False).order_by('-created')
+    result = {'jobs': []}
+    if freebase_id:
+        jobs = jobs.filter(employer__freebase_id=freebase_id)
+
+    for job in jobs[0:10]:
+        result['jobs'].append({
+            'title': job.title,
+            'created': job.created.strftime('%Y-%m-%d'),
+            'employer': job.employer.name,
+            'url': _add_host(request, job.get_absolute_url())
+        })
+
     return HttpResponse(json.dumps(result), mimetype="application/json")
 
 def _can_edit_description(user, job):
@@ -398,7 +421,6 @@ def _can_edit_description(user, job):
     else:
         return False
 
-
 def map_jobs(request):
     jobs = models.Job.objects.exclude(location=None)[:15]
     return render(request, 'map_jobs.html', {'jobs' : jobs})
@@ -407,3 +429,7 @@ def more_map_data(request, count):
     # returns data required for adding extra older to jobs map
     jobs = models.Job.objects.exclude(location=None).values("pk","location__latitude", "location__longitude","title","employer__name","post_date")[int(count):int(count)+15]
     return HttpResponse(json.dumps(list(jobs), cls=DjangoJSONEncoder), mimetype="application/json")
+
+def _add_host(request, url):
+    return 'http://' + request.META['HTTP_HOST'] + url
+

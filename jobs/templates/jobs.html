@@ -5,14 +5,14 @@
 {% block content %}
 
 {% if subject %}
-<div data-freebase-id="{{ subject.freebase_id }}" class="subject span10 offset1">
+<div data-freebase-id="{{ subject.freebase_id }}" class="subject span12">
 <a href="{{ subject.freebase_url }}"><img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}"></a>
 <h3 class="subject-name">{{ subject.name }} Jobs</h3>
 <p class="hidden-phone" id="subject-description"></p>
 </div>
 {% endif %}
 
-<table class="span10 offset1 table table-striped table-bordered">
+<table class="span12 table table-striped table-bordered">
     <tr class="hidden-phone">
         <th style="width: 85px;">Posted</th>
         <th>Job</th>
@@ -39,7 +39,7 @@
 {% endfor %}
 </table>
 
-<div class="span10 offset1">
+<div class="span12">
 {% include "paginator.html" %}
 {% endblock %}
 </div>

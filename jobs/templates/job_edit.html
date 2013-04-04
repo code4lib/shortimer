@@ -4,6 +4,14 @@
 
 {% block content %}
 
+{% if not job.title %}
+<div class="row">
+  <div class="alert span8 offset1">
+  If this looks intimidating email the job URL to <a href="mailto:jobs@code4lib.org?subject=Awesome Job Opportunity">jobs@code4lib.org</a> with a subject that has "job" in it and we'll do it for you.
+  </div>
+</div>
+{% endif %}
+
 {% if error %}
 <div class="row">
   <div class="span6 offset1 alert">{{ error }}</div>
@@ -14,8 +22,7 @@
     <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
     <div class="row">
       <div class="span6 offset1">
-      <input placeholder="Enter just the job title here, the employer name comes
-    from dropdown: e.g. Web Developer" style="width: 100%;" size="200" type="text" name="title" value="{{ job.title }}">
+      <input placeholder="e.g. Data Wrangler/Masseuse" style="width: 97%;" size="200" type="text" name="title" value="{{ job.title }}">
       </div>
     </div>
     <div class="row">
@@ -40,14 +47,6 @@
     </section>
     <section class="span3">
         <dl>
-            <dt>Job Type:</dt>
-            <dd itemprop="employmentType">
-                <select name="job_type">
-                {% for code, value in job_types %}
-                <option value="{{ code }}" {% ifequal code job.job_type %}selected{% endifequal %}>{{ value }}</option>
-                {% endfor %}
-            </select>
-            </dd>
             <dt>Employer:</dt>
             <dd itemprop="hiringOrganization">
             <input placeholder="University of Example" type="text" name="employer" id="employer" value="{{ job.employer.name }}"></input>
@@ -57,6 +56,21 @@
             <dd itemprop="jobLocation">
             <input placeholder="Centerville" type="text" name="location" id="location" value="{{ job.location.name }}"></input>
             <input type="hidden" name="location_freebase_id" value="{{ job.location.freebase_id }}" id="location_freebase_id"></input>
+            </dd>
+            <dt>Job Type:</dt>
+            <dd itemprop="employmentType">
+                <select name="job_type">
+                {% for code, value in job_types %}
+                <option value="{{ code }}" {% ifequal code job.job_type %}selected{% endifequal %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+            </dd>
+            <dt>Telecommute:</dt>
+            <dd>
+                <select name="telecommute">
+                  <option value="no" {% if not job.telecommute %}selected{% endif %}>No</option>
+                  <option value="yes" {% if job.telecommute %}selected{% endif %}>Yes</option>
+                </select>
             </dd>
             {% if job.post_date %}
             <dt>Posted:</dt>
@@ -72,7 +86,7 @@
             <dd><input placeholder="joan@example.edu" type="text" name="contact_email" value="{{ job.contact_email }}"></input></dd>
             {% if job.origin_url %}
             <dt>Origin URL:</dt>
-            <dd><a href="{{ job.origin_url }}">{{ job.origin_url }}</a></dd>
+            <dd><a href="{{ job.origin_url }}">{{ job.origin_url|urlizetrunc:40 }}</a></dd>
             {% endif %}
             <dt itempropr="url">Job URL:</dt>
             <dd><input placeholder="http://example.edu/jobs/1234/" type="url" name="url" value="{{ job.url }}"></input></dd>
@@ -125,7 +139,8 @@
             </dd>
         </dl>
 
-    </section>
+        </section>
+        <section class="span2" id="recent_jobs"></section>
     </div>
 </article>
 <input type="hidden" name="job_id" value="{{ job.id }}"></input>
@@ -141,9 +156,24 @@
 
     function addEmployer(e, data) {
         $("#employer_freebase_id").val(data.id);
+
+        // pre-populate job location with a best guess
         $.getJSON("/api/v1/guess_location?freebase_id=" + data.id, function(city) {
+            if (! city) return;
             $("#location").val(city.name);
             $("#location_freebase_id").val(city.freebase_id);
+        });
+
+        // add recent jobs to help reduce duplicates
+        $.getJSON("/api/v1/recent_jobs?freebase_id=" + data.id, function(r) {
+            var recentJobs = $("#recent_jobs").empty().hide();
+            if (r.jobs.length == 0) return;
+            recentJobs.append("<h4>Recent Jobs:</h4><hr>")
+            for (i=0; i<r.jobs.length; i++) {
+              job = r.jobs[i];
+              recentJobs.append('<a target="_new" href="' + job.url + '">' + job.title + '</a><br>' + job.created + '<br><br>')
+            }
+            recentJobs.slideDown();
         });
     }
 

@@ -28,12 +28,10 @@ using.
 1. `cp settings.py.template settings.py`
 1. in order for people to login with their github, facebook, twitter, linkedin
 credentials you will need to create applications on those sites, and fill in oauth keys in your settings.py. For development you can probably get by with just one login provider.
-1. `python manage.py syncdb --migrate`
-1. `python manage.py loaddata subjects_keywords`
-1. fetch and load the code4lib email archive `python manage.py load_mboxes`
-1. if you are doing development and want a snapshot of the db just ask me
+1. `python manage.py syncdb --migrate --noinput`
 1. `python manage.py runserver`
 1. point web browser at http://locahost:8000
+1. if you are doing development and want a snapshot of the db just ask
 
 Ideas
 -----
