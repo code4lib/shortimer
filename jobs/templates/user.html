@@ -27,7 +27,7 @@
     <dd>
     <ul>
         {% for edit in recent_edits %}
-        <li><time>{{ edit.created }}</time> - <a href="{% url job edit.job.id %}">{{ edit.job }}</a></li>
+        <li><time>{{ edit.created }}</time> - <a href="{% url "job" edit.job.id %}">{{ edit.job }}</a></li>
     {% endfor %}
     </ul>
     </dd>
@@ -36,7 +36,7 @@
 
 
 {% if can_edit %}
-<a href="{% url profile %}">
+<a href="{% url "profile" %}">
     <button class="btn primary">Edit</button>
 </a>
 {% endif %}

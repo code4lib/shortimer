@@ -4,7 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>code4lib jobs: {% block title %}{% endblock %}</title>
         {% if feed_url %}<link title="{{ feed_title }}" rel="alternate" href="{{ feed_url }}" type="application/atom+xml">{% endif %}
-        <link title="code4lib jobs feed - all jobs" rel="alternate" href="{% url feed %}" type="application/atom+xml">
+        <link title="code4lib jobs feed - all jobs" rel="alternate" href="{% url "feed" %}" type="application/atom+xml">
         <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="/static/css/main.css">
@@ -22,30 +22,30 @@
               <ul class="nav">
 
                   <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
-                  <li {% ifequal request.path "/map/" %} class="active" {% endifequal %}><a href="{% url map_jobs %}">Map</a></li>
-                  <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url tags %}">Tags</a></li>
-                  <li {% ifequal request.path "/employers/" %} class="active" {% endifequal %}><a href="{% url employers %}">Employers</a></li>
-                  <li {% ifequal request.path "/users/" %} class="active" {% endifequal %}><a href="{% url users %}">Users</a></li>
-                  <li {% ifequal request.path "/reports/" %} class="active" {% endifequal %}><a href="{% url reports %}">Reports</a></li>
-                  <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a rel="nofollow" href="{% url job_new %}">Post</a></li>
-                  <li {% ifequal request.path "/curate/" %} class="active" {% endifequal %}><a href="{% url curate %}">Curate</a></li>
-                  <li {% ifequal request.path "/about/" %} class="active" {% endifequal %}><a href="{% url about %}">About</a></li>
+                  <li {% ifequal request.path "/map/" %} class="active" {% endifequal %}><a href="{% url "map_jobs" %}">Map</a></li>
+                  <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url "tags" %}">Tags</a></li>
+                  <li {% ifequal request.path "/employers/" %} class="active" {% endifequal %}><a href="{% url "employers" %}">Employers</a></li>
+                  <li {% ifequal request.path "/users/" %} class="active" {% endifequal %}><a href="{% url "users" %}">Users</a></li>
+                  <li {% ifequal request.path "/reports/" %} class="active" {% endifequal %}><a href="{% url "reports" %}">Reports</a></li>
+                  <li {% ifequal request.path "/job/new/" %} class="active" {% endifequal %}><a rel="nofollow" href="{% url "job_new" %}">Post</a></li>
+                  <li {% ifequal request.path "/curate/" %} class="active" {% endifequal %}><a href="{% url "curate" %}">Curate</a></li>
+                  <li {% ifequal request.path "/about/" %} class="active" {% endifequal %}><a href="{% url "about" %}">About</a></li>
               </ul>
               <ul class="nav pull-right">
                   {% if request.user.is_authenticated %}
                   <li>
-                      <a style="color: blue;" href="{% url user request.user.username %}">
+                      <a style="color: blue;" href="{% url "user" request.user.username %}">
                       <img class="tiny-avatar" src="{{ request.user.profile.pic_url }}">
                       {{ request.user.username }}
                   </a>
                   </li>
                   <li>
-                      <a href="{% url logout %}">Logout</a>
+                      <a href="{% url "logout" %}">Logout</a>
                   </li>
                   {% else %}
-                  <li><a href="{% url login %}">Login</a></li>
+                  <li><a href="{% url "login" %}">Login</a></li>
                   {% endif %}
-                  <li><a href="{% if feed_url %}{{ feed_url }}{% else %}{% url feed %}{% endif %}"><img class="tiny-avatar" src="/static/images/feed.png"></a></li>
+                  <li><a href="{% if feed_url %}{{ feed_url }}{% else %}{% url "feed" %}{% endif %}"><img class="tiny-avatar" src="/static/images/feed.png"></a></li>
                 </ul>
               </div>
             </div>

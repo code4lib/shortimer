@@ -36,7 +36,7 @@
         </p>
 
         <p>
-        These job postings are put into a <a href="{% url curate_drafts %}">queue</a> where they wait for someone like you to make sure that the posting:
+        These job postings are put into a <a href="{% url "curate_drafts" %}">queue</a> where they wait for someone like you to make sure that the posting:
         <ul>
             <li>has not alread been posted (there's a fair bit of cross-pollination)</li>
             <li>is relevant for the code4lib community</li>
@@ -49,14 +49,13 @@
         
         {% if not user.is_authenticated %}
         <p>In order to curate job postings you will need to 
-        <a href="{% url login %}?next={% url curate %}">login</a>. 
+        <a href="{% url "login" %}?next={% url "curate" %}">login</a>. 
         So go and do that first, and come right back and we'll get started.
         </p>
 
         {% else %}
         <p>
-        Right now <a href="{% url curate_drafts %}">{{ need_publish }}</a> job{{ need_publish|pluralize }} need{{ need_publish|pluralize:"s," }} to be looked over and published, and  <a href="{% url curate_employers %}">{{ need_employer }}</a> job{{ need_employer|pluralize }} need to be assigned an employer. Please help if you can!
-        </p>
+        Right now <a href="{% url "curate_drafts" %}">{{ need_publish }}</a> job{{ need_publish|pluralize }} need{{ need_publish|pluralize:"s," }} to be looked over and published, and  <a href="{% url "curate_employers" %}">{{ need_employer }}</a> job{{ need_employer|pluralize }} need to be assigned an employer. Please help if you can!</p>
         {% endif %}
 
         <br>

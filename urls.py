@@ -1,4 +1,4 @@
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 from django.conf.urls.defaults import patterns, include, url
 
 from shortimer.jobs.sitemap import JobSitemap
@@ -38,6 +38,6 @@ urlpatterns = patterns('shortimer.jobs.views',
 
 sitemaps = {'jobs': JobSitemap}
 urlpatterns += patterns('',
-    url(r'^robots\.txt$', direct_to_template, {'template': 'robots.txt', 'mimetype': 'text/plain'}),
+    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )

@@ -15,7 +15,7 @@
         </tr>
         {% for job in hotjobs_w %}
         <tr>
-            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a></td>
+            <td><a href="{% url "job" job.id %}">{{ job }}</a><br><a href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a></td>
             <td class="numeric">{{ job.page_views }}</td>
         </tr>
         {% endfor %}
@@ -31,7 +31,7 @@
         </tr>
         {% for job in hotjobs_m %}
         <tr>
-            <td><a href="{% url job job.id %}">{{ job }}</a><br><a href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a></td>
+            <td><a href="{% url "job" job.id %}">{{ job }}</a><br><a href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a></td>
             <td class="numeric">{{ job.page_views }}</td>
         </tr>
         {% endfor %}
@@ -51,7 +51,7 @@
         </tr>
         {% for subject in subjects_m.all %}
         <tr>
-            <td><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></td>
+            <td><a href="{% url "jobs_by_subject" subject.slug %}">{{ subject.name }}</a></td>
             <td class="numeric">{{ subject.num_jobs }}</td>
         </tr>
         {% endfor %}
@@ -67,7 +67,7 @@
         </tr>
         {% for subject in subjects_y.all %}
         <tr>
-            <td><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></td>
+            <td><a href="{% url "jobs_by_subject" subject.slug %}">{{ subject.name }}</a></td>
             <td class="numeric">{{ subject.num_jobs }}</td>
         </tr>
         {% endfor %}
@@ -87,7 +87,7 @@
         </tr>
         {% for employer in employers_m.all %}
         <tr>
-            <td><a href="{% url employer employer.slug %}">{{ employer.name }}</a></td>
+            <td><a href="{% url "employer" employer.slug %}">{{ employer.name }}</a></td>
             <td class="numeric">{{ employer.num_jobs }}</td>
         </tr>
         {% endfor %}
@@ -103,7 +103,7 @@
         </tr>
         {% for employer in employers_y.all %}
         <tr>
-            <td><a href="{% url employer employer.slug %}">{{ employer.name }}</a></td>
+            <td><a href="{% url "employer" employer.slug %}">{{ employer.name }}</a></td>
             <td class="numeric">{{ employer.num_jobs }}</td>
         </tr>
         {% endfor %}

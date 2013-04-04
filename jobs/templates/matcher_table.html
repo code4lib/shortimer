@@ -11,7 +11,7 @@
     <td class="keyword">{{ keyword.name }}</td>
     <td class="freebase-concept">
         {% if keyword.subject %}
-        <a href="{% url subject keyword.subject.slug %}">{{ keyword.subject.name }} </a>
+        <a href="{% url "subject" keyword.subject.slug %}">{{ keyword.subject.name }} </a>
         {% else %}
         <input class="topic" type="text" value="{{ keyword.name }}">
         {% endif %}

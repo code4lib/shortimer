@@ -14,7 +14,7 @@
 {% for employer in page.object_list %}
     <tr>
         <td>
-            <a href="{% url employer employer.slug %}">{{ employer.name }}</a> 
+            <a href="{% url "employer" employer.slug %}">{{ employer.name }}</a> 
         </td>
         <td>{{ employer.num_jobs }}</td>
         <td>

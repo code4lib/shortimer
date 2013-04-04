@@ -10,7 +10,7 @@
       {% if job.employer %}
       <br>
       <small>
-        <a itemprop="hiringOrganization" href="{% url employer job.employer.slug %}">{{ job.employer.name }}</a>
+        <a itemprop="hiringOrganization" href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a>
         {% if job.location %}
         - 
         <a href="{{ job.location.freebase_url }}">
@@ -59,7 +59,7 @@
             <dd>
                 <ul class="tags">
                     {% for subject in job.subjects.all %}
-                    <li class="label" itemprop="skills"><a href="{% url jobs_by_subject subject.slug %}">{{ subject.name }}</a></li>
+                    <li class="label" itemprop="skills"><a href="{% url "jobs_by_subject" subject.slug %}">{{ subject.name }}</a></li>
                     {% endfor %}
                 </ul>
             </dd>
@@ -82,7 +82,7 @@
         <br>
         <br>
         {% if request.user.is_authenticated %}
-        <a rel="nofollow" href="{% url job_edit job.id %}">
+        <a rel="nofollow" href="{% url "job_edit" job.id %}">
             <button class="btn primary">Edit</button>
         {% endif %}
      </section>
