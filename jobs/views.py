@@ -422,7 +422,7 @@ def _can_edit_description(user, job):
         return False
 
 def map_jobs(request):
-    jobs = models.Job.objects.exclude(location=None)[:15]
+    jobs = models.Job.objects.exclude(location=None)[:40]
     return render(request, 'map_jobs.html', {'jobs' : jobs})
 
 def more_map_data(request, count):

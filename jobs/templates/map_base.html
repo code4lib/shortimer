@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://leaflet.github.com/Leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="http://leaflet.github.com/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
-        #map {height:500px; width: 100%;}
+        #map {height: 650px; width: 100%;}
     </style>
 
 
@@ -18,7 +18,7 @@
 
 {% block content %}
 
-    <div id="map-wrapper" class="span10 offset1">
+    <div id="map-wrapper">
         <div id="map" class="map"></div>
     </div>
 
@@ -54,7 +54,7 @@
         zoom_of_if_no_points(map, markers._layers);
     });
 
-    // if wedon't get a location from the browser, set the
+    // if we don't get a location from the browser, set the
     // map to highest zoom that contains all points
     map.on('locationerror', function () {map.fitBounds(bounds);});
 
