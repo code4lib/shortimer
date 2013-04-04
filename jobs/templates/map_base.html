@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://leaflet.github.com/Leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="http://leaflet.github.com/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
-        #map {height: 650px; width: 100%;}
+        #map {height: 500px; width: 100%;}
     </style>
 
 
@@ -45,8 +45,11 @@
     // add the markercustergroup with all of the layers to the map
     map.addLayer(markers);
 
+    // default to viewing the whole map until location becomes available
+    map.fitBounds(bounds);
+
     //Set the zoom and center point to fit the bounds
-    map.locate({'setView' : true, 'timeout' : 10000, maxZoom: 10});
+    map.locate({'setView' : true, maxZoom: 10});
 
     // If the location is set, but there are noe jobs within that view
     // zoom out to the next level up and check again.
