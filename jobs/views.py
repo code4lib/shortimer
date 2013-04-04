@@ -14,9 +14,10 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
-
+from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import EmptyPage
 from django.http import HttpResponse, HttpResponseGone, HttpResponseNotFound
+
 
 from shortimer.jobs import models
 from shortimer.miner import autotag
@@ -419,6 +420,15 @@ def _can_edit_description(user, job):
         return True
     else:
         return False
+
+def map_jobs(request):
+    jobs = models.Job.objects.exclude(location=None)[:15]
+    return render(request, 'map_jobs.html', {'jobs' : jobs})
+
+def more_map_data(request, count):
+    # returns data required for adding extra older to jobs map
+    jobs = models.Job.objects.exclude(location=None).values("pk","location__latitude", "location__longitude","title","employer__name","post_date")[int(count):int(count)+15]
+    return HttpResponse(json.dumps(list(jobs), cls=DjangoJSONEncoder), mimetype="application/json")
 
 def _add_host(request, url):
     return 'http://' + request.META['HTTP_HOST'] + url
