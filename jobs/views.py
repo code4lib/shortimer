@@ -81,6 +81,7 @@ def feed(request, tag=None, page=1):
 
     jobs = jobs.order_by('-published')
     if jobs.count() == 0: raise Http404
+    updated = jobs[0].updated
 
     paginator = DiggPaginator(jobs, 50, body=8)
     try: 
@@ -422,7 +423,7 @@ def _can_edit_description(user, job):
         return False
 
 def map_jobs(request):
-    jobs = models.Job.objects.exclude(location=None)[:40]
+    jobs = models.Job.objects.exclude(location=None).exclude(location__longitude=None)[:40]
     return render(request, 'map_jobs.html', {'jobs' : jobs})
 
 def more_map_data(request, count):
