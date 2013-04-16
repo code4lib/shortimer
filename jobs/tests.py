@@ -139,4 +139,11 @@ class FreebaseTests(unittest.TestCase):
         self.assertEqual(l.longitude, -0.106196)
         self.assertEqual(l.latitude, 51.517124)
 
+    def test_subject(self):
+        s = Subject(name="PHP", freebase_id="/en/php")
+        s.save()
+        self.assertEqual(s.name, 'PHP')
+        self.assertTrue(s.description.startswith('PHP is a server-side'))
+
+
 

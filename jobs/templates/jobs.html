@@ -8,7 +8,7 @@
 <div data-freebase-id="{{ subject.freebase_id }}" class="subject span12">
 <a href="{{ subject.freebase_url }}"><img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}"></a>
 <h3 class="subject-name">{{ subject.name }} Jobs</h3>
-<p class="hidden-phone" id="subject-description"></p>
+<p class="hidden-phone">{{ subject.description }}</p>
 </div>
 {% endif %}
 
@@ -41,28 +41,5 @@
 
 <div class="span12">
 {% include "paginator.html" %}
-{% endblock %}
 </div>
-
-{% block extra_javascript %}
-<script>
-
-    function lookupSubject() {
-        var subject = $(".subject")[0];
-        if (! subject) return;
-        var freebaseId = $(subject).data("freebase-id");
-        var freebaseUrl = "http://www.freebase.com/experimental/topic/standard" + freebaseId + "?callback=?";
-        $.getJSON(freebaseUrl, function(response) {
-            if (! response.result.description) return
-            var desc = 
-                response.result.description + 
-                '<a href="' + response.result.url + '">' + 
-                '<img class="freebase-icon" src="/static/images/freebase.jpg"></a>';
-            $("#subject-description").html(desc);
-        });
-    }
-
-    $(document).ready(lookupSubject);
-</script>
 {% endblock %}
-

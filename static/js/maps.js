@@ -1,3 +1,50 @@
+function init() {
+  $.getJSON("/api/v1/map", function(data) {
+    drawMap(data);
+  });
+}
+
+function drawMap() {
+    var map = L.map('map');
+    L.tileLayer('http://{s}.tile.cloudmade.com/6b142f3144774208a33fff14cdc125e3/89852/256/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        maxZoom: 18
+    }).addTo(map);
+
+
+    //set up some placeholders
+    var bounds = new L.LatLngBounds();
+    var markers = new L.MarkerClusterGroup();
+
+    // add the markercustergroup with all of the layers to the map
+    map.addLayer(markers);
+
+    // default to viewing the whole map until location becomes available
+    map.fitBounds(bounds);
+
+    /*
+    //Set the zoom and center point to fit the bounds
+    map.locate({'setView' : true, maxZoom: 10});
+
+    // If the location is set, but there are noe jobs within that view
+    // zoom out to the next level up and check again.
+    map.on('locationfound', function() {
+        zoom_of_if_no_points(map, markers._layers);
+    });
+
+    // if we don't get a location from the browser, set the
+    // map to highest zoom that contains all points
+    map.on('locationerror', function () {map.fitBounds(bounds);});
+
+    //add extra control for ajax request of more jobs
+    map.addControl(new olderJobs({marker_count : marker_count, oldest_job : oldest_job }) );
+
+    $.getJSON('/api/v1/map', function(data) {
+      alert(data.length);
+    });
+
+    */
+}
 
 add_markers = function(data) {
     for (obj in data) {
@@ -67,4 +114,6 @@ var olderJobs = L.Control.extend({
         return container;
     }
 });
+
+$(document).ready(init);
 

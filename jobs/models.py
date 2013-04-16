@@ -347,6 +347,16 @@ class Subject(models.Model, FreebaseEntity):
     freebase_id = models.CharField(max_length=100)
     freebase_type_id = models.CharField(max_length=100)
     jobs = models.ManyToManyField('Job', related_name='subjects', null=True)
+    description = models.TextField(null=True)
+
+    def save(self, *args, **kwargs):
+        # try to grab some stuff from freebase if it is not defined already
+        if self.freebase_id and not self.description:
+            self.load_freebase_data()
+        super(Subject, self).save(*args, **kwargs)
+
+    def load_freebase_data(self):
+        self.description = self.freebase_value('/common/topic/description')
 
     class Meta: 
         ordering = ['name']
