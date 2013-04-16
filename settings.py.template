@@ -244,3 +244,4 @@ JOB_FEEDS = [
 GA_USERNAME = ""
 GA_PASSWORD = ""
 GA_PROFILE_ID = ""
+ALLOWED_HOSTS = ["jobs.code4lib.org"]

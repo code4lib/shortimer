@@ -8,8 +8,7 @@
 <div data-freebase-id="{{ subject.freebase_id }}" class="subject span12">
 <a href="{{ subject.freebase_url }}"><img class="freebase-thumbnail" src="{{ subject.freebase_image_url }}"></a>
 <h3 class="subject-name">{{ subject.name }} Jobs</h3>
-<p class="hidden-phone">{% if subject.description %}{{ subject.description }}{%
-endif %}</p>
+<p class="hidden-phone">{% if subject.description %}{{ subject.description }}{% endif %}</p>
 </div>
 {% endif %}
 
