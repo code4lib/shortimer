@@ -427,28 +427,31 @@ def map_jobs(request):
     jobs = models.Job.objects.exclude(location=None).exclude(location__longitude=None)[:40]
     return render(request, 'map_jobs.html', {'jobs' : jobs})
 
-def more_map_data(request, count):
-    # returns data required for adding extra older to jobs map
-    jobs = models.Job.objects.exclude(location=None).values("pk","location__latitude", "location__longitude","title","employer__name","post_date")[int(count):int(count)+15]
-    return HttpResponse(json.dumps(list(jobs), cls=DjangoJSONEncoder), mimetype="application/json")
-
 def map_data(request):
     page_num = int(request.GET.get('page', 1))
-    jobs = models.Job.objects.exclude(location=None)
-    paginator = Paginator(jobs, 30)
+    jobs = models.Job.objects.exclude(location__latitude=None)
+    paginator = Paginator(jobs, 100)
     page = paginator.page(page_num)
-    jobs = []
+    geojson = {
+        "type": "FeatureCollection",
+        "features": [
+        ]
+    }
     for p in page.object_list:
-        jobs.append({
-            'pk': p.pk,
-            'location__latitude': p.location.latitude,
-            'location__longitude': p.location.longitude,
-            'title': p.title,
-            'employer__name': p.employer.name,
-            'post_date': p.post_date.strftime("%Y-%m-%dT%H:%M:%SZ")
-        })
-    #jobs = jobs.values("pk","location__latitude", "location__longitude","title","employer__name","post_date")[int(count):int(count)+15]
-    return HttpResponse(json.dumps(jobs), mimetype="application/json")
+        feature = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [p.location.longitude, p.location.latitude],
+            },
+            "properties": {
+                "title": p.title,
+                "employer": p.employer.name,
+                "created": p.post_date.strftime("%Y-%m-%dT%H:%M:%SZ")
+            }
+        }
+        geojson['features'].append(feature)
+    return HttpResponse(json.dumps(geojson), mimetype="application/json")
 
 def _add_host(request, url):
     return 'http://' + request.META['HTTP_HOST'] + url

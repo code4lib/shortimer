@@ -19,8 +19,11 @@ class Command(BaseCommand):
 
     def fetch(self, url):
         feed = feedparser.parse(url)
+        print
+        print url
         for entry in feed.entries:
             title = entry.title
+            print title
             description = entry.summary.replace("\n", " ")
             description = re.sub(r"[ \t]+", " ", description)
             url = entry.link

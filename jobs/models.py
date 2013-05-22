@@ -34,6 +34,8 @@ JOB_TYPES = (
 # http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 url_pattern = re.compile(r'''(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''')
 
+clean_xml_utf8 = re.compile(r'[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD\U10000-\U10FFFF]')
+
 class FreebaseValue(object):
 
     @classmethod 
@@ -140,6 +142,11 @@ class Job(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('job', [str(self.id)])
+
+    @property
+    def description_for_xml(self):
+        # returns utf-8, minus any characters that can't be used in xml
+        return re.sub(clean_xml_utf8, '', self.description.encode('utf8'));
 
     def publish(self, user):
         self.published = datetime.datetime.now()

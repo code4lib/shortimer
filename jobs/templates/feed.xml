@@ -42,7 +42,7 @@
         {% endif %}
         <updated>{{ job.published|date:"Y-m-d\TH:i:s\Z" }}</updated>
         <content type="html">
-            {{ job.description }}
+            {{ job.description_for_xml }}
         </content>
         {% for subject in job.subjects.all %}
         {% if subject.freebase_url %}
