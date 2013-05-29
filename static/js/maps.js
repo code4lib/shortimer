@@ -14,19 +14,22 @@ function drawMap() {
     
 function addMarkers(data) {
     var opts = {
-        radius: 8,
-        fillColor: "blue",
-        color: "blue",
+        radius: 4,
+        fillColor: "red",
+        color: "red",
         weight: 1,
         opacity: 1,
-        fillOpacity: 0.8
+        fillOpacity: 0.2
     };
 
     function onEachFeature(feature, layer) {
         var created = new Date(feature.properties.created).toDateString();
-        var text = "<b><a href='/job/" + feature.id + "/'>" + 
+        var text = "<b><a target='_new' href='" + feature.id + "'>" + 
           feature.properties.title + "</a></b>" +
-          "<br />" + feature.properties.employer +
+          "<br />" + 
+          '<a target="_new" href="' + feature.properties.employer_url + '">' + 
+          feature.properties.employer +
+          '</a>' + 
           "<br />" + created;
         layer.bindPopup(text);
     }

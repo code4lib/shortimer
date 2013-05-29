@@ -29,6 +29,7 @@ JOB_TYPES = (
     (u'tm', 'temporary'), 
     (u'in', 'internship'),
     (u'rp', 'rfp'),
+    (u'ct', 'contest'),
 )
 
 # http://daringfireball.net/2010/07/improved_regex_for_matching_urls
@@ -256,7 +257,7 @@ class Employer(models.Model, FreebaseEntity):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('employer', [str(self.id)])
+        return ('employer', [self.slug])
 
     def save(self, *args, **kwargs):
         # try to grab some stuff from freebase if it is not defined already

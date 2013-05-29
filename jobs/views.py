@@ -424,13 +424,12 @@ def _can_edit_description(user, job):
         return False
 
 def map_jobs(request):
-    jobs = models.Job.objects.exclude(location=None).exclude(location__longitude=None)[:40]
-    return render(request, 'map_jobs.html', {'jobs' : jobs})
+    return render(request, 'map_jobs.html')
 
 def map_data(request):
     page_num = int(request.GET.get('page', 1))
     jobs = models.Job.objects.exclude(location__latitude=None)
-    paginator = Paginator(jobs, 100)
+    paginator = Paginator(jobs, 1000)
     page = paginator.page(page_num)
     geojson = {
         "type": "FeatureCollection",
@@ -439,6 +438,7 @@ def map_data(request):
     }
     for p in page.object_list:
         feature = {
+            "id": p.get_absolute_url(),
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -447,6 +447,7 @@ def map_data(request):
             "properties": {
                 "title": p.title,
                 "employer": p.employer.name,
+                "employer_url": p.employer.get_absolute_url(),
                 "created": p.post_date.strftime("%Y-%m-%dT%H:%M:%SZ")
             }
         }
