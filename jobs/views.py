@@ -438,7 +438,7 @@ def map_data(request):
     }
     for p in page.object_list:
         feature = {
-            "id": p.get_absolute_url(),
+            "id": _add_host(request, p.get_absolute_url()),
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -447,7 +447,7 @@ def map_data(request):
             "properties": {
                 "title": p.title,
                 "employer": p.employer.name,
-                "employer_url": p.employer.get_absolute_url(),
+                "employer_url": _add_host(request, p.employer.get_absolute_url()),
                 "created": p.post_date.strftime("%Y-%m-%dT%H:%M:%SZ")
             }
         }
