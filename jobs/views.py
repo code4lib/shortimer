@@ -10,14 +10,14 @@ from django.db.models import Count
 from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.template import RequestContext
+from django.core.paginator import EmptyPage
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+from django.views.decorators.cache import cache_control
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, render_to_response, get_object_or_404, redirect
-from django.core.serializers.json import DjangoJSONEncoder
-from django.core.paginator import EmptyPage
 from django.http import HttpResponse, HttpResponseGone, HttpResponseNotFound
+from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 
 
 from shortimer.jobs import models
@@ -426,6 +426,8 @@ def _can_edit_description(user, job):
 def map_jobs(request):
     return render(request, 'map_jobs.html')
 
+
+@cache_control(must_revalidate=True, max_age=3600)
 def map_data(request):
     page_num = int(request.GET.get('page', 1))
     jobs = models.Job.objects.exclude(location__latitude=None)
