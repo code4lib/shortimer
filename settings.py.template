@@ -239,6 +239,7 @@ JOB_FEEDS = [
     'http://www.alia.org.au/rss/vacancies.php',
     'http://www.higheredjobs.com/rss/categoryFeed.cfm?catID=34',
     'http://www.museumsandtheweb.com/taxonomy/term/2703/0/feed',
+    'http://current.ischool.utoronto.ca/jobsite/rss',
 ]
 
 GA_USERNAME = ""
