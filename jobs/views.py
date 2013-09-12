@@ -427,30 +427,27 @@ def map_jobs(request):
     return render(request, 'map_jobs.html')
 
 
-@cache_control(must_revalidate=True, max_age=3600)
+@cache_control(max_age=60 * 60 * 24)
 def map_data(request):
-    page_num = int(request.GET.get('page', 1))
-    jobs = models.Job.objects.exclude(location__latitude=None)
-    paginator = Paginator(jobs, 1000)
-    page = paginator.page(page_num)
+    # maybe this will be too expensive some day?
     geojson = {
         "type": "FeatureCollection",
         "features": [
         ]
     }
-    for p in page.object_list:
+    for j in models.Job.objects.filter(location__latitude__isnull=False, location__longitude__isnull=False, post_date__isnull=False):
         feature = {
-            "id": _add_host(request, p.get_absolute_url()),
+            "id": _add_host(request, j.get_absolute_url()),
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [p.location.longitude, p.location.latitude],
+                "coordinates": [j.location.longitude, j.location.latitude],
             },
             "properties": {
-                "title": p.title,
-                "employer": p.employer.name,
-                "employer_url": _add_host(request, p.employer.get_absolute_url()),
-                "created": p.post_date.strftime("%Y-%m-%dT%H:%M:%SZ")
+                "title": j.title,
+                "employer": j.employer.name,
+                "employer_url": _add_host(request, j.employer.get_absolute_url()),
+                "created": j.post_date.strftime("%Y-%m-%dT%H:%M:%SZ")
             }
         }
         geojson['features'].append(feature)

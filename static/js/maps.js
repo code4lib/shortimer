@@ -5,7 +5,7 @@ var map = null;
 function drawMap() {
     map = L.map('map', {
         center: [38.8951, -77.0363],
-        zoom: 3,
+        zoom: 2,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
     });
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 22}).addTo(map);
