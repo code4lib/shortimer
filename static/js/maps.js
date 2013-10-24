@@ -22,7 +22,7 @@ function addMarkers(data) {
         fillOpacity: 0.2
     };
 
-    function onEachFeature(feature, layer) {
+    function addPopup(feature, layer) {
         var created = new Date(feature.properties.created).toDateString();
         var text = "<b><a target='_new' href='" + feature.id + "'>" + 
           feature.properties.title + "</a></b>" +
@@ -40,9 +40,10 @@ function addMarkers(data) {
             pointToLayer: function (feature, latlng) {
                 return L.circleMarker(latlng, opts);
             },
-            onEachFeature: onEachFeature
+            onEachFeature: addPopup
         }).addTo(map);
     }
+
 }
 
 $(document).ready(drawMap);
