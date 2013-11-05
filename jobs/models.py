@@ -201,7 +201,10 @@ class Job(models.Model):
             return
 
         url = "http://jobs.code4lib.org/job/%s/" % self.id
-        body = html2text.html2text(self.description)
+        body = self.title + "\r\n"
+        body += self.employer.name + "\r\n"
+        body += self.location.name + "\r\n\r\n"
+        body += html2text.html2text(self.description)
         body += "\r\n\r\nBrought to you by code4lib jobs: " + url
         body = re.sub('&[^ ]+;', '', body)
 
