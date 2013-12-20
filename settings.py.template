@@ -240,6 +240,7 @@ JOB_FEEDS = [
     'http://www.higheredjobs.com/rss/categoryFeed.cfm?catID=34',
     'http://www.museumsandtheweb.com/taxonomy/term/2703/0/feed',
     'http://current.ischool.utoronto.ca/jobsite/rss',
+    'http://jobs.educause.edu/jobs?keywords=library&resultsPerPage=12&noStem=false&titlesOnly=false&salary_open=false&showMoreOptions=false&display=rss',
 ]
 
 GA_USERNAME = ""
