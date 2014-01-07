@@ -241,6 +241,8 @@ JOB_FEEDS = [
     'http://www.museumsandtheweb.com/taxonomy/term/2703/0/feed',
     'http://current.ischool.utoronto.ca/jobsite/rss',
     'http://jobs.educause.edu/jobs?keywords=library&resultsPerPage=12&noStem=false&titlesOnly=false&salary_open=false&showMoreOptions=false&display=rss',
+    'http://www.jobs.ac.uk/jobs/library-services-and-information-management/?format=rss',
+    'http://careers.archivists.org/jobs?resultsPerPage=12&display=rss',
 ]
 
 GA_USERNAME = ""
