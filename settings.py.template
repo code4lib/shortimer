@@ -243,6 +243,8 @@ JOB_FEEDS = [
     'http://jobs.educause.edu/jobs?keywords=library&resultsPerPage=12&noStem=false&titlesOnly=false&salary_open=false&showMoreOptions=false&display=rss',
     'http://www.jobs.ac.uk/jobs/library-services-and-information-management/?format=rss',
     'http://careers.archivists.org/jobs?resultsPerPage=12&display=rss',
+    'http://www.libraryjobline.org/rss',
+    'http://pipes.yahoo.com/arljobstorss/c8f6fa1c3aa9c60d39bc01a35e899fa5?_render=rss',
 ]
 
 GA_USERNAME = ""
