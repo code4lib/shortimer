@@ -303,7 +303,9 @@ class Employer(models.Model, FreebaseEntity):
             city = addr.get_value("/location/mailing_address/citytown")
             if city: 
                 try:
-                    return Location.objects.get(freebase_id=city.id)
+                    locs = Location.objects.filter(freebase_id=city.id)
+                    if len(locs) > 0:
+                        return locs[0]
                 except Location.DoesNotExist:
                     l = Location()
                     l.name = city.text

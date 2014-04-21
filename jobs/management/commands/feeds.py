@@ -24,8 +24,11 @@ class Command(BaseCommand):
         for entry in feed.entries:
             title = entry.title
             print title
-            description = entry.summary.replace("\n", " ")
-            description = re.sub(r"[ \t]+", " ", description)
+            if 'summary' in entry:
+                description = entry.summary.replace("\n\n", " ")
+                description = re.sub(r"[ \t]+", " ", description)
+            else:
+                description = ''
             url = entry.link
 
             if Job.objects.filter(origin_url=url).count() != 0:
