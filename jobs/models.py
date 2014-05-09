@@ -206,6 +206,7 @@ class Job(models.Model):
         body += self.location.name + "\r\n\r\n"
         body += html2text.html2text(self.description)
         body += "\r\n\r\nBrought to you by code4lib jobs: " + url
+        body += "\r\nTo post a new job please visit http://jobs.code4lib.org/"
         body = re.sub('&[^ ]+;', '', body)
 
         if self.employer:
