@@ -153,7 +153,6 @@ class Job(models.Model):
         self.published = datetime.datetime.now()
         self.published_by = user
         self.tweet()
-        self.email()
         self.save()
 
     def publishable(self):
@@ -194,28 +193,6 @@ class Job(models.Model):
         twitter = tweepy.API(auth)
         twitter.update_status(msg)
         self.tweet_date = datetime.datetime.now()
-        self.save()
-
-    def email(self):
-        if self.post_date or not settings.EMAIL_HOST_PASSWORD:
-            return
-
-        url = "http://jobs.code4lib.org/job/%s/" % self.id
-        body = self.title + "\r\n"
-        body += self.employer.name + "\r\n"
-        body += self.location.name + "\r\n\r\n"
-        body += html2text.html2text(self.description)
-        body += "\r\n\r\nBrought to you by code4lib jobs: " + url
-        body += "\r\nTo post a new job please visit http://jobs.code4lib.org/"
-        body = re.sub('&[^ ]+;', '', body)
-
-        if self.employer:
-            subject = "Job: " + self.title + " at " + self.employer.name
-        else:
-            subject = "Job: " + self.title
-
-        send_mail(subject, body, settings.EMAIL_HOST_USER, settings.EMAIL_ANNOUNCE)
-        self.post_date = datetime.datetime.now()
         self.save()
 
     def short_url(self):

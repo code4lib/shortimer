@@ -21,7 +21,13 @@
     </tr>
 {% for job in jobs %}
     <tr>
-        <td class="hidden-phone">{{ job.post_date.date }}</td>
+        <td class="hidden-phone">
+          {% if job.post_date %}
+          {{ job.post_date.date }}
+          {% else %}
+          {{ job.published.date }}
+          {% endif %}
+        </td>
         <td><a href="{% url "job" job.id %}">{{ job.title }}</a> {% if job.employer %}<br><a href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a>{% endif %}
         <br><small>{{ job.display_location }}</small>
         </td>
