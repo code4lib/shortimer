@@ -5,22 +5,20 @@
 {% block content %}
 
 <article itemscope itemtype="http://schema.org/JobPosting" id="jobeditor">
+
     <div class="page-header">
-      <h2 itemprop="title">{{ job.title }}
+      <h2 itemprop="title">{{ job.title }}</h2>
       {% if job.employer %}
-      <br>
-      <small>
-        <a itemprop="hiringOrganization" href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a>
+      <div itemprop="hiringOrganization" itemscope itemtype="http://schema.org/Organization">
+        <a itemprop="url" href="{% url "employer" job.employer.slug %}"><span itemprop="name">{{ job.employer.name }}</span></a>
         {% if job.location %}
         - 
-        <a href="{{ job.location.freebase_url }}">
-          <span itemprop="hiringOrganizationLocation">{{ job.display_location }}</span>
-        </a>
+        <a itemprop="location" href="{{ job.location.freebase_url }}">{{ job.display_location }}</a>
         {% endif %} 
-      </small>
+      </div>
       {% endif %}
-      </h2>
     </div>
+
     <div class="row">
     <section class="span9" itemprop="description">
         {{ job.description|safe }}
@@ -28,7 +26,7 @@
     <section class="jobinfo span3">
        <dl>
             <dt>Job Type:</dt>
-            <dd itemprop="employmentType"><span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</a></dd>
+            <dd itemprop="employmentType"><span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</span></dd>
             <dt>Telecommute:<dt>
             <dd>
             {% if job.telecommute %}Yes{% else %}No{% endif %}
