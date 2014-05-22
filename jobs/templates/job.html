@@ -36,7 +36,7 @@
             <dd><a itemprop="url" href="{{ job.url }}">{{ job.url|urlizetrunc:40 }}</a></dd>
             {% endif %}
             <dt>Posted:</dt>
-            <dd itempromp="datePosted"><time datetime="{{ job.post_date|date:"Y-m-d" }}">{{ job.post_date }}</time></dd>
+            <dd itemprop="datePosted"><time datetime="{{ job.post_date|date:"Y-m-d" }}">{{ job.post_date }}</time></dd>
             {% if job.page_views %}
             <dt>Page Views:</dt>
             <dd>{{ job.page_views }}</dd>
