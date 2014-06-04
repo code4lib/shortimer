@@ -42,9 +42,9 @@ class Command(BaseCommand):
         today = datetime.date.today().strftime("%Y-%m-%d")
 
         if len(jobs) == 1:
-            subject = "JOBS: %s new job for %s" % (len(jobs), today)
+            subject = "%s new job for %s" % (len(jobs), today)
         else:
-            subject = "JOBS: %s new jobs for %s" % (len(jobs), today)
+            subject = "%s new jobs for %s" % (len(jobs), today)
 
         send_mail(subject, body, settings.EMAIL_HOST_USER, settings.EMAIL_ANNOUNCE)
 
