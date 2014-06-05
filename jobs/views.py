@@ -453,6 +453,10 @@ def map_data(request):
         geojson['features'].append(feature)
     return HttpResponse(json.dumps(geojson), mimetype="application/json")
 
+
+def search(request):
+    return render_to_response('search.html')
+
 def _add_host(request, url):
     return 'http://' + request.META['HTTP_HOST'] + url
 
