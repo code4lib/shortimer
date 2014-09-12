@@ -211,7 +211,10 @@ def user(request, username):
                                          "recent_edits": recent_edits})
 
 def users(request):
-    users = auth.models.User.objects.all().order_by('username')
+    users = auth.models.User.objects.all()
+    users = users.annotate(count=Count('edits'))
+    users = users.order_by('-count')
+
     paginator = DiggPaginator(users, 25, body=8)
     page = paginator.page(request.GET.get("page", 1))
     return render(request, "users.html", 
