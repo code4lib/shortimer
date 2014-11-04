@@ -238,7 +238,7 @@
         $("#location")
             .suggest({
                 "key": "{{ google_api_key }}",   
-                "filter": '(all type:/location/citytown)',
+                "filter": '(all type:/location/)',
                 "type_strict": "any",
             })
             .bind("fb-select", addLocation)
