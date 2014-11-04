@@ -416,12 +416,12 @@ def recent_jobs(request):
 
 def _can_edit_description(user, job):
     # only staff or the creator of a job posting can edit the text of the 
-    # job description.
+    # job description once it is posted
     if user.is_staff:
         return True
     elif job.creator == user:
         return True
-    elif job.created == None:
+    elif not job.published:
         return True
     else:
         return False
