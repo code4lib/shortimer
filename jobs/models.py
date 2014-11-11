@@ -311,7 +311,7 @@ class Employer(models.Model, FreebaseEntity):
                     l = Location()
                     l.name = city.text
                     l.freebase_id = city.id
-                return l
+                    return l
         return None
 
     def display_location(self):
