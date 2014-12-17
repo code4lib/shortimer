@@ -1,0 +1,13 @@
+bitlyapi==0.1.1
+Django==1.5.1
+django-pagination==1.0.7
+django-social-auth==0.7.9
+feedparser==5.1.2
+html2text==3.200.3
+MySQL-python==1.2.4c1
+nltk==2.0.4
+numpy==1.6.2
+requests==0.14.2
+South==0.7.6
+tweepy==2.0
+virtualenv==1.8.2

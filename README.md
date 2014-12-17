@@ -24,7 +24,7 @@ using.
 1. `cd shortimer`
 1. `virtualenv --no-site-packages ENV`
 1. `source ENV/bin/activate`
-1. `pip install -r requirements.pip`
+1. `pip install -r requirements.txt`
 1. `cp settings.py.template settings.py`
 1. in order for people to login with their github, facebook, twitter, linkedin
 credentials you will need to create applications on those sites, and fill in oauth keys in your settings.py. For development you can probably get by with just one login provider.
