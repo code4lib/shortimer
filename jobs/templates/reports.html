@@ -14,10 +14,12 @@
             <th class="numeric" title="Collected daily from Google Analytics">Page Views</th>
         </tr>
         {% for job in hotjobs_w %}
+        {% if job.page_views > 0 %}
         <tr>
             <td><a href="{% url "job" job.id %}">{{ job }}</a><br><a href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a></td>
             <td class="numeric">{{ job.page_views }}</td>
         </tr>
+        {% endif %}
         {% endfor %}
     </table>
     </article>
