@@ -55,7 +55,9 @@ def jobs(request, subject_slug=None):
 
     paginator = DiggPaginator(jobs, 20, body=8)
     try:
-        page = paginator.page(request.GET.get("page", 1))
+        page = paginator.page(int(request.GET.get("page", 1)))
+    except ValueError:
+        raise Http404
     except EmptyPage:
         raise Http404 
 
