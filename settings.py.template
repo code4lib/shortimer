@@ -241,7 +241,8 @@ JOB_FEEDS = [
     'http://jobs.educause.edu/jobs?keywords=library&resultsPerPage=12&noStem=false&titlesOnly=false&salary_open=false&showMoreOptions=false&display=rss',
     'http://careers.archivists.org/jobs?resultsPerPage=12&display=rss'
     'http://www.libraryjobline.org/rss',
-    'http://pipes.yahoo.com/arljobstorss/c8f6fa1c3aa9c60d39bc01a35e899fa5?_render=rss'
+    'http://pipes.yahoo.com/arljobstorss/c8f6fa1c3aa9c60d39bc01a35e899fa5?_render=rss',
+    'http://www.diglib.org/topics/jobs/feed/'
 ]
 
 GA_USERNAME = ""
