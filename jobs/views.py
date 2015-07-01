@@ -218,6 +218,12 @@ def users(request):
     users = users.order_by('-count')
 
     paginator = DiggPaginator(users, 25, body=8)
+    try:
+        page = paginator.page(int(request.GET.get("page", 1)))
+    except ValueError:
+        raise Http404
+    except EmptyPage:
+        raise Http404 
     page = paginator.page(request.GET.get("page", 1))
     return render(request, "users.html", 
             {"paginator": paginator, "page": page})
@@ -288,7 +294,12 @@ def tags(request):
     subjects = subjects.filter(num_jobs__gt=0)
     subjects = subjects.order_by("-num_jobs")
     paginator = DiggPaginator(subjects, 25, body=8)
-    page = paginator.page(request.GET.get("page", 1))
+    try:
+        page = paginator.page(int(request.GET.get("page", 1)))
+    except ValueError:
+        raise Http404
+    except EmptyPage:
+        raise Http404
     context = {
         "paginator": paginator,
         "page": page
@@ -301,7 +312,12 @@ def employers(request):
     employers = employers.filter(num_jobs__gt=0)
     employers = employers.order_by("-num_jobs")
     paginator = DiggPaginator(employers, 25, body=8)
-    page = paginator.page(request.GET.get("page", 1))
+    try:
+        page = paginator.page(int(request.GET.get("page", 1)))
+    except ValueError:
+        raise Http404
+    except EmptyPage:
+        raise Http404
     context = {
         "paginator": paginator,
         "page": page,
