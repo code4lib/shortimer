@@ -1,63 +1,23 @@
-# Django settings for shortimer project.
-
-# email account to pop for new job emails, and sending out new emails
-
-EMAIL_HOST = "pop.gmail.com"
-EMAIL_PORT = 587
-EMAIL_POP_PORT = 995
-EMAIL_HOST_USER = "jobs4lib@gmail.com"
-EMAIL_HOST_PASSWORD = ""
-EMAIL_USE_TLS = True
-EMAIL_ANNOUNCE = ['you@example.com', 'me@example.com']
-
-# socialauth credentials for logins at various providers
-
-TWITTER_CONSUMER_KEY = ''
-TWITTER_CONSUMER_SECRET = ''
-FACEBOOK_APP_ID = '' 
-FACEBOOK_API_SECRET = ''
-LINKEDIN_CONSUMER_KEY = ''
-LINKEDIN_CONSUMER_SECRET = ''
-GITHUB_APP_ID = ''
-GITHUB_API_SECRET = ''
-GOOGLE_CONSUMER_KEY = ''
-GOOGLE_CONSUMER_SECRET = ''
-GOOGLE_DISPLAY_NAME = ''
-GOOGLE_API_KEY = '' # for freebase suggest to work
-
-# credentials for the code4lib twitter account, to tweet new job postings
-
-CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY = ''
-CODE4LIB_TWITTER_OAUTH_CONSUMER_SECRET = ''
-CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_KEY = ''
-CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_SECRET = ''
-
-# bitly credentials for shortening job urls
-
-BITLY_USERNAME = ''
-BITLY_PASSWORD = ''
-
-# you shouldn't need to change anything else below unless you want to 
-# modify database connection to be something other than sqlite
-
 import os
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_DIR = os.path.join(PROJECT_DIR, "logs")
+from logging.handlers import SysLogHandler
 
-DEBUG = True
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
+    ('Ed Summers', 'ehs@pobox.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'jobs.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'jobs4lib',                      # Or path to database file if using sqlite3.
+        'USER': 'jobs4lib',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
@@ -71,7 +31,8 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/London'
+USE_TZ = True
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -110,11 +71,14 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+# ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, 'static/'),
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_DIR, "static"),
 )
 
 # List of finder classes that know how to find static files in
@@ -122,7 +86,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -133,6 +97,15 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.request",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -146,21 +119,13 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'shortimer.urls'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.request',
-    'django.core.context_processors.static',
-)
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -172,23 +137,46 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sitemaps',
     'django.contrib.humanize',
-    'social_auth',
+    'social.apps.django_app.default',
     'south',
     'shortimer.jobs',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.contrib.linkedin.LinkedinBackend',
-    'social_auth.backends.contrib.github.GithubBackend',
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.linkedin.LinkedinOAuth2',
+    'social.backends.github.GithubOAuth2',
 )
+
+SOCIAL_AUTH_TWITTER_KEY = ''
+SOCIAL_AUTH_TWITTER_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_LINKEDIN_KEY = ''
+SOCIAL_AUTH_LINKEDIN_SECRET = ''
+SOCIAL_AUTH_GITHUB_KEY = ''
+SOCIAL_AUTH_GITHUB_SECRET = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+SOCIAL_AUTH_GOOGLE_DISPLAY_NAME = ''
+
+GOOGLE_API_KEY = ''
+GOOGLE_API_KEY = ''
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/login-error/'
 
-TWITTER_EXTRA_DATA = [('profile_image_url', 'profile_image_url')]
+SOCIAL_AUTH_TWITTER_EXTRA_DATA = [('profile_image_url', 'profile_image_url')]
+
+SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -208,11 +196,11 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'pop': {
+        'shortimer': {
             'level': 'INFO',
-            'class': 'logging.FileHandler',
+            'class': 'logging.handlers.SysLogHandler',
             'formatter': 'simple',
-            'filename': os.path.join(LOG_DIR, 'pop.log')
+            'facility': SysLogHandler.LOG_LOCAL2,
         },
     },
     'loggers': {
@@ -221,15 +209,29 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'shortimer.jobs.management.commands.pop': {
-            'handlers': ['pop'],
+        'shortimer': {
+            'handlers': ['shortimer'],
             'level': 'DEBUG',
             'propagate': True,
         }
     }
 }
 
-USE_THOUSAND_SEPARATOR = True
+EMAIL_HOST = "pop.gmail.com"
+EMAIL_PORT = 587
+EMAIL_POP_PORT = 995
+EMAIL_HOST_USER = "jobs@code4lib.org"
+EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_TLS = True
+EMAIL_ANNOUNCE = ['code4lib@listserv.nd.edu']
+
+CODE4LIB_TWITTER_OAUTH_CONSUMER_KEY = ''
+CODE4LIB_TWITTER_OAUTH_CONSUMER_SECRET = ''
+CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_KEY = ''
+CODE4LIB_TWITTER_OAUTH_ACCESS_TOKEN_SECRET = ''
+
+BITLY_USERNAME = ''
+BITLY_PASSWORD = ''
 
 JOB_FEEDS = [
     'http://joblist.ala.org/news/',
@@ -237,7 +239,7 @@ JOB_FEEDS = [
     'http://feeds.feedburner.com/alljobs',
     'http://digital-scholarship.org/digitalkoans/category/digital-library-jobs/feed/',
     'http://www.higheredjobs.com/rss/categoryFeed.cfm?catID=34',
-    'http://www.museumsandtheweb.com/jobs-available-and-wanted/feed/'
+    'http://www.museumsandtheweb.com/jobs-available-and-wanted/feed/',
     'http://jobs.educause.edu/jobs?keywords=library&resultsPerPage=12&noStem=false&titlesOnly=false&salary_open=false&showMoreOptions=false&display=rss',
     'http://careers.archivists.org/jobs?resultsPerPage=12&display=rss'
     'http://www.libraryjobline.org/rss',
@@ -245,7 +247,13 @@ JOB_FEEDS = [
     'http://www.diglib.org/topics/jobs/feed/'
 ]
 
+# for collecting stats from Google Analytics
 GA_USERNAME = ""
 GA_PASSWORD = ""
 GA_PROFILE_ID = ""
+
 ALLOWED_HOSTS = ["jobs.code4lib.org"]
+
+SOUTH_MIGRATION_MODULES = {
+    'default': 'social.apps.django_app.default.south_migrations'
+}

@@ -14,10 +14,6 @@ from django.db.models.signals import pre_save
 from django.db.models.signals import post_save
 from django.template.defaultfilters import slugify
 
-from social_auth.signals import pre_update
-from social_auth.backends.facebook import FacebookBackend
-from social_auth.backends.twitter import TwitterBackend
-
 import tweepy
 import bitlyapi
 import html2text
@@ -404,24 +400,10 @@ def make_slug(sender, **kwargs):
     if not i.slug:
         i.slug = slugify(i.name)
 
-def facebook_extra_values(sender, user, response, details, **kwargs):
-    facebook_id = response.get('id')
-    user.profile.facebook_id = facebook_id
-    user.profile.pic_url = 'http://graph.facebook.com/' + facebook_id + '/picture'
-    user.profile.save()
-
-def twitter_extra_values(sender, user, response, details, **kwargs):
-    twitter_id = response.get('screen_name')
-    user.profile.twitter_id = twitter_id
-    user.profile.pic_url = user.social_auth.get(provider='twitter').extra_data['profile_image_url']
-    user.profile.save()
-
 def create_user_profile(sender, created, instance, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
 pre_save.connect(make_slug, sender=Subject)
 pre_save.connect(make_slug, sender=Employer)
-pre_update.connect(facebook_extra_values, sender=FacebookBackend)
-pre_update.connect(twitter_extra_values, sender=TwitterBackend)
 post_save.connect(create_user_profile, sender=User)

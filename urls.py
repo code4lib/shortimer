@@ -34,7 +34,7 @@ urlpatterns = patterns('shortimer.jobs.views',
     url(r'^api/v1/recent_jobs$', 'recent_jobs', name='recent_jobs'),
     url(r'^api/v1/map$', 'map_data', name='map_data'),
     url(r'^search/$', 'search', name='search'),
-    url(r'', include('social_auth.urls')),
+    url(r'', include('social.apps.django_app.urls', namespace='social'))
 )
 
 sitemaps = {'jobs': JobSitemap}

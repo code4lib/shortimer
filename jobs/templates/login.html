@@ -25,11 +25,11 @@
         <br>
 
         <div style="text-align: center;">
-            <a href="{% url "socialauth_begin" "twitter" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/twitter_64.png"></a>
-            <a href="{% url "socialauth_begin" "facebook" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/facebook_64.png"></a>
-            <a href="{% url "socialauth_begin" "linkedin" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/linkedin_64.png"></a>
-            <a href="{% url "socialauth_begin" "github" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/github_64.png"></a>
-            <a href="{% url "socialauth_begin" "google" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/google_64.png"></a>
+            <a href="{% url "social:begin" "twitter" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/twitter_64.png"></a>
+            <a href="{% url "social:begin" "facebook" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/facebook_64.png"></a>
+            <a href="{% url "social:begin" "linkedin" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/linkedin_64.png"></a>
+            <a href="{% url "social:begin" "github" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/github_64.png"></a>
+            <a href="{% url "social:begin" "google-oauth2" %}?next={{ next }}"><img src="{{ STATIC_URL }}/images/auth/google_64.png"></a>
         </div>
 
         <br>
