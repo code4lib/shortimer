@@ -366,12 +366,6 @@ def reports(request):
     w = now - datetime.timedelta(days=7)
     y = now - datetime.timedelta(days=365)
 
-    hotjobs_m = models.Job.objects.filter(post_date__gte=m, deleted__isnull=True)
-    hotjobs_m = hotjobs_m.order_by('-page_views')[0:10]
-
-    hotjobs_w = models.Job.objects.filter(post_date__gte=w, deleted__isnull=True)
-    hotjobs_w = hotjobs_w.order_by('-page_views')[0:10]
-
     subjects_m = models.Subject.objects.filter(jobs__post_date__gte=m, jobs__deleted__isnull=True)
     subjects_m = subjects_m.annotate(num_jobs=Count("jobs"))
     subjects_m = subjects_m.order_by("-num_jobs")
@@ -395,9 +389,7 @@ def reports(request):
     return render(request, 'reports.html', {"subjects_m": subjects_m,
                                             "subjects_y": subjects_y,
                                             "employers_m": employers_m,
-                                            "employers_y": employers_y,
-                                            "hotjobs_w": hotjobs_w,
-                                            "hotjobs_m": hotjobs_m})
+                                            "employers_y": employers_y})
 
 # bits of an API as needed, might be nice to rationalize this at some point
 

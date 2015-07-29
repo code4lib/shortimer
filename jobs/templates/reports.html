@@ -6,44 +6,6 @@
 
 <div class="row">
 
-    <article class="span5 offset1" >
-    <h4>Top Jobs of the Week</h4>
-    <table class="table table-striped table-bordered">
-        <tr>
-            <th>Job</th>
-            <th class="numeric" title="Collected daily from Google Analytics">Page Views</th>
-        </tr>
-        {% for job in hotjobs_w %}
-        {% if job.page_views > 0 %}
-        <tr>
-            <td><a href="{% url "job" job.id %}">{{ job }}</a><br><a href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a></td>
-            <td class="numeric">{{ job.page_views }}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-    </table>
-    </article>
-
-    <article class="span5">
-    <h4>Top Jobs of the Month</h4>
-    <table class="table table-striped table-bordered">
-        <tr>
-            <th>Job</th>
-            <th class="numeric" ><span title="Collected daily from Google Analytics">Page Views</span></th>
-        </tr>
-        {% for job in hotjobs_m %}
-        <tr>
-            <td><a href="{% url "job" job.id %}">{{ job }}</a><br><a href="{% url "employer" job.employer.slug %}">{{ job.employer.name }}</a></td>
-            <td class="numeric">{{ job.page_views }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    </article>
-
-</div>
-
-<div class="row">
-
     <article class="span5 offset1">
     <h4>Top Tags of the Month</h4>
     <table class="table table-striped table-bordered">
