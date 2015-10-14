@@ -21,6 +21,13 @@
 
     <div class="row">
     <section class="span9" itemprop="description">
+        {% if job.archived %}
+        <div class="alert alert-info">
+          <b>Heads up!</b> it looks like this job post is more than 60 days old
+          and is likely no longer active. We keep jobs around for historical
+          purposes. Hopefully that's not confusing!
+        </div>
+        {% endif %}
         {{ job.description|safe }}
     </section>
     <section class="jobinfo span3">

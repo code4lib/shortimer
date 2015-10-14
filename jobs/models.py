@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import re
-import datetime
 import json
+import pytz
+import tweepy
 import urllib
+import bitlyapi
+import datetime
+import html2text
 
 from django.db import models
 from django.conf import settings
@@ -14,9 +18,6 @@ from django.db.models.signals import pre_save
 from django.db.models.signals import post_save
 from django.template.defaultfilters import slugify
 
-import tweepy
-import bitlyapi
-import html2text
 
 JOB_TYPES = (
     (u'ft', 'full-time'), 
@@ -231,6 +232,14 @@ class Job(models.Model):
             return self.employer.city
         else:
             return ""
+
+    @property
+    def archived(self):
+        if not self.published:
+            return False
+        now = datetime.datetime.utcnow()
+        now = now.replace(tzinfo=pytz.utc)
+        return now - self.published > datetime.timedelta(days=60)
 
     class Meta:
         ordering = ['-post_date']
