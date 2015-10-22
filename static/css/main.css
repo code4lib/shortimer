@@ -75,6 +75,10 @@ span.label.in {
     background-color: green;
 }
 
+span.label.telecommute {
+    background-color: pink;
+}
+
 td.social-small {
     text-align: center;
 }
