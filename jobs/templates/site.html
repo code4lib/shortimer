@@ -22,6 +22,7 @@
               <ul class="nav">
 
                   <li {% ifequal request.path "/" %} class="active" {% endifequal %}><a href="/">Jobs</a></li>
+                  <li {% ifequal request.path "/search/" %} class="active" {% endifequal %}><a href="/search/">Search</a></li>
                   <li {% ifequal request.path "/map/" %} class="active" {% endifequal %}><a href="{% url "map_jobs" %}">Map</a></li>
                   <li {% ifequal request.path "/tags/" %} class="active" {% endifequal %}><a href="{% url "tags" %}">Tags</a></li>
                   <li {% ifequal request.path "/employers/" %} class="active" {% endifequal %}><a href="{% url "employers" %}">Employers</a></li>
