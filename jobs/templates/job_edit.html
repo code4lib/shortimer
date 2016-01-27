@@ -155,17 +155,16 @@
     }
 
     function addEmployer(e, data) {
-        $("#employer_freebase_id").val(data.id);
-
+        $("#employer_freebase_id").val(data.mid);
         // pre-populate job location with a best guess
-        $.getJSON("/api/v1/guess_location?freebase_id=" + data.id, function(city) {
+        $.getJSON("/api/v1/guess_location?freebase_id=" + data.mid, function(city) {
             if (! city) return;
             $("#location").val(city.name);
             $("#location_freebase_id").val(city.freebase_id);
         });
 
         // add recent jobs to help reduce duplicates
-        $.getJSON("/api/v1/recent_jobs?freebase_id=" + data.id, function(r) {
+        $.getJSON("/api/v1/recent_jobs?freebase_id=" + data.mid, function(r) {
             var recentJobs = $("#recent_jobs").empty().hide();
             if (r.jobs.length == 0) return;
             recentJobs.append("<h4>Recent Jobs:</h4><hr>")
@@ -178,7 +177,7 @@
     }
 
     function addLocation(e, data) {
-        $("#location_freebase_id").val(data.id);
+        $("#location_freebase_id").val(data.mid);
     }
 
     function addSubject(e, data) {
@@ -190,7 +189,7 @@
 
         var freebaseId = $('<input type="hidden">');
         freebaseId.attr("name", "subject_freebase_id_" + i);
-        freebaseId.attr("value", data.id);
+        freebaseId.attr("value", data.mid);
 
         $(".subject-new").before(name).after(freebaseId);
         $('[name="subject_new"]').val(null);
@@ -200,7 +199,7 @@
         var name = $(this).attr("name");
         var freebaseId = name.replace(/subject_/, "subject_freebase_id_");
         $('[name="' + name +'"]').attr("value", data.name);
-        $('[name="' + freebaseId + '"]').attr("value", data.id);
+        $('[name="' + freebaseId + '"]').attr("value", data.mid);
     }
 
     function removeSubject() {
@@ -226,8 +225,7 @@
         // set up employer freebase suggest lookup
         $("#employer")
             .suggest({
-                "key": "{{ google_api_key }}",   
-                "type": ["/business/employer", "/business/company", "/education/university", "/organization/organization", "/venture_capital", "/computer/software_developer", "/library/public_library", "/internet/website", "/architecture/museum", "/location/location", "/people/person"],
+                "key": "{{ google_api_key }}",   "type": ["/business/employer", "/business/company", "/education/university", "/organization/organization", "/venture_capital", "/computer/software_developer", "/library/public_library", "/architecture/museum", "/location/location", "/people/person"],
                 "type_strict": "any",
                 "suggest_new": "Click here if you don't see anything in list."
             })
