@@ -176,6 +176,10 @@
         });
     }
 
+    function resetEmployerFreebaseId() {
+        $("#employer_freebase_id").val(null);
+    }
+
     function addLocation(e, data) {
         $("#location_freebase_id").val(data.mid);
     }
@@ -230,6 +234,7 @@
                 "suggest_new": "Click here if you don't see anything in list."
             })
             .bind("fb-select", addEmployer)
+            .bind("fb-select-new", resetEmployerFreebaseId)
             .click(function(e) {$(this).trigger("keyup");});
 
         // set up location freebase suggest lookup

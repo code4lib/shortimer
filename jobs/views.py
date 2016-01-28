@@ -14,6 +14,7 @@ from django.core.paginator import EmptyPage
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.cache import cache_control
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseGone, HttpResponseNotFound
@@ -163,18 +164,31 @@ def _update_job(j, form, user):
 
     # set employer: when an employer is first added this save triggers
     # a lookup to Freebase to get hq address information
+    # note: a freebase_id is not required
     if form.get("employer", None):
-        e, created = models.Employer.objects.get_or_create(
-            name=form.get("employer"),
-            freebase_id=form.get("employer_freebase_id"))
+        name = form.get("employer")
+        freebase_id = form.get("employer_freebase_id")
+        try: 
+            if freebase_id:
+                e = models.Employer.objects.get(freebase_id=freebase_id)
+            else:
+                e = models.Employer.filter(name=name)[0]
+        except (ObjectDoesNotExist, IndexError) as e:
+            e = models.Employer(name=name, freebase_id=freebase_id)
+            e.save()
         j.employer = e
 
     # set location: when a location is first added this save triggers
     # a lookup to Freebase to get geo-coordinates
-    if form.get("location", None):
-        l, created = models.Location.objects.get_or_create(
-            name=form.get("location"),
-            freebase_id=form.get("location_freebase_id"))
+    # note: freebase_id is required
+    if form.get("location_freebase_id", None):
+        freebase_id = form.get("location_freebase_id")
+        name = form.get("location")
+        try:
+            l = models.Location.objects.get(freebase_id=freebase_id)
+        except ObjectDoesNotExist:
+            l = models.Location(name=name, freebase_id=freebase_id)
+            l.save()
         j.location = l
 
     # only people flagged as staff can edit the job text
@@ -196,8 +210,8 @@ def _update_job(j, form, user):
         slug = slugify(name)
 
         try:
-            s = models.Subject.objects.get(slug=slug)
-        except models.Subject.DoesNotExist:
+            s = models.Subject.objects.get(freebase_id=fb_id)
+        except ObjectDoesNotExist:
             s = models.Subject.objects.create(name=name, freebase_id=fb_id, slug=slug)
         finally:
             j.subjects.add(s)
