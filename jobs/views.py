@@ -172,7 +172,7 @@ def _update_job(j, form, user):
             if freebase_id:
                 e = models.Employer.objects.get(freebase_id=freebase_id)
             else:
-                e = models.Employer.filter(name=name)[0]
+                e = models.Employer.objects.filter(name=name)[0]
         except (ObjectDoesNotExist, IndexError) as e:
             e = models.Employer(name=name, freebase_id=freebase_id)
             e.save()
@@ -210,7 +210,7 @@ def _update_job(j, form, user):
         slug = slugify(name)
 
         try:
-            s = models.Subject.objects.get(freebase_id=fb_id)
+            s = models.Subject.objects.get(slug=slug)
         except ObjectDoesNotExist:
             s = models.Subject.objects.create(name=name, freebase_id=fb_id, slug=slug)
         finally:
