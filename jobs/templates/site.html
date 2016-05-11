@@ -36,7 +36,6 @@
                   {% if request.user.is_authenticated %}
                   <li>
                       <a style="color: blue;" href="{% url "user" request.user.username %}">
-                      <img class="tiny-avatar" src="{{ request.user.profile.pic_url }}">
                       {{ request.user.username }}
                   </a>
                   </li>

@@ -6,7 +6,6 @@
 <div class="span10 offset1">
 <table class="table table-striped">
     <header data-freebase-id="{{ employer.freebase_id }}" class="employer">
-    {% if employer.freebase_id %}<a href="{{ employer.freebase_url }}" class="hidden-phone"><img class="freebase-thumbnail" src="{{ employer.freebase_image_url }}"></a>{% endif %}
     <h3>{{ employer.name }} Jobs</h3>
     {% if employer.display_location %}
     <small>{{ employer.display_location }}</small>
@@ -20,7 +19,6 @@
         <th>Title</th>
         <th style="width: 45%">Tags</th>
         <th>Type</th>
-        <th>Views</th>
     </tr>
 {% for job in employer.jobs.all %}
     {% if not job.deleted %}
@@ -36,9 +34,6 @@
         </td>
         <td class="hidden-phone">
             <span class="label {{ job.job_type }}">{{ job.get_job_type_display }}</span>
-        </td>
-        <td class="hidden-phone" style="text-align: right;">
-            {{ job.page_views }}
         </td>
     </tr>
     {% endif %} 
