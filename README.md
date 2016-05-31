@@ -19,7 +19,7 @@ get virtualenv installed using other packages managers (homebrew, rpm, etc).
 From there on things should work independent of what operating system you are
 using.
 
-1. `sudo apt-get install python-virtualenv mysql-server libmysqlclient-dev`
+1. `sudo apt-get install python-dev python-virtualenv mysql-server libmysqlclient-dev`
 1. `git clone git://github.com/code4lib/shortimer.git`
 1. `cd shortimer`
 1. `virtualenv --no-site-packages ENV`
