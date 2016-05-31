@@ -4,7 +4,7 @@ django-pagination==1.0.7
 python-social-auth
 feedparser==5.1.2
 html2text==3.200.3
-MySQL-python==1.2.4c1
+MySQL-python==1.2.5
 nltk==2.0.4
 numpy==1.6.2
 requests==0.14.2
