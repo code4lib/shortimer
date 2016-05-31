@@ -7,9 +7,7 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        from shortimer.jobs.models import Job, Employer
-
-        for employer in Employer.objects.filter(city='', freebase_id__isnull=False):
+        for employer in orm.Employer.objects.filter(city='', freebase_id__isnull=False):
             employer.load_freebase_data()
             employer.save()
             print employer.slug.encode("utf-8")
