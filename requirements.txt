@@ -1,7 +1,7 @@
 bitlyapi==0.1.1
 Django==1.5.1
 django-pagination==1.0.7
-python-social-auth
+python-social-auth=0.1.2c
 feedparser==5.1.2
 html2text==3.200.3
 MySQL-python==1.2.5
