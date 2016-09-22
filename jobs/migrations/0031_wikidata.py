@@ -29,12 +29,9 @@ def sparql(q):
 def first(r):
     if r == None:
         return None
-    try:
-        name = r['head']['vars'][0]
-        if 'results' in r and len(r['results']['bindings']) > 0:
-            return r["results"]["bindings"][0][name]["value"]
-    except KeyError as e:
-        print("KeyError: %s" % json.dumps(r))
+    name = r['head']['vars'][0]
+    if 'results' in r and len(r['results']['bindings']) > 0:
+        return r["results"]["bindings"][0][name]["value"]
     return None
 
 def lookup_freebase_id(freebase_id):
@@ -59,7 +56,7 @@ def lookup_name(name):
 
 def lookup_wikipedia_url(name):
     # hack to figure out canonical URL for a wikipedia article
-    url = "https://en.wikipedia.org/wiki/" + urllib.quote(name)
+    url = "https://en.wikipedia.org/wiki/" + urllib.quote(name.encode('utf8'))
     resp = requests.get(url)
     if resp.status_code != 200:
         return None
@@ -67,8 +64,6 @@ def lookup_wikipedia_url(name):
     if not m:
         return None
     url = m.group(1)
-
-    print("looking up %s" % url)
     q = """
         PREFIX schema: <http://schema.org/>
         SELECT ?o WHERE {
@@ -88,7 +83,9 @@ def add_wikidata_id(e):
         or lookup_wikipedia_url(e.name) \
         or lookup_name(e.name)
 
-    print("%s (%s) -> %s" % (e.name, e.freebase_id, e.wikidata_id))
+    msg = "%s (%s) -> %s" % (e.name, e.freebase_id, e.wikidata_id)
+    print(msg.encode("utf8"))
+
     if e.wikidata_id:
         e.save()
 
