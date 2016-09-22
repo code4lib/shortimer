@@ -256,6 +256,7 @@ class Employer(models.Model, FreebaseEntity):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255, null=True)
     freebase_id = models.CharField(max_length=100, null=True)
+    wikidata_id = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
@@ -333,6 +334,7 @@ class Employer(models.Model, FreebaseEntity):
 class Location(models.Model, FreebaseEntity):
     name = models.CharField(max_length=255)
     freebase_id = models.CharField(max_length=100)
+    wikidata_id = models.CharField(max_length=100, null=True)
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
 
@@ -364,6 +366,7 @@ class Subject(models.Model, FreebaseEntity):
     slug = models.CharField(max_length=100, unique=True)
     type = models.CharField(max_length=100)
     freebase_id = models.CharField(max_length=100)
+    wikidata_id = models.CharField(max_length=100, null=True)
     freebase_type_id = models.CharField(max_length=100)
     jobs = models.ManyToManyField('Job', related_name='subjects', null=True)
     description = models.TextField(null=True)
